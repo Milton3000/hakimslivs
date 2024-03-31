@@ -48,13 +48,14 @@ router.post("/login", async (req, res) => {
       return res.json({ message: "Username or Password Is Incorrect" });
     }
 
-    //Secret used to verify the user is authentic. 
-  
+    //Secret for the token, used to verify the user is authenticated. 
+    // Kan ändra "secret" till en environment variable senare för enklare användning.
     const token = jwt.sign({ id: user._id }, "secret"); 
     res.json({ token, userID: user._id });
   });
 
 
+   // ALLT ÄR TESTAT VIA INSOMNNIA (SOM POSTMAN) OCH ALLT FUNKAR. Post requests för register och users (kollat att user exists, doesnt exist, fel lösenord etc)
 
 
 export { router as userRouter };
