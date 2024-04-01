@@ -16,14 +16,15 @@ db.once("open", async () => {
     // Array of products to be added to the database
     const productsToAdd = [
         {
-            title: "Product 1",
-            brand: "Brand 1",
-            description: "Description for Product 1",
+            category: "Mejeri",
+            title: "Mjölk",
+            supplier: "Arla",
+            description: "3% Mjölk",
             imageUrl: "https://example.com/product1.jpg",
-            weight: 100,
-            quantity: 10,
-            price: 19.99,
-            origin: "Origin 1",
+            weight: 1000,
+            quantity: 200,
+            price: 12,
+            origin: "",
             TOC: ["Tag 1", "Tag 2"]
         },
         // Lägg till fler produkter här
