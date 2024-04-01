@@ -1,9 +1,11 @@
 ATT GÖRA:
 
 --- Lägga till fler Produkter i seedData.js.
---- Fixa så att kategorier läggs till vänster och att det är kopplat (antingen till datan i produkterna eller självstående)
+--- Fixa så att kategorier läggs till vänster och att det är kopplat (antingen till datan i produkterna eller självstående. Självstående atm)
 --- Fixa Frontend Layout
---- Lägga till bilder på produkterna (senare)
+--- Lägga till Search Bar på Navbar (?)
+--- Lägga till bilder på produkterna (ej måste tror jag)
+--- Ändra ProduktScheman kanske? 
 
 
 FÖR ATT LÄGGA TILL PRODUKTERNA FRÅN seedData.js till databasen måste vi köra:
@@ -23,6 +25,7 @@ frontend dependencies:
 npm install axios, 
 npm install react-router-dom,
 npm install react-cookie
+npm install bootstrap
 
 
 

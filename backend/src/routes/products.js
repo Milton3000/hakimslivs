@@ -3,7 +3,7 @@ import { ProductModel } from '../models/Products.js';
 
 const router = express.Router();
 
-// Route to fetch all products
+// Fetcha alla produkter
 router.get('/products', async (req, res) => {
   try {
     const products = await ProductModel.find();
