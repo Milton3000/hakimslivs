@@ -2,10 +2,11 @@ import React from 'react';
 
 
 // TESTAR BARA, VET EJ OM DENNA KOMPONENT BEHÖVS.
+// Kan förmodligen köra igenom arrayen av produkter för kategorin, men vet ej vad som blir bäst.
 
 const CategoryList = () => {
 
-  const categories = ['Mejeri', 'Frukt', 'Grönsaker', 'Kött', 'Bröd'];
+  const categories = ['Mejeri', 'Frukt', 'Grönsaker', 'Chark', 'Torrvaror', 'Dryck', 'Snacks & Godis'];
 
   return (
     <div className="category-list">
