@@ -11,7 +11,7 @@ const ProductSchema = new mongoose.Schema({
     weight: { type: Number, required: true },
     quantity: { type: Number, required: true },
     price: { type: Number, required: true },
-    origin: { type: String, required: true },
+    origin: { type: String },
     TOC: [{ type: String, required: true }],
 });
 

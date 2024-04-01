@@ -27,11 +27,23 @@ db.once("open", async () => {
             origin: "",
             TOC: ["Tag 1", "Tag 2"]
         },
+        {
+            category: "Snacks & Godis",
+            title: "Chips",
+            supplier: "OLW",
+            description: "Sourcream & Onion",
+            imageUrl: "https://example.com/product2.jpg",
+            weight: 1000,
+            quantity: 150,
+            price: 28,
+            origin: "",
+            TOC: ["Tag 1", "Tag 2"]
+        },
         // Lägg till fler produkter här
     ];
 
-    // Add each product to the database
-    productsToAdd.forEach(async (productData) => {
+    // Loop through productsToAdd and add each product to the databas
+    for (const productData of productsToAdd) {
         try {
             const product = new ProductModel(productData);
             const savedProduct = await product.save();
@@ -39,5 +51,5 @@ db.once("open", async () => {
         } catch (err) {
             console.error("Error saving product:", err);
         }
-    });
+    }
 });

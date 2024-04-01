@@ -1,4 +1,9 @@
 
+FÖR ATT LÄGGA TILL PRODUKTERNA FRÅN seedData.js till databasen måste vi köra:
+
+1. Ny terminal
+2. cd backend/src/seed -------- för att hamna i rätt folder, och sedan köra:
+3. node seedData.js
 
 backend dependencies:
 npm install express
@@ -7,8 +12,6 @@ npm install bcrypt
 npm install jsonwebtoken
 npm install --dev nodemon (som watch)
 
-
-
 frontend dependencies: 
 npm install axios, 
 npm install react-router-dom,
@@ -16,12 +19,7 @@ npm install react-cookie
 
 
 
-
-
-
-
-
-User:
+User ID + PW:
 
 MiltonTest
 test
