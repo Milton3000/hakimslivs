@@ -24,4 +24,14 @@ async function registerCustomer(req, res) {
     }
 }
 
-export { registerCustomer };
+async function getCustomers(req, res) {
+    try {
+        const customers = await Customer.find();
+        res.status(200).json(customers);
+    } catch (error) {
+        console.error('Error getting customers:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+export { registerCustomer, getCustomers };
