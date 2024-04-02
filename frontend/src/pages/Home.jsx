@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CategoryList from './CategoryList';
 import { Modal, Button } from 'react-bootstrap';
+import './Home.css'; 
 
 const Home = () => {
   const [products, setProducts] = useState([]);
