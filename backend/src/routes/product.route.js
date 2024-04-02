@@ -1,17 +1,12 @@
 import express from 'express';
-import { ProductModel } from '../models/Products.js';
+const productRouter = express.Router();
+import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from '../controllers/product.controller.js';
 
-const router = express.Router();
+productRouter.get('/products', getProducts);
+productRouter.get('/product:id', getProduct);
+productRouter.get('/products/:category', getProductByCategory);
+productRouter.post('/newProduct', createProduct);
+productRouter.put('/updateProduct:id', updateProduct);
+productRouter.delete('/deleteProduct:id', deleteProduct);
 
-// Fetcha alla produkter
-router.get('/products', async (req, res) => {
-  try {
-    const products = await ProductModel.find();
-    res.json(products);
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
-
-export { router as productRouter };
+export { productRouter };
