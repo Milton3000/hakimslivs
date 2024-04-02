@@ -14,7 +14,7 @@ async function customerLogin(req, res) {
         }
 
         // Can't unhash a password, so we have to compare the passwords.
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, customer.password);
 
         if (!isPasswordValid) {
             return res.json({ message: "Username or Password Is Incorrect" });
