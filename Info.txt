@@ -27,7 +27,7 @@ npm install react-router-dom,
 npm install react-cookie
 npm install bootstrap
 
-
+MongoDB lösenord = potatis
 
 User ID + PW:
 
