@@ -2,8 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { userRouter } from './routes/users.js';
-import { productRouter } from './routes/products.js';
+import { customerRouter } from './routes/customer.route';
+import { productRouter } from './routes/product.route';
+import { authRouter } from './routes/auth.route';
 
 // Kan skippa sen, behöver bara fixa problemet med att produkterna in laddas. 
 const corsOptions = {
@@ -27,8 +28,9 @@ app.use(cors(corsOptions));
 // app.use(cors()); ORGINALET
 
 
-app.use("/auth", userRouter); // Endpoint för authentication (routes > users.js)
-app.use("/api", productRouter);
+app.use("/api/auth", authRouter); // Endpoint för authentication (routes > users.js)
+app.use("/api/products", productRouter);
+app.use("/api/customers", customerRouter);
 
 // Använder environment variable för MongoDB Password.
 const mongoDBPassword = process.env.MONGODB_PASSWORD;

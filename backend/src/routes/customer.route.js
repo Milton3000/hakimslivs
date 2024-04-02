@@ -1,9 +1,10 @@
 import express from 'express';
+import { registerCustomer } from '../controllers/customer.controller.js';
 const customerRouter = express.Router();
-import { createCustomer } from '../controllers/customer.controller.js';
+
+customerRouter.post('/register', registerCustomer);
 
 
-customerRouter.post('/register', createCustomer);
 
 
 export { customerRouter };
