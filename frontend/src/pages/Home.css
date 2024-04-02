@@ -1,4 +1,6 @@
-h3 {
-    font-family: var(--font-family);
-  }
-  
+.gradient_text {
+    font-family: 'Manrope', sans-serif;
+    background: linear-gradient(57.97deg, #007bff 10.84%, #ff5733 120.67%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

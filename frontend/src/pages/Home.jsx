@@ -41,7 +41,7 @@ const Home = () => {
         <CategoryList />
       </div>
       <div className="product-section">
-        <h3>POPULÄRT JUST NU</h3>
+        <h3 className='gradient_text'>POPULÄRT JUST NU</h3>
         <div className="row">
           {products.map((product, index) => (
             <div key={index} className="col-md-2">
