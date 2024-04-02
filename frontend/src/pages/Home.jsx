@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import CategoryList from './CategoryList';
+import { Modal, Button } from 'react-bootstrap';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     // Fetch products from backend API
@@ -24,21 +26,29 @@ const Home = () => {
     console.log(`Product added to cart: ${productId}`);
   };
 
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProduct(null);
+  };
+
   return (
     <div className="home">
       <div className="category-section"> 
         <CategoryList />
       </div>
       <div className="product-section">
-        <h2>Produkter</h2>
+        <h3>POPULÄRT JUST NU</h3>
         <div className="row">
           {products.map((product, index) => (
             <div key={index} className="col-md-2">
-              <div className="card mb-4">
-                <img src={product.imageUrl} className="card-img-top img-fluid mx-auto" alt={product.title} />
+              <div className="card mb-4" onClick={() => handleProductClick(product)}>
+                <img src={product.imageUrl} className="card-img-top img-fluid mx-auto mt-3" alt={product.title} />
                 <div className="card-body" style={{ height: '200px' }}>
                   <h5 className="card-title fs-5">{product.title}</h5>
-                  <p className="card-text fs-6 mb-3">{product.supplier} - {product.description}</p>
+                  <h6 className="card-text fs-6 mb-3">{product.supplier} - {product.description}</h6>
                   <p className="card-text fs-6 mb-3">Pris: {product.price} SEK</p>
                   <button onClick={() => addToCart(product.id)} className="btn btn-primary btn-sm">Lägg till i varukorg</button>
                 </div>
@@ -47,6 +57,19 @@ const Home = () => {
           ))}
         </div>
       </div>
+      {selectedProduct && (
+        <Modal show={true} onHide={handleCloseModal} size="sm">
+          <Modal.Header closeButton>
+            <Modal.Title>{selectedProduct.title}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <img src={selectedProduct.imageUrl} alt={selectedProduct.title} className="img-fluid" />
+            <p>{selectedProduct.description}</p>
+            <p>Pris: {selectedProduct.price} SEK</p>
+            <Button variant="primary" onClick={() => addToCart(selectedProduct.id)}>Lägg till i varukorg</Button>
+          </Modal.Body>
+        </Modal>
+      )}
     </div>
   );
 };
