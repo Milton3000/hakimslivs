@@ -3,8 +3,8 @@ import { createProduct, deleteProduct, getProduct, getProducts, updateProduct, g
 const productRouter = express.Router();
 
 productRouter.get('/all', getProducts);
-productRouter.get('/:id', getProduct);
-productRouter.get('/:category', getProductByCategory);
+productRouter.get('/product/:id', getProduct);
+productRouter.get('/category/:category', getProductByCategory);
 productRouter.post('/new', createProduct);
 productRouter.put('/update:id', updateProduct);
 productRouter.delete('/delete:id', deleteProduct);
