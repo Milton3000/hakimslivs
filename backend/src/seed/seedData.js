@@ -55,7 +55,7 @@ db.once("open", async () => {
             category: "Snacks & Godis",
             title: "Tutti Frutti",
             supplier: "Fazer",
-            description: "Gelatinfri Tutti Frutti Godis",
+            description: "Gelatinfritt Godis",
             imageUrl: "https://productimages.motatos.com/MS228865/ms224575_132123123png-ce4c2dee-b25d-46d0-ab0b-b0cbda6be97c.png?tr=w-2034h-2034",
             weight: 100,
             quantity: 300,

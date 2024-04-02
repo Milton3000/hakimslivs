@@ -20,7 +20,7 @@ const Home = () => {
   }, []);
 
   const addToCart = (productId) => {
-// Lägg till funktionaliteten senare här: 
+    // Implement addToCart functionality here
     console.log(`Product added to cart: ${productId}`);
   };
 
@@ -33,14 +33,14 @@ const Home = () => {
         <h2>Produkter</h2>
         <div className="row">
           {products.map((product, index) => (
-            <div key={index} className="col-md-4">
+            <div key={index} className="col-md-2">
               <div className="card mb-4">
-                <img src={product.imageUrl} className="card-img-top" />
-                <div className="card-body">
-                  <h5 className="card-title">{product.title}</h5>
-                  <p className="card-text">{product.supplier} - {product.description}</p>
-                  <p className="card-text">Pris: {product.price} SEK</p>
-                  <button onClick={() => addToCart(product.id)} className="btn btn-primary">Lägg till i varukorg</button>
+                <img src={product.imageUrl} className="card-img-top img-fluid mx-auto" alt={product.title} />
+                <div className="card-body" style={{ height: '200px' }}>
+                  <h5 className="card-title fs-5">{product.title}</h5>
+                  <p className="card-text fs-6 mb-3">{product.supplier} - {product.description}</p>
+                  <p className="card-text fs-6 mb-3">Pris: {product.price} SEK</p>
+                  <button onClick={() => addToCart(product.id)} className="btn btn-primary btn-sm">Lägg till i varukorg</button>
                 </div>
               </div>
             </div>
