@@ -4,7 +4,4 @@ const customerRouter = express.Router();
 
 customerRouter.post('/register', registerCustomer);
 
-
-
-
 export { customerRouter };

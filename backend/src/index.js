@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { customerRouter } from './routes/customer.route';
-import { productRouter } from './routes/product.route';
-import { authRouter } from './routes/auth.route';
+import { customerRouter } from './routes/customer.route.js';
+import { productRouter } from './routes/product.route.js';
+import { authRouter } from './routes/auth.route.js';
 
 // Kan skippa sen, behöver bara fixa problemet med att produkterna in laddas. 
 const corsOptions = {
