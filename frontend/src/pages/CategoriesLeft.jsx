@@ -57,7 +57,7 @@ const Categories = ({ setProducts }) => {
                             <iconify-icon icon="icon-park-outline:apple-one" width="18" height="18"  style={{color: '#3184dd'}} />
                             <span style={{ marginTop: '3px', marginLeft: '2px' }}>Frukt och Grönt</span>
                         </div>
-                        } onClick={() => getCategory('Frukt och Grönt')}>
+                        } onClick={() => getCategory('Frukt & Grönt')}>
                     </TreeItem>
 
                     <TreeItem itemId="row4" label={

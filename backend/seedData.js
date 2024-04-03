@@ -15,8 +15,8 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", async () => {
     console.log("Connected to MongoDB database!");
 
-    // Array of products to be added to the database
-    const productsToAdd = JSON.parse(fs.readFileSync(path.resolve('./data/frukt.json'), 'utf-8'));
+    /// Kör ej denna kod om databasen redan är fylld med data
+    // const productsToAdd = JSON.parse(fs.readFileSync(path.resolve('./data/frukt.json'), 'utf-8'));
 
   
 

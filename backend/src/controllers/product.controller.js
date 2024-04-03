@@ -31,7 +31,8 @@ async function getProduct(req, res) {
 
 async function getProductByCategory(req, res) {
     try {
-        const products = await Product.find({ category: req.params.category });
+        const category = decodeURIComponent(req.params.category);
+        const products = await Product.find({ category: category });
         if (products.length === 0) {
             return res.status(404).json({ message: 'No products found for this category' });
         }
