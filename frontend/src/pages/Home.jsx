@@ -46,14 +46,14 @@ const Home = () => {
           {products.map((product, index) => (
             <div key={index} className="col">
               <div className="card h-100 product-card" onClick={() => handleProductClick(product)}>
-                <img src={product.imageUrl} className="card-img-top img-fluid product-image" alt={product.title} />
+                <img src={product.imageUrl} className="card-img-top img-fluid mt-3 product-image" alt={product.title} />
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title fs-5 product-title">{product.title}</h5>
                   <h6 className="card-text fs-6 mb-3">{product.supplier}</h6>
                   <div className="product-description-scroll">
                     <p className="card-text fs-6 mb-3">{product.description}</p>
                   </div>
-                  <p className="card-text fs-6 mb-3 product-price">Pris: {product.price} SEK</p>
+                  <p className="card-text fs-6 mb-5 product-price">Pris: {product.price} SEK</p>
                   <button onClick={() => addToCart(product.id)} className="btn btn-primary mt-auto">Lägg till i varukorg</button>
                 </div>
               </div>
