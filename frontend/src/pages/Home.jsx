@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import CategoryList from './CategoryList';
 import Categories from './CategoriesLeft';
 import { Modal, Button } from 'react-bootstrap';
 import './Home.css'; 
@@ -43,19 +42,19 @@ const Home = () => {
       </div>
       <div className="product-section">
         <h3 className='gradient_text'>POPULÄRT JUST NU</h3>
-        <div className="row">
+        <div className="row row-cols-2 row-cols-md-6 g-4">
           {products.map((product, index) => (
-            <div key={index} className="col-md-2">
-              <div className="card mb-4 product-card" onClick={() => handleProductClick(product)}>
-                <img src={product.imageUrl} className="card-img-top img-fluid mx-auto mt-3 product-image" alt={product.title} />
-                <div className="card-body">
+            <div key={index} className="col">
+              <div className="card h-100 product-card" onClick={() => handleProductClick(product)}>
+                <img src={product.imageUrl} className="card-img-top img-fluid product-image" alt={product.title} />
+                <div className="card-body d-flex flex-column">
                   <h5 className="card-title fs-5 product-title">{product.title}</h5>
                   <h6 className="card-text fs-6 mb-3">{product.supplier}</h6>
                   <div className="product-description-scroll">
                     <p className="card-text fs-6 mb-3">{product.description}</p>
                   </div>
                   <p className="card-text fs-6 mb-3 product-price">Pris: {product.price} SEK</p>
-                  <button onClick={() => addToCart(product.id)} className="btn btn-primary btn-sm">Lägg till i varukorg</button>
+                  <button onClick={() => addToCart(product.id)} className="btn btn-primary mt-auto">Lägg till i varukorg</button>
                 </div>
               </div>
             </div>
