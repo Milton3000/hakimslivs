@@ -1,20 +1,33 @@
-.gradient_text {
-    font-family: 'Manrope', sans-serif;
-    background: linear-gradient(57.97deg, #007bff 10.84%, #ff5733 120.67%);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-
-.home {
-    display: flex;
-    
-}
-
-.category-section {
-    padding: 1rem;
-}
-
-.product-section {
-    padding: 3rem;
-}
+.product-card {
+    height: 100%;
+  }
+  
+  .product-image {
+    max-height: 200px;
+  }
+  
+  .product-details {
+    height: 220px; 
+  }
+  
+  .product-description-scroll {
+    max-height: 100px;
+    overflow-y: auto;
+  }
+  
+  .scrollable-details {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .product-price {
+    margin-bottom: 0;
+  }
+  
+  .btn-primary {
+    position: absolute;
+    bottom: 20px; 
+    left: 15px;
+    right: 15px;
+  }
+  

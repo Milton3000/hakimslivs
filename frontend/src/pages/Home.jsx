@@ -39,20 +39,22 @@ const Home = () => {
   return (
     <div className="home">
       <div className="category-section"> 
-      <Categories setProducts={setProducts} />
-
+        <Categories setProducts={setProducts} />
       </div>
       <div className="product-section">
         <h3 className='gradient_text'>POPULÄRT JUST NU</h3>
         <div className="row">
           {products.map((product, index) => (
             <div key={index} className="col-md-2">
-              <div className="card mb-4" onClick={() => handleProductClick(product)}>
-                <img src={product.imageUrl} className="card-img-top img-fluid mx-auto mt-3" alt={product.title} />
-                <div className="card-body" style={{ height: '200px' }}>
-                  <h5 className="card-title fs-5">{product.title}</h5>
-                  <h6 className="card-text fs-6 mb-3">{product.supplier} - {product.description}</h6>
-                  <p className="card-text fs-6 mb-3">Pris: {product.price} SEK</p>
+              <div className="card mb-4 product-card" onClick={() => handleProductClick(product)}>
+                <img src={product.imageUrl} className="card-img-top img-fluid mx-auto mt-3 product-image" alt={product.title} />
+                <div className="card-body">
+                  <h5 className="card-title fs-5 product-title">{product.title}</h5>
+                  <h6 className="card-text fs-6 mb-3">{product.supplier}</h6>
+                  <div className="product-description-scroll">
+                    <p className="card-text fs-6 mb-3">{product.description}</p>
+                  </div>
+                  <p className="card-text fs-6 mb-3 product-price">Pris: {product.price} SEK</p>
                   <button onClick={() => addToCart(product.id)} className="btn btn-primary btn-sm">Lägg till i varukorg</button>
                 </div>
               </div>
@@ -67,9 +69,11 @@ const Home = () => {
           </Modal.Header>
           <Modal.Body>
             <img src={selectedProduct.imageUrl} alt={selectedProduct.title} className="img-fluid" />
-            <p>{selectedProduct.description}</p>
-            <p>Pris: {selectedProduct.price} SEK</p>
-            <Button variant="primary" onClick={() => addToCart(selectedProduct.id)}>Lägg till i varukorg</Button>
+            <div className="scrollable-details">
+              <p>{selectedProduct.description}</p>
+              <p>Pris: {selectedProduct.price} SEK</p>
+              <Button variant="primary" onClick={() => addToCart(selectedProduct.id)}>Lägg till i varukorg</Button>
+            </div>
           </Modal.Body>
         </Modal>
       )}
