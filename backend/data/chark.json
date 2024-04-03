@@ -1,0 +1,123 @@
+[
+    {
+      "category": "Chark",
+      "title": "Salami Milano",
+      "brand": "Zeta",
+      "description": "Zeta Salame Milano skivad är en mild och fyllig italiensk salami. God på en skiva bröd eller som antipasti tillsammans med inlagda grönsaker",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/6ffb3c4e-9919-4b02-a6fa-7a1a339e6f3d.jpg?auto=format&fit=max&w=551&s=e89a8e396714f5276cef45afaced030e",
+      "weight": 80,
+      "quantity": 100,
+      "price": 30,
+      "origin": "Italien",
+      "TOC": "Fläskkött*, salt, sackaros, dextros, kryddor, naturliga aromer, rött vin, antioxidationsmedel E301, konserveringsmedel E252 och E250. Till 100 g färdig produkt har 125 g kött använts. * Uppfött och slaktat i Italien"
+    },
+    {
+      "category": "Chark",
+      "title": "Prosciutto Crudo Skivad",
+      "brand": "Garant",
+      "description": "Prosciutto Crudo - lufttorkad italiensk skinka med mild smak. Lagras under 10 månader som skapar den karaktäristiska mixen av sälta och sötma. Serveras gärna rumstempererad. Skinkan är en av många många godbitar i vårt sortiment av Italiensk Deli",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/3da0cbec-5337-4c29-8336-aaa3886d03fe.jpg?auto=format&fit=max&w=871&s=245a5042c2bbcf566c45300d942d53a3",
+      "weight": 80,
+      "quantity": 150,
+      "price": 55,
+      "origin": "Tyskland",
+      "TOC": "Helmuskelskinka av gris, salt. Till 100g produkt har 95 g kött använts. Köttursprung: Italien, Nederländerna, Tyskland * Uppfött och slaktat i Italien"
+    },
+    {
+      "category": "Chark",
+      "title": "Fuet",
+      "brand": "Casaponsa",
+      "description": "Fuet är en klassisk lufttorkad korv från Katalonien som passar till tapas, tilltugg och mycket mer. Producerad av familjeföretaget Casaponsa som har sin verksamhet i Val de Bianya som är en del av Gironaprovinsen i Katalonien. Företaget har en 100-årig historia inom tillverkning av charkuterier och deras uttalade mission är att skapa produkter av högsta kvalitet",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/e25a93e7-022f-4969-84e6-0a339304b2f4.jpg?auto=format&fit=max&w=842&s=b2ca5ee30038db80811c369ef99f80a3",
+      "weight": 170,
+      "quantity": 10,
+      "price": 59,
+      "origin": "Tyskland",
+      "TOC": "Fläskkött, ister, salt, MJÖLKPROTEIN, LAKTOS, MJÖLKPULVER, dextros, maltodextrin, peppar, antioxidant (E301), konserveringsmedel (E250), färgämne: E120. Naturlig gristarmHelmuskelskinka av gris, salt. Till 100g produkt har 95 g kött använts. Köttursprung: Italien, Nederländerna, Tyskland * Uppfött och slaktat i Italien"
+    },
+    {
+      "category": "Chark",
+      "title": "Falukorv",
+      "brand": "Scan",
+      "description": "Vår klassiska och mest omtyckta falukorv i hela Sverige. Smakfullt kryddad enligt klassiskt recept med bland annat ingefära, muskot och svartpeppar. En lättlagad vardagsfavorit men oändligt många recept som inspiration. Våra korvar innehåller bara svenskt kött från våra gårdar. Denna korv är fri från gluten, laktos, ägg-, soja-, mjölk- och ärtprotein",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/b57050df-edc7-4168-9fc9-a2c015a7372e.jpg?auto=format&fit=max&w=1000&s=ccbd214222b1692ee18cce95fc7b066c",
+      "weight": 800,
+      "quantity": 550,
+      "price": 39.90,
+      "origin": "Sverige",
+      "TOC": "Svenskt gris- och nötkött (58%)*, vatten, fett från gris- och nötkött*, potatismjöl, salt, lök, kryddor, kryddextrakter (cayenne, muskot), antioxidationsmedel E300, konserveringsmedel E250, rökaromn"
+    },
+    {
+      "category": "Chark",
+      "title": "Lufttorkad Skinka Långlagrad",
+      "brand": "Jakobsdals",
+      "description": "En långlagrad smakrik lufttorkad skinka gjord på svenskt kött. Den långa lagringstiden på 15 månader ger skinkan en djup och nötig  smak liknande spansk serrano. En självklar favorit på den svenska charkbrickan",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/312abf7d-d4aa-4771-aeb0-4a8bf7141ad9.jpg?auto=format&fit=max&w=1000&s=bdb440b08c9ad4d6cb853ac5913824ac",
+      "weight": 65,
+      "quantity": 3,
+      "price": 47.95,
+      "origin": "Sverige",
+      "TOC": "Benfri skinka av gris, salt. Till 100g färdig vara har 155g kött använts"
+    },
+    {
+      "category": "Chark",
+      "title": "Classic Salami Snacks",
+      "brand": "Gøl",
+      "description": "GØL Salami Sticks och snacks är ett måste att testa. Passar perfekt som tilltugg, på tapasbrickan eller som snacks i TV-soffan för hela familjen",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/3212724b-1967-47b0-9e1a-bd7b99f91438.jpg?auto=format&fit=max&w=1000&s=c763dcf2b8cb95cc9040e895a28a11f8",
+      "weight": 80,
+      "quantity": 363,
+      "price": 29.95,
+      "origin": "Danmark",
+      "TOC": "Griskött, grisfett, protein av gris, salt, glukos, socker, aromer, rökarom, antioxidationsmedel (E 316), vitlök, startkultur, konserveringsmedel (E 250), proteintarm. Till 100 g färdigvara har använts 134 g griskött."
+    },
+    {
+      "category": "Chark",
+      "title": "Tryffelsalami",
+      "brand": "Scan",
+      "description": "Scans lufttorkade tryffelsalami innehåller bitar av äkta gotländsk tryffel, vilket ger den en mild och balanserad smak. Tryffelsalamin är lufttorkad och varsamt lagrad i minst sex veckor. Perfekt till antipasti, charkbricka, pizza, pasta och smörgåsar med medelhavskänsla",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/26b422f1-f876-4578-a5c4-703b087dbe63.jpg?auto=format&fit=max&w=737&s=5b1b99ecd1029a131fb46a638ed214d0",
+      "weight": 75,
+      "quantity": 1,
+      "price": 45.95,
+      "origin": "Sverige",
+      "TOC": "Svenskt fläskkött, salt, tryffel 0,9%, fårticka, kryddor (vitlök, peppar), druvsocker, naturlig arom, maltodextrin, antioxidationsmedel (E301), konserveringsmedel (E250: E252). Till 100 g färdig vara har det använts 142 g kött"
+    },
+    {
+      "category": "Chark",
+      "title": "Bror Jakobs Gallerrökta Skinka",
+      "brand": "Jakobsdals",
+      "description": "Bror Jakobs Galler rökta skinka är en helmuskel skinka som varmröks på galler. Passar utmärkt i salladen, pastan eller självklart på smörgåsen",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/9ad2f344-97d7-4ab4-97cc-5eaa397fb19b.jpg?auto=format&fit=max&w=1000&s=6c315838a2e0881e386ba4bc2042bf67",
+      "weight": 120,
+      "quantity": 5636,
+      "price": 37,
+      "origin": "Sverige",
+      "TOC": "Skinka 96% (helmuskel), salt, druvsocker (majs), antioxidationsmedel E325, E301, stabiliseringsmedel E451, kryddor, kryddextrakt (muskot), konserveringsmedel E250. Rökt med rökarom"
+    },
+    {
+      "category": "Chark",
+      "title": "Salame Napoli",
+      "brand": "Zeta",
+      "description": "Zeta Salame Napoli är en lufttorkad lättrökt salami med angenäm sälta och lång eftersmak. Grovt malen med hela pepparkorn",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/fc3dd437-9b50-4a86-937a-b02efc4296ba.jpg?auto=format&fit=max&w=551&s=e0786f93bc7bdba113643e4f1e48d6ca",
+      "weight": 80,
+      "quantity": 9,
+      "price": 40,
+      "origin": "Italien",
+      "TOC": "Fläskkött*, salt, dextros, sackaros, kryddor, naturliga aromer, rökarom, antioxidationsmedel E301, konserveringsmedel E252 och E250. Till 100 g färdig produkt har 123 g kött använts. * Uppfött och slaktat i Italien"
+    },
+    {
+      "category": "Chark",
+      "title": "Nötfärs",
+      "brand": "Smak av Gotland",
+      "description": "Nötfärs 12% fett i atmostråg",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/3c8468e2-b6be-447d-8dfd-9f4ccc9aa62b.jpg?auto=format&fit=max&w=1000&s=da7cb668b21f82bc95049c82331e4b4c",
+      "weight": 500,
+      "quantity": 63,
+      "price": 65.95,
+      "origin": "Sverige",
+      "TOC": "Nötfärs. fetthalt 12%. Förhållandet mellan kollagen och köttprotein lägre än 15%. * Uppfött och slaktat i Italien"
+    }
+  ]
+  

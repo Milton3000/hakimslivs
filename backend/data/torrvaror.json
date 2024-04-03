@@ -1,0 +1,123 @@
+[
+    {
+      "category": "Torrvaror",
+      "title": "Pasta Linguini",
+      "brand": "Di Martino",
+      "description": "En riktig lyxpasta gjord av finaste durumvete. Ansedd som en av världens bästa pasta, i en fantastisk förpackning designad av Dolce & Gabbana. Givetvis bronsvalsad för bästa kvalitet.",
+      "imageUrl": "https://productimages.motatos.com/MS117638/pasta_linguini_.jpg?tr=w-2034h-2034",
+      "weight": 500,
+      "quantity": 137,
+      "price": 20,
+      "origin": "Italien",
+      "TOC": "Durumvete semolina, vatten"
+    },
+    {
+      "category": "Torrvaror",
+      "title": "Bönpasta Spaghetti",
+      "brand": "Kungsörnen",
+      "description": "Kungsörnens spaghetti - gjord på durumvete och 30 procent vita bönor. Dessutom innehåller den här grönare spaghettin mera protein och dubbelt så mycket fiber som vanlig pasta.",
+      "imageUrl": "https://productimages.motatos.com/MS102183/ms102183_1-e84db9be-0412-4edc-8e1a-25a187ccdfe1.png?tr=w-2034h-2034",
+      "weight": 450,
+      "quantity": 90,
+      "price": 22,
+      "origin": "Sverige",
+      "TOC": "Mjöl av durumvete, mjöl av vita bönor (30%)"
+    },
+    {
+      "category": "Torrvaror",
+      "title": "Glasnudlar",
+      "brand": "Lucky Katt",
+      "description": "Glasnudlar som passar gott i kalla fräscha sallader.",
+      "imageUrl": "https://productimages.motatos.com/MS232077/ms232077_1-7de2927d-81a5-4422-b1c1-650678419c8a.png?tr=w-2034h-2034",
+      "weight": 500,
+      "quantity": 39,
+      "price": 49,
+      "origin": "Thailand",
+      "TOC": "Mungbönor (10%), ärtor (75%), vatten"
+    },
+    {
+      "category": "Torrvaror",
+      "title": "Saffran",
+      "brand": "Kockens",
+      "description": "Finskuren saffran som används bäst till fisk-, ris-, skaldjurs-, fågel- och efterrätter. Och självklart i lussebullarna!",
+      "imageUrl": "https://productimages.motatos.com/7310700814207/7310700814207-1jpg-4ec00278-444e-4f7b-b4bd-c432ff5be19e.jpg?tr=w-2034h-2034",
+      "weight": 0.5,
+      "quantity": 10,
+      "price": 17,
+      "origin": "Iran",
+      "TOC": "Saffran (Crocus sativus L.)"
+    },
+    {
+      "category": "Torrvaror",
+      "title": "Fruktströssel",
+      "brand": "Dr. Oetker",
+      "description": "Glasströssel från Dr Oetker, med god smak av hallon och päron. Den nya smarta förpackningen gör det riktigt",
+      "imageUrl": "https://productimages.motatos.com/MS213052/ms213052-dr.-fruit-strands-120gjpg-914686e1-60c1-4df9-85ca-67485880a868.jpg?tr=w-2034h-2034",
+      "weight": 120,
+      "quantity": 63,
+      "price": 12,
+      "origin": "Sverige",
+      "TOC": "Socker, modifierad stärkelse (majs), kokosolja, glukossirap, koncentrat från (safflor, citron, sötpotatis, rädisa), arom, klumpförebyggande medel (talk), färgämne (E 133)."
+    },
+    {
+      "category": "Torrvaror",
+      "title": "Svart Te Yellow Label",
+      "brand": "Lipton",
+      "description": "En unik blandning av svarta teer för en fyllig smak utan en bitter biton. Lipton Yellow Label består till 100 % av teblad från från våra egna teodlingar i Kenya. Vår Rain Forrest Alliance-certifiering garanterar att naturresurserna och den biologiska mångfalden på teplantagerna i Kericho och Limuru skyddas, förbättrar teodlingarnas och arbetarnas ekonomi och sociala förhållanden. Därför kommer våra teer även i växtbaserade tepåsar och våra förpackningar är inte inslagna i plast.",
+      "imageUrl": "https://productimages.motatos.com/MS232379/ms232379_1-6cabb8d2-24f2-4080-a881-2e3de23094bd.png?tr=w-2034h-2034",
+      "weight": 50,
+      "quantity": 500,
+      "price": 16,
+      "origin": "Kenya",
+      "TOC": "Svart té 1. 1 Rainforest Alliance- certifierad"
+    },
+    {
+      "category": "Torrvaror",
+      "title": "Kaffe Brygg Mörkrost Eko",
+      "brand": "Rutasoka",
+      "description": "Butembo är ett mörkrostat kaffe med smak av mörka bär. Eftersmaken av gräddig choklad är mustig och stark. Kommer i storpack och alltid till ett billigare pris hos oss. Rutasoka stöttar företagande och jordbruk i Östafrika. Genom att köpa och sälja produkter som är tillverkade och producerade i Östafrika, bidrar vi tillsammans till att skapa ekonomisk tillväxt och utveckling på den Afrikanska kontinenten.",
+      "imageUrl": "https://productimages.motatos.com/MS220226/ms220226-1jpg-df7fbbf2-1aba-4396-b663-2a594368a5b5.jpg?tr=w-2034h-2034",
+      "weight": 1000,
+      "quantity": 284,
+      "price": 169,
+      "origin": "Democratic Republic of Congo",
+      "TOC": "100% Arabica coffee from organic and fair plantations in the North Kivu region of the Democratic Republic of Congo."
+    },
+    {
+      "category": "Torrvaror",
+      "title": "Havregryn",
+      "brand": "Axa",
+      "description": "Havregryn en fullkornsprodukt, rik på mineralerna järn och zink samt vitaminerna tiamin och folsyra. Våra havregryn kan användas till allt från goda frukostar som gröt, müsli och granola till läckra bakverk och mellanmål!",
+      "imageUrl": "https://productimages.motatos.com/MS103673/ms103673_havregrynpng.png?tr=w-2034h-2034",
+      "weight": 1500,
+      "quantity": 65,
+      "price": 25,
+      "origin": "Sverige",
+      "TOC": "Havregryn (ångpreparerade och valsade). 100% fullkorn."
+    },
+    {
+      "category": "Torrvaror",
+      "title": "Super Granola Glutenfri",
+      "brand": "Eat Natural",
+      "description": "Fyllig jumbohavre och krispigt bovete är hjärtat och själen i denna glutenfria granola. Vi doppar dem i honung och lite rapsolja innan vi långsamt rostar dem i våra Makery-ugnar. Denna nötiga blandning kombineras med rostade kikärter (för tillsatt protein), strimlor av lätt rostad kokosnöt och våra favoritfrön: solros, pumpa och linfrön. I själva verket utgör denna blandning med tre frön mer än en fjärdedel av vad som finns i lådan! Krispigt och hälsosamt.",
+      "imageUrl": "https://productimages.motatos.com/MS233635/ms233635-dca14360-bada-4135-a6e0-a357c9900585.png?tr=w-2034h-2034",
+      "weight": 425,
+      "quantity": 26,
+      "price": 49,
+      "origin": "Sverige",
+      "TOC": "Blandade frön 27% (solrosfrön 22%, pumpafrön 3%, linfrön 2%) glutenfri HAVRE 25%, honung 15%, bovete 10%, rapsolja, strimlad kokosnöt 8%, ärtprotein, rostade kikärter."
+    },
+    {
+      "category": "Torrvaror",
+      "title": "Mandeldryck Mörk Choklad",
+      "brand": "Alpro",
+      "description": "Mandeldryck med smak av mörk choklad, berikad med kalcium och vitaminer. Fri från mjölkprodukter och gluten.",
+      "imageUrl": "https://productimages.motatos.com/5411188114666/alpro-de3c0699-71f2-42da-afd2-e6a6f2006caf.jpg?tr=w-2034h-2034",
+      "weight": 1,
+      "quantity": 17,
+      "price": 22,
+      "origin": "Sverige",
+      "TOC": "vatten/vann, socker/sukker, MANDEL (2,3%), fettreducerat kakaopulver* (1,5%), maltodextrin, trikalciumfosfat, havssalt, stabiliseringsmedel/midler (fruktkärnmjöl/johannesbrødkernemel, gellangummi), naturlig arom, emulgeringsmedel/middel (lecitiner (solros/solsikke)), vitaminer (B2, E, D2)."
+    }
+  ]
+  
