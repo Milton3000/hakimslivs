@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CategoryList from './CategoryList';
+import Categories from './CategoriesLeft';
 import { Modal, Button } from 'react-bootstrap';
 import './Home.css'; 
 
@@ -38,7 +39,7 @@ const Home = () => {
   return (
     <div className="home">
       <div className="category-section"> 
-        <CategoryList />
+      <Categories setProducts={setProducts} />
       </div>
       <div className="product-section">
         <h3 className='gradient_text'>POPULÄRT JUST NU</h3>

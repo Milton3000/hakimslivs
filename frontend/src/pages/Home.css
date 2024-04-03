@@ -4,3 +4,17 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+
+.home {
+    display: flex;
+    
+}
+
+.category-section {
+    padding: 1rem;
+}
+
+.product-section {
+    padding: 3rem;
+}
