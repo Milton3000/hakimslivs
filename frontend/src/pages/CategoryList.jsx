@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import Axios for making HTTP requests
+import axios from 'axios';
 
 const CategoryList = () => {
   const categories = ['Mejeri', 'Frukt', 'Grönsaker', 'Chark', 'Torrvaror', 'Dryck', 'Snacks & Godis'];
