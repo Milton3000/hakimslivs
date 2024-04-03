@@ -40,6 +40,7 @@ const Home = () => {
     <div className="home">
       <div className="category-section"> 
       <Categories setProducts={setProducts} />
+
       </div>
       <div className="product-section">
         <h3 className='gradient_text'>POPULÄRT JUST NU</h3>
