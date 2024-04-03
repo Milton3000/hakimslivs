@@ -1,0 +1,123 @@
+[
+    {
+      "category": "Snacks & Godis",
+      "title": "Marabou Mjölkchoklad",
+      "brand": "Marabou",
+      "description": "Marabou mjölkchoklad - Sveriges allra mest älskade chokladkaka. Här i en extra stor förpackning!",
+      "imageUrl": "https://productimages.motatos.com/MS104210/mjolkchokladkingsize.jpg?tr=w-2034h-2034",
+      "weight": 250,
+      "quantity": 100,
+      "price": 29.95,
+      "origin": "Sverige",
+      "TOC": "Grädde, Choklad, Smör"
+    },
+    {
+      "category": "Snacks & Godis",
+      "title": "Ahlgrens Bilar",
+      "brand": "Ahlgrens",
+      "description": "De mjuka bilarna erbjuds här i de klassiska Ahlgrens bilar färgerna rosa, vit och grön. ",
+      "imageUrl": "https://productimages.motatos.com/MS115936/ms115936_-4b304f76-225f-40fb-ad15-17ccd8b4b86f.png?tr=w-2034h-2034",
+      "weight": 125,
+      "quantity": 200,
+      "price": 18.50,
+      "origin": "Sverige",
+      "TOC": "Glukossirap, Socker, Gelatin"
+    },
+    {
+      "category": "Snacks & Godis",
+      "title": "Gott & Blandat",
+      "brand": "Malaco",
+      "description": "Den klassiska godisblandningen Gott & Blandat. Innehåller lakrits och vingummigodisar i olika fruktsmaker!",
+      "imageUrl": "https://productimages.motatos.com/7310350504305/7310350504305_utgaende_gott_amp_blandat_originaljpg-255337c9-203c-4c8f-828e-5273f254cf8a.jpg?tr=w-2034h-2034",
+      "weight": 150,
+      "quantity": 500,
+      "price": 16.95,
+      "origin": "Sverige",
+      "TOC": "Glukossirap, Socker, Gelatin"
+    },
+    {
+      "category": "Snacks & Godis",
+      "title": "Tutti Frutti",
+      "brand": "Fazer",
+      "description": "Orginal Tutti Frutti är goda pastiller i tablettask med fruktsmak.",
+      "imageUrl": "https://productimages.motatos.com/MS228865/ms224575_132123123png-ce4c2dee-b25d-46d0-ab0b-b0cbda6be97c.png?tr=w-2034h-2034",
+      "weight": 50,
+      "quantity": 100,
+      "price": 19.95,
+      "origin": "Sverige",
+      "TOC": "Glukossirap, Socker, Potatisstärkelse"
+    },
+    {
+      "category": "Snacks & Godis",
+      "title": "Kexchoklad",
+      "brand": "Cloetta",
+      "description": "Kexchoklad - frasigt rån fyllt med choklad under ett täcke av läcker mjölkchoklad. ",
+      "imageUrl": "https://productimages.motatos.com/7310350118342/kex_choklad_60g.jpg?tr=w-2034h-2034",
+      "weight": 125,
+      "quantity": 150,
+      "price": 9.50,
+      "origin": "Sverige",
+      "TOC": "Grädde, Vetemjöl, Kakao"
+    },
+    {
+      "category": "Snacks & Godis",
+      "title": "Yoghurt Samoa",
+      "brand": "Yoggi",
+      "description": "Krämig fruktyoghurt med frisk Samoasmak - persika, kiwi, mango, ananas, melon och passionsfrukt. Arla Yoggi® Original Samoa mättar och ger snabbt ny energi, från frukost till dessert. Smaken är helt naturlig och det är frukten som ger yoghurten den fina färgen. Yoggi yoghurt passar både stor och liten, servera till frukost, som ett snabbt mellanmål eller en enkel dessert.",
+      "imageUrl": "https://bilder.kolonial.no/prod/local_products/ee5ec5ec-d820-4940-93fc-fb8979197b58.jpg?auto=format&fit=max&w=339&s=c984bb72000b2f964504d30371c18a74",
+      "weight": 1000,
+      "quantity": 120,
+      "price": 23.95,
+      "origin": "Sverige",
+      "TOC": "Mjölkprotein, mjölk"
+    },
+    {
+      "category": "Snacks & Godis",
+      "title": "Daim",
+      "brand": "Marabou",
+      "description": "Klassiska godiset Daim - mjölkchoklad fylld med mandelkrokant!",
+      "imageUrl": "https://productimages.motatos.com/MS104299/daim_2.jpg?tr=w-2034h-2034",
+      "weight": 28,
+      "quantity": 90,
+      "price": 9.95,
+      "origin": "Sverige",
+      "TOC": "Mjölkchoklad, Palmolja, Mandel"
+    },
+    {
+      "category": "Snacks & Godis",
+      "title": "Takis",
+      "brand": "Barcel",
+      "description": "Takis snacks med smak av het chilipeppar och lime i en internsiv blå färg.",
+      "imageUrl": "https://productimages.motatos.com/MS232483/ms232483_1-fcbfb9b1-840e-47c1-a084-ca2befe0ba4d.png?tr=w-2034h-2034",
+      "weight": 28.4,
+      "quantity": 80,
+      "price": 29.00,
+      "origin": "USA",
+      "TOC": "Majsmjöl, Vegetabilisk Olja, Kryddmix"
+    },
+    {
+      "category": "Snacks & Godis",
+      "title": "Kettle Honey BBQ",
+      "brand": "Kettle",
+      "description": "Potatis chips med smak av söt barbecuesås.",
+      "imageUrl": "https://productimages.motatos.com/MS218752/ms218752_1-eadbda39-d3b1-4f40-83d3-38ab78c64e66.png?tr=w-2034h-2034",
+      "weight": 40,
+      "quantity": 30,
+      "price": 19.95,
+      "origin": "England",
+      "TOC": "Potatis, Solrosolja, Torkad Honung"
+    },
+    {
+      "category": "Snacks & Godis",
+      "title": "Gotlandschips Havssalt",
+      "brand": "Gotlandschips",
+      "description": "Gotländska chips med smak av havssalt.",
+      "imageUrl": "https://productimages.motatos.com/MS205697/ms205697-1jpg-36406c73-711e-404b-8aeb-3033d5989b0b.jpg?tr=w-2034h-2034",
+      "weight": 250,
+      "quantity": 55,
+      "price": 34.95,
+      "origin": "Sverige",
+      "TOC": "Potatis, Rapsolja, Havssalt"
+    }
+  ]
+  
