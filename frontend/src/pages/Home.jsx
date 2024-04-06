@@ -11,7 +11,8 @@ const Home = () => {
     // Fetch products from backend API
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/products/all'); 
+        // const response = await fetch('/api/products/all'); GAMLA
+        const response = await fetch('https://hakimslivs-backend.vercel.app/api/products/all');
         const data = await response.json();
         setProducts(data);
       } catch (error) {
