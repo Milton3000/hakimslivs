@@ -7,18 +7,18 @@ import { productRouter } from './routes/product.route.js';
 import { authRouter } from './routes/auth.route.js';
 
 // Kan skippa sen, behöver bara fixa problemet med att produkterna in laddas. 
-// const corsOptions = {
-//   origin: 'http://localhost:3000',
-//   methods: 'GET,POST',
-//   allowedHeaders: 'Content-Type,Authorization',
-// };
-
-// Nya test
 const corsOptions = {
-  origin: 'https://hakimslivs.vercel.app',
+  origin: 'http://localhost:3000',
   methods: 'GET,POST',
   allowedHeaders: 'Content-Type,Authorization',
 };
+
+// Nya test för deployment (url)
+// const corsOptions = {
+//   origin: 'https://hakimslivs.vercel.app',
+//   methods: 'GET,POST',
+//   allowedHeaders: 'Content-Type,Authorization',
+// };
 
 
 
