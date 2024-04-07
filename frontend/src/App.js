@@ -9,7 +9,6 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchInputChange = (query) => {
-    console.log("Received Search Query:", query);
     setSearchQuery(query);
   };
 
