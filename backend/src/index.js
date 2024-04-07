@@ -6,15 +6,6 @@ import { customerRouter } from './routes/customer.route.js';
 import { productRouter } from './routes/product.route.js';
 import { authRouter } from './routes/auth.route.js';
 
-// Nya test för deployment (url)
-// const corsOptions = {
-//   origin: 'https://hakimslivs.vercel.app',
-//   methods: 'GET,POST',
-//   allowedHeaders: 'Content-Type,Authorization',
-// };
-
-
-
 // Load environment variables from .env file
 dotenv.config();
 
@@ -23,7 +14,6 @@ const app = express();
 
 // Enable CORS middleware
 app.use(cors()); 
-// app.use(cors(corsOptions)); BEHÖVER EJ JUST NU
 
 
 // Apply middleware för att konvertera till json när man skickar data från frontend. 

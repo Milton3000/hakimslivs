@@ -9,7 +9,7 @@ import 'iconify-icon';
 const Categories = ({ setProducts }) => {
     const getCategory = async (category) => {
         try {
-            const response = await axios.get(`/api/products/category/${category}`);
+            const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
             setProducts(response.data);
         } catch (error) {
             console.error('Error fetching products:', error);
