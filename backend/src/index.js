@@ -6,13 +6,6 @@ import { customerRouter } from './routes/customer.route.js';
 import { productRouter } from './routes/product.route.js';
 import { authRouter } from './routes/auth.route.js';
 
-// Kan skippa sen, behöver bara fixa problemet med att produkterna in laddas. 
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  methods: 'GET,POST',
-  allowedHeaders: 'Content-Type,Authorization',
-};
-
 // Nya test för deployment (url)
 // const corsOptions = {
 //   origin: 'https://hakimslivs.vercel.app',
@@ -25,12 +18,16 @@ const corsOptions = {
 // Load environment variables from .env file
 dotenv.config();
 
+
 const app = express();
+
+// Enable CORS middleware
+app.use(cors()); 
+// app.use(cors(corsOptions)); BEHÖVER EJ JUST NU
+
 
 // Apply middleware för att konvertera till json när man skickar data från frontend. 
 app.use(express.json());
-app.use(cors(corsOptions));
-// app.use(cors()); ORGINALET
 
 
 app.use("/api/auth", authRouter); // Endpoint för authentication (routes > users.js)
@@ -45,4 +42,7 @@ const mongoDBURI = `mongodb+srv://Milton:${mongoDBPassword}@hakimcluster.jkjs7d2
 mongoose.connect(mongoDBURI);
 
 
-app.listen(3001, () => console.log("SERVER HAS STARTED!"));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
