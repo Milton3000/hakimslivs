@@ -40,7 +40,9 @@ app.use("/api/customers", customerRouter);
 // Använder environment variable för MongoDB Password.
 const mongoDBPassword = process.env.MONGODB_PASSWORD;
 
+const mongoDBURI = `mongodb+srv://Milton:${mongoDBPassword}@hakimcluster.jkjs7d2.mongodb.net/hakimslivs`;
 
-mongoose.connect(`mongodb+srv://Milton:${mongoDBPassword}@hakimcluster.jkjs7d2.mongodb.net/hakimslivs`);
+mongoose.connect(mongoDBURI);
+
 
 app.listen(3001, () => console.log("SERVER HAS STARTED!"));
