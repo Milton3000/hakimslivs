@@ -3,8 +3,9 @@ import Categories from './CategoriesLeft';
 import { Modal, Button } from 'react-bootstrap';
 import './Home.css'; 
 
-const Home = () => {
+const Home = ({ searchQuery }) => {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
@@ -22,6 +23,15 @@ const Home = () => {
 
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    // Filter products based on search query
+    setFilteredProducts(
+      products.filter((product) =>
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery, products]);
 
   const addToCart = (productId) => {
     // Implement addToCart functionality here
@@ -42,9 +52,13 @@ const Home = () => {
         <Categories setProducts={setProducts} />
       </div>
       <div className="product-section">
-        <h3 className='gradient_text'>POPULÄRT JUST NU</h3>
+        <div className="row justify-content-center">
+          <div className="col-12 text-center">
+            <h3 className='gradient_text'>POPULÄRT JUST NU</h3>
+          </div>
+        </div>
         <div className="row row-cols-2 row-cols-md-6 g-4">
-          {products.map((product, index) => (
+          {filteredProducts.map((product, index) => (
             <div key={index} className="col">
               <div className="card h-100 product-card" onClick={() => handleProductClick(product)}>
                 <img src={product.imageUrl} className="card-img-top img-fluid mt-3 product-image" alt={product.title} />

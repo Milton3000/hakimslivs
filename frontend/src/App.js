@@ -1,23 +1,28 @@
-import "./App.css";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Categories from "./pages/Categories";
-import Navbar from './components/Navbar';
+import Navbar from "./components/Navbar";
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchInputChange = (query) => {
+    console.log("Received Search Query:", query);
+    setSearchQuery(query);
+  };
+
   return (
     <div className="App">
       <Router>
-        <Navbar />
+        <Navbar onSearchInputChange={handleSearchInputChange} />
         <Routes>
-            {/* Kanske behöver en till Route?  */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home searchQuery={searchQuery} />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/categories" element={<Categories />} />
         </Routes>
       </Router>
-
     </div>
   );
 }
