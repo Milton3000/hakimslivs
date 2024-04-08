@@ -10,25 +10,25 @@ import {
 function useDeleteProduct() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async (user) => {
-            console.log('user:', user);
-            const response = await fetch(`http://localhost:5000/api/firm/${user._id}`, {
+        mutationFn: async (product) => {
+            console.log('product:', product);
+            const response = await fetch(`https://hakimslivs-backend.onrender.com/api/products/delete/${product._id}`, {
                 method: 'DELETE',
             });
 
             if (!response.ok) {
-                throw new Error('Failed to delete user');
+                throw new Error('Failed to delete product');
             }
 
             return response.json();
         },
         //client side optimistic update
-        onMutate: (userId) => {
-            queryClient.setQueryData(['users'], (prevUsers) =>
-                prevUsers?.filter((user) => user.id !== userId),
+        onMutate: (productId) => {
+            queryClient.setQueryData(['products'], (prevProducts) =>
+            prevProducts?.filter((product) => product.id !== productId),
             );
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+        onSettled: () => queryClient.invalidateQueries({ queryKey: ['products'] }), //refetch products after mutation
     });
 }
 

@@ -19,7 +19,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDeleteProduct } from '../adminhooks/deleteProduct'; // Changed from useDeleteUser
 import { useGetProducts } from '../adminhooks/getProducts'; // Changed from useGetUsers
 import { useUpdateProduct } from '../adminhooks/updateProduct'; // Changed from useUpdateUser
-import { validateProduct } from '../adminhooks/validateProduct'; // Changed from validateUser
 import { useCreateProduct } from '../adminhooks/createProduct'; // Changed from useCreateUser
 
 const AdminTable = () => {
