@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Categories from "./pages/Categories";
 import Navbar from "./components/Navbar";
+import AdminPage from "./pages/AdminPage";
+
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,9 +22,10 @@ function App() {
           <Route path="/" element={<Home searchQuery={searchQuery} />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </Router>
-    </div>
+  </div>
   );
 }
 
