@@ -10,31 +10,31 @@ import {
 function useUpdateProduct() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async (user) => {
-            console.log('user:', user);
-            const response = await fetch(`http://localhost:5000/api/firm/${user._id}`, {
+        mutationFn: async (product) => {
+            console.log('product:', product);
+            const response = await fetch(`https://hakimslivs-backend.onrender.com/api/products/update/${product._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(user),
+                body: JSON.stringify(product),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update user');
+                throw new Error('Failed to update product');
             }
 
             return response.json();
         },
         //client side optimistic update
-        onMutate: (newUserInfo) => {
-          queryClient.setQueryData(['users'], (prevUsers) => {
-              return prevUsers?.map((prevUser) =>
-                  prevUser._id === newUserInfo._id ? newUserInfo : prevUser,
+        onMutate: (newProductInfo) => {
+          queryClient.setQueryData(['products'], (prevProducts) => {
+              return prevProducts?.map((prevProduct) =>
+                  prevProduct._id === newProductInfo._id ? newProductInfo : prevProduct,
               );
           });
       },
-         onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+         onSettled: () => queryClient.invalidateQueries({ queryKey: ['products'] }), //refetch products after mutation
     });
 }
 
