@@ -10,32 +10,32 @@ import {
 function useCreateProduct() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async (user) => {
-            const response = await fetch('http://localhost:5000/api/firm/register', {
+        mutationFn: async (product) => {
+            const response = await fetch('http://localhost:3001/api/products/new', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(user),
+                body: JSON.stringify(product),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to create user');
+                throw new Error('Failed to create product');
             }
 
             return response.json();
         },
         //client side optimistic update
-        onMutate: (newUserInfo) => {
-            queryClient.setQueryData(['users'], (prevUsers) => [
-                ...prevUsers,
+        onMutate: (newProductInfo) => {
+            queryClient.setQueryData(['products'], (prevProducts) => [
+                ...prevProducts,
                 {
-                    ...newUserInfo,
+                    ...newProductInfo,
                   
                 },
             ]);
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+        onSettled: () => queryClient.invalidateQueries({ queryKey: ['products'] }), //refetch users after mutation, disabled for demo
     });
 }
 export { useCreateProduct }

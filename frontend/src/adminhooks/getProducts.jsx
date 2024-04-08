@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   QueryClient,
   QueryClientProvider,
@@ -9,12 +10,12 @@ import {
 
 function useGetProducts() {
     return useQuery({
-        queryKey: ['users'],
+        queryKey: ['products'],
         queryFn: async () => {
             const response = await fetch('https://hakimslivs-backend.onrender.com/api/products/all');
 
             if (!response.ok) {
-                throw new Error('Failed to fetch users');
+                throw new Error('Failed to fetch products');
             }
 
             return response.json();

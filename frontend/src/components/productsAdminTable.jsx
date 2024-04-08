@@ -22,7 +22,7 @@ import { useUpdateProduct } from '../adminhooks/updateProduct'; // Changed from 
 import { validateProduct } from '../adminhooks/validateProduct'; // Changed from validateUser
 import { useCreateProduct } from '../adminhooks/createProduct'; // Changed from useCreateUser
 
-const Example = () => {
+const AdminTable = () => {
   const [validationErrors, setValidationErrors] = useState({});
   const [isIdVisible, setIsIdVisible] = useState(true);
   const columns = useMemo(() => {
@@ -47,22 +47,22 @@ const Example = () => {
         accessorKey: 'price',
         header: 'Price',
       },
-      // {
-        //   accessorKey: 'description',
-        //   header: 'Description',
-        // },
-        {
-          accessorKey: 'quantity',
-          header: 'Quantity',
-        },
+      {
+        accessorKey: 'description',
+        header: 'Description',
+      },
+      {
+        accessorKey: 'quantity',
+        header: 'Quantity',
+      },
       {
         accessorKey: 'weight',
         header: 'Weight',
       },
-      // {
-      //   accessorKey: 'TOC',
-      //   header: 'TOC',
-      // },
+      {
+        accessorKey: 'TOC',
+        header: 'TOC',
+      },
       {
         accessorKey: 'imageUrl',
         header: 'Image',
@@ -126,9 +126,9 @@ const Example = () => {
     getRowId: (row) => row.id,
     muiToolbarAlertBannerProps: isLoadingProductsError
       ? {
-          color: 'error',
-          children: 'Error loading data',
-        }
+        color: 'error',
+        children: 'Error loading data',
+      }
       : undefined,
     muiTableContainerProps: {
       sx: {
@@ -154,7 +154,7 @@ const Example = () => {
 
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
-        <DialogTitle variant="h3">Add Company</DialogTitle>
+        <DialogTitle variant="h3">Add Product</DialogTitle>
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
         >
@@ -223,4 +223,4 @@ const Example = () => {
   return <MaterialReactTable table={table} />;
 };
 
-export default Example;
+export default AdminTable;
