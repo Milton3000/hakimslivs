@@ -46,7 +46,7 @@ const Home = ({ searchQuery }) => {
   };
 
   const handleAddToCartClick = (event, productId) => {
-    event.stopPropagation(); // Prevent the modal from opening when "Lägg till i Varukorg" button is clicked
+    event.stopPropagation(); // Prevent the modal from opening when "Lägg till i Varukorg" button is clicked (Behövs ej när carten är klar(?))
     addToCart(productId);
   };
 
