@@ -27,6 +27,8 @@ npm install react-router-dom,
 npm install react-cookie
 npm install bootstrap
 npm install react-bootstrap bootstrap
+npm install react-bootstrap-icons
+
 
 
 MongoDB lösenord = potatis
@@ -35,3 +37,9 @@ User ID + PW:
 
 MiltonTest
 test
+
+
+                  {/* Description + Scroll funktion för den, behövs inte på förstasidan, men spara ifall att? */}
+                  {/* <div className="product-description-scroll">
+                    <p className="card-text fs-6 mb-3">{product.description}</p>
+                  </div> */}
