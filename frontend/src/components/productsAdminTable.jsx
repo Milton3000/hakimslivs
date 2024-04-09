@@ -85,7 +85,7 @@ const AdminTable = () => {
         },
       },
     ];
-  
+
     if (!isIdVisible) {
       baseColumns.unshift({
         accessorKey: '_id',
@@ -93,7 +93,7 @@ const AdminTable = () => {
         enableEditing: false,
       });
     }
-  
+
     return baseColumns;
   }, [isIdVisible]);
 
