@@ -49,6 +49,15 @@ const AdminTable = () => {
       {
         accessorKey: 'description',
         header: 'Description',
+        muiTableRowProps: {
+          multiline: true,
+        },
+        muiEditTextFieldProps: {
+          multiline: true,
+        },
+        muiCreateTextFieldProps: {
+          multiline: true,
+        },
       },
       {
         accessorKey: 'quantity',
@@ -61,10 +70,22 @@ const AdminTable = () => {
       {
         accessorKey: 'TOC',
         header: 'TOC',
+        muiEditTextFieldProps: {
+          multiline: true,
+        },
+        muiCreateTextFieldProps: {
+          multiline: true,
+        },
       },
       {
         accessorKey: 'imageUrl',
         header: 'Image',
+        muiEditTextFieldProps: {
+          multiline: true,
+        },
+        muiCreateTextFieldProps: {
+          multiline: true,
+        },
       },
     ];
 
@@ -72,6 +93,7 @@ const AdminTable = () => {
       baseColumns.unshift({
         accessorKey: '_id',
         header: 'ID',
+        enableEditing: false,
       });
     }
 
