@@ -77,7 +77,7 @@ const AdminTable = () => {
       },
       {
         accessorKey: 'imageUrl',
-        header: 'Img URL',
+        header: 'Bildkälla',
         muiEditTextFieldProps: {
           multiline: true,
         },
@@ -145,6 +145,7 @@ const AdminTable = () => {
         description: false,
         TOC: false,
         imageUrl: false,
+        _id: false,
       }
     },
     createDisplayMode: 'modal', //default ('row', and 'custom' are also available)
