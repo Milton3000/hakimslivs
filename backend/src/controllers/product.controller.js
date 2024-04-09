@@ -22,8 +22,7 @@ async function getProduct(req, res) {
         }
         res.json(product);
     } catch (error) {
-        console.error('Error fetching product:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        productErrorHandler(error, res);
     }
 }
 
@@ -40,8 +39,7 @@ async function getProductByCategory(req, res) {
         res.status(200).json(products);
     }
     catch (error) {
-        console.error('Error fetching products:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        productErrorHandler(error, res);
     }
 }
 
@@ -82,8 +80,7 @@ async function deleteProduct(req, res) {
         }
         res.json(product);
     } catch (error) {
-        console.error('Error deleting product:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        productErrorHandler(error, res);
     }
 }
 
