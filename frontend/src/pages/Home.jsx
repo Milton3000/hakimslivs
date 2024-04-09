@@ -9,20 +9,21 @@ const Home = ({ searchQuery }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [categoryTitle, setCategoryTitle] = useState('POPULÄRT JUST NU'); // Initial title
+  const [initialLoad, setInitialLoad] = useState(true); // Track if it's the initial load
 
   const fetchProductsByCategory = async (category) => {
     try {
       const response = await fetch(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
       const data = await response.json();
       setProducts(data);
-      setCategoryTitle(category); // Update category title
+      setCategoryTitle(category);
+      setInitialLoad(false); // Set initial load to false when selecting a category
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
   useEffect(() => {
-    // Fetch products from backend API
     const fetchProducts = async () => {
       try {
         const response = await fetch('https://hakimslivs-backend.onrender.com/api/products/all');
@@ -46,7 +47,7 @@ const Home = ({ searchQuery }) => {
   }, [searchQuery, products]);
 
   const addToCart = (productId) => {
-    // Implement addToCart functionality here
+    // Implement addToCart functionality here (Senare)
     console.log(`Product added to cart: ${productId}`);
   };
 
@@ -67,11 +68,6 @@ const Home = ({ searchQuery }) => {
     setShowFullDescription(!showFullDescription);
   };
 
-  // Select the first 8 products
-  useEffect(() => {
-    setFilteredProducts(products.slice(0, 10));
-  }, [products]);
-
   return (
     <div className="home">
       <div className="category-section">
@@ -84,7 +80,7 @@ const Home = ({ searchQuery }) => {
           </div>
         </div>
         <div className="row row-cols-1 row-cols-md-4 g-4">
-          {filteredProducts.map((product, index) => (
+          {filteredProducts.slice(0, initialLoad ? 8 : undefined).map((product, index) => (
             <div key={index} className="col" onClick={() => handleProductClick(product)}>
               <div className="card product-card">
                 <img src={product.imageUrl} className="card-img-top img-fluid mt-3" alt={product.title} style={{ objectFit: 'contain', maxHeight: '200px', maxWidth: '100%' }} />
