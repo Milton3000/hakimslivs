@@ -143,8 +143,8 @@ const AdminTable = () => {
   const table = useMaterialReactTable({
     columns,
     data: fetchedProducts,
-    initialState: {
-      columnVisibility: {
+    initialState: { 
+      columnVisibility: { 
         description: false,
         TOC: false,
         imageUrl: false,
@@ -186,7 +186,7 @@ const AdminTable = () => {
       <>
         <DialogTitle variant="h3">Add Product</DialogTitle>
         <DialogContent
-          sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+          sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
         >
           {internalEditComponents} {/* or render custom edit components here */}
         </DialogContent>
@@ -200,7 +200,7 @@ const AdminTable = () => {
       <>
         <DialogTitle variant="h3">Edit Product</DialogTitle>
         <DialogContent
-          sx={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
+          sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem'}}
         >
           {internalEditComponents} {/* or render custom edit components here */}
         </DialogContent>
@@ -238,7 +238,7 @@ const AdminTable = () => {
           table.setCreatingRow(true); //enter creating mode
         }}
       >
-        Create New Product
+        Add New Product
       </Button>
     ),
     state: {
