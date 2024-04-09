@@ -6,14 +6,13 @@ import {
     useQuery,
     useQueryClient,
 } from '@tanstack/react-query';
-// const response = await fetch('https://hakimslivs-backend.onrender.com/api/products/new', {
 
 function useCreateProduct() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async (product) => {
             try {
-                const response = await fetch('http://localhost:3001/api/products/new', {
+                const response = await fetch('https://hakimslivs-backend.onrender.com/api/products/new', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
