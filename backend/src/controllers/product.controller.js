@@ -1,4 +1,5 @@
 import Product from '../models/product.model.js';
+import { productErrorHandler } from '../utils/apiHelpers.js';
 
 // Fetcha alla produkter
 async function getProducts(req, res) {
@@ -53,8 +54,7 @@ async function createProduct(req, res) {
         await newProduct.save();
         res.status(201).json(newProduct);
     } catch (error) {
-        console.error('Error creating product:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        productErrorHandler(error, res);
     }
 }
 
@@ -62,18 +62,13 @@ async function createProduct(req, res) {
 
 async function updateProduct(req, res) {
     try {
-        const product = await
-            Product.findByIdAndUpdate(req
-                .params
-                .id, req.body, { new: true });
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
         res.json(product);
-    }
-    catch (error) {
-        console.error('Error updating product:', error);
-        res.status(500).json({ message: 'Internal server error' });
+    } catch (error) {
+        productErrorHandler(error, res);
     }
 }
 
