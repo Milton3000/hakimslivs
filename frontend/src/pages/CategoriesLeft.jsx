@@ -5,14 +5,11 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import axios from 'axios';
 import 'iconify-icon';
 
-
 const Categories = ({ fetchProductsByCategory }) => {
     const getCategory = async (category) => {
         try {
             const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
-            // Assuming response.data is an array of products
             const products = response.data;
-            // Invoke the function with the category and products data
             fetchProductsByCategory(category, products);
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -39,6 +36,23 @@ const Categories = ({ fetchProductsByCategory }) => {
                         },
                     }}
                 >
+                    <TreeItem
+                        itemId="all-products"
+                        label={
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <iconify-icon
+                                    icon="icon-park-outline:shopping-cart"
+                                    width="18"
+                                    height="18"
+                                    style={{ color: '#3184dd' }}
+                                />
+                                <span style={{ marginTop: '3px', marginLeft: '2px' }}>Alla Produkter</span>
+                            </div>
+                        }
+                        onClick={() => getCategory('all')}
+                    >
+                    </TreeItem>
+
                     <TreeItem itemId="row1" label={
                           <div style={{ display: 'flex', alignItems: 'center' }}>
                             <iconify-icon icon="icon-park-outline:watermelon-one" width="18" height="18"  style={{color: '#3184dd'}} />

@@ -69,7 +69,7 @@ const Home = ({ searchQuery }) => {
 
   // Select the first 8 products
   useEffect(() => {
-    setFilteredProducts(products.slice(0, 8));
+    setFilteredProducts(products.slice(0, 10));
   }, [products]);
 
   return (
