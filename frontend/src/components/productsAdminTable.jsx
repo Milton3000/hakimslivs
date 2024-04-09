@@ -20,6 +20,7 @@ import { useDeleteProduct } from '../adminhooks/deleteProduct'; // Changed from 
 import { useGetProducts } from '../adminhooks/getProducts'; // Changed from useGetUsers
 import { useUpdateProduct } from '../adminhooks/updateProduct'; // Changed from useUpdateUser
 import { useCreateProduct } from '../adminhooks/createProduct'; // Changed from useCreateUser
+import { MRT_Localization_SV } from 'material-react-table/locales/sv';
 
 const AdminTable = () => {
   const [validationErrors, setValidationErrors] = useState({});
@@ -28,32 +29,27 @@ const AdminTable = () => {
     const baseColumns = [
       {
         accessorKey: 'title',
-        header: 'Product Name',
+        header: 'Titel',
       },
       {
         accessorKey: 'category',
-        header: 'Category',
+        header: 'Kategori',
       },
       {
         accessorKey: 'brand',
-        header: 'Brand',
+        header: 'Tillverkare',
       },
       {
         accessorKey: 'origin',
-        header: 'Origin',
+        header: 'Ursprung',
       },
       {
         accessorKey: 'price',
-        header: 'Price',
+        header: 'Pris',
       },
       {
         accessorKey: 'description',
-        header: 'Description',
-        enableHiding: true,
-        muiTableProps: {
-          maxRows: 1, //limit the number of lines displayed in the table
-        },
-
+        header: 'Beskrivning',
         muiEditTextFieldProps: {
           multiline: true,
         },
@@ -63,11 +59,11 @@ const AdminTable = () => {
       },
       {
         accessorKey: 'quantity',
-        header: 'Quantity',
+        header: 'Kvantitet',
       },
       {
         accessorKey: 'weight',
-        header: 'Weight',
+        header: 'Vikt',
       },
       {
         accessorKey: 'TOC',
@@ -81,7 +77,7 @@ const AdminTable = () => {
       },
       {
         accessorKey: 'imageUrl',
-        header: 'Image',
+        header: 'Img URL',
         muiEditTextFieldProps: {
           multiline: true,
         },
@@ -135,16 +131,17 @@ const AdminTable = () => {
   //DELETE action
   const openDeleteConfirmModal = (row) => {
     console.log(row.original);
-    if (window.confirm('Are you sure you want to delete this product?')) {
+    if (window.confirm('Bekräfta borttagning av produkt')) {
       deleteProduct(row.original);
     }
   };
 
   const table = useMaterialReactTable({
+    localization: MRT_Localization_SV,
     columns,
     data: fetchedProducts,
     initialState: { 
-      columnVisibility: { 
+      columnVisibility: {   
         description: false,
         TOC: false,
         imageUrl: false,
@@ -184,7 +181,7 @@ const AdminTable = () => {
 
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
-        <DialogTitle variant="h3">Add Product</DialogTitle>
+        <DialogTitle variant="h3">Ny produkt</DialogTitle>
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
         >
@@ -198,7 +195,7 @@ const AdminTable = () => {
     //optionally customize modal content
     renderEditRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
-        <DialogTitle variant="h3">Edit Product</DialogTitle>
+        <DialogTitle variant="h3">Ändra produkt</DialogTitle>
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem'}}
         >
@@ -238,7 +235,7 @@ const AdminTable = () => {
           table.setCreatingRow(true); //enter creating mode
         }}
       >
-        Add New Product
+        Lägg till produkt
       </Button>
     ),
     state: {
