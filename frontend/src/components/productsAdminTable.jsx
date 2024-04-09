@@ -23,6 +23,7 @@ import { MRT_Localization_SV } from 'material-react-table/locales/sv';
 
 const AdminTable = () => {
   const [validationErrors, setValidationErrors] = useState({});
+  const [isIdVisible, setIsIdVisible] = useState(true);
   const columns = useMemo(() => {
     const baseColumns = [
       {
@@ -83,18 +84,18 @@ const AdminTable = () => {
           multiline: true,
         },
       },
-      {
+    ];
+  
+    if (!isIdVisible) {
+      baseColumns.unshift({
         accessorKey: '_id',
         header: 'ID',
         enableEditing: false,
-      },
-    ];
-
-
-
-
+      });
+    }
+  
     return baseColumns;
-  }, []);
+  }, [isIdVisible]);
 
   //call CREATE hook
   const { mutateAsync: createProduct, isPending: isCreatingProduct } =
@@ -163,18 +164,22 @@ const AdminTable = () => {
     },
     onCreatingRowCancel: () => {
       setValidationErrors({});
+      setIsIdVisible(true);
 
     },
     onCreatingRowSave: (newData) => {
       handleCreateProduct(newData);
+      setIsIdVisible(true);
 
     },
     onEditingRowCancel: () => {
       setValidationErrors({});
+      setIsIdVisible(true);
 
     },
     onEditingRowSave: (newData) => {
       handleSaveProduct(newData);
+      setIsIdVisible(true);
 
     },
 
@@ -210,6 +215,7 @@ const AdminTable = () => {
         <Tooltip title="Edit">
           <IconButton
             onClick={() => {
+              setIsIdVisible(false);
               table.setEditingRow(row);
             }}
           >
