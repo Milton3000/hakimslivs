@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Categories from './CategoriesLeft';
+import Categories from '../components/CategoriesLeft';
 import { Modal, Button } from 'react-bootstrap';
 import './Home.css';
 
