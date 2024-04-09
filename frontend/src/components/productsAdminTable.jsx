@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import {
   MRT_EditActionButtons,
   MaterialReactTable,
-  // createRow,
   useMaterialReactTable,
 } from 'material-react-table';
 import {
@@ -24,7 +23,6 @@ import { MRT_Localization_SV } from 'material-react-table/locales/sv';
 
 const AdminTable = () => {
   const [validationErrors, setValidationErrors] = useState({});
-  const [isIdVisible, setIsIdVisible] = useState(true);
   const columns = useMemo(() => {
     const baseColumns = [
       {
@@ -85,18 +83,18 @@ const AdminTable = () => {
           multiline: true,
         },
       },
-    ];
-
-    if (!isIdVisible) {
-      baseColumns.unshift({
+      {
         accessorKey: '_id',
         header: 'ID',
         enableEditing: false,
-      });
-    }
+      },
+    ];
+
+
+
 
     return baseColumns;
-  }, [isIdVisible, validationErrors]);
+  }, []);
 
   //call CREATE hook
   const { mutateAsync: createProduct, isPending: isCreatingProduct } =
@@ -140,8 +138,8 @@ const AdminTable = () => {
     localization: MRT_Localization_SV,
     columns,
     data: fetchedProducts,
-    initialState: { 
-      columnVisibility: {   
+    initialState: {
+      columnVisibility: {
         description: false,
         TOC: false,
         imageUrl: false,
@@ -165,19 +163,19 @@ const AdminTable = () => {
     },
     onCreatingRowCancel: () => {
       setValidationErrors({});
-      setIsIdVisible(true); // Set isIdVisible to false when the create modal is cancelled
+
     },
     onCreatingRowSave: (newData) => {
       handleCreateProduct(newData);
-      setIsIdVisible(true); // Set isIdVisible to false when the create modal is closed
+
     },
     onEditingRowCancel: () => {
       setValidationErrors({});
-      setIsIdVisible(true); // Set isIdVisible to false when the edit modal is cancelled
+
     },
     onEditingRowSave: (newData) => {
       handleSaveProduct(newData);
-      setIsIdVisible(true); // Set isIdVisible to false when the edit modal is closed
+
     },
 
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
@@ -198,7 +196,7 @@ const AdminTable = () => {
       <>
         <DialogTitle variant="h3">Ändra produkt</DialogTitle>
         <DialogContent
-          sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem'}}
+          sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
         >
           {internalEditComponents} {/* or render custom edit components here */}
         </DialogContent>
@@ -212,7 +210,6 @@ const AdminTable = () => {
         <Tooltip title="Edit">
           <IconButton
             onClick={() => {
-              setIsIdVisible(false);
               table.setEditingRow(row);
             }}
           >
