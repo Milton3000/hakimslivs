@@ -49,9 +49,11 @@ const AdminTable = () => {
       {
         accessorKey: 'description',
         header: 'Description',
-        muiTableRowProps: {
-          multiline: true,
+        enableHiding: true,
+        muiTableProps: {
+          maxRows: 1, //limit the number of lines displayed in the table
         },
+
         muiEditTextFieldProps: {
           multiline: true,
         },
@@ -141,6 +143,13 @@ const AdminTable = () => {
   const table = useMaterialReactTable({
     columns,
     data: fetchedProducts,
+    initialState: {
+      columnVisibility: {
+        description: false,
+        TOC: false,
+        imageUrl: false,
+      }
+    },
     createDisplayMode: 'modal', //default ('row', and 'custom' are also available)
     editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
     enableEditing: true,
