@@ -7,6 +7,19 @@ const Home = ({ searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [categoryTitle, setCategoryTitle] = useState('POPULÄRT JUST NU'); // Initial title
+
+  const fetchProductsByCategory = async (category) => {
+    try {
+      const response = await fetch(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
+      const data = await response.json();
+      setProducts(data);
+      setCategoryTitle(category); // Update category title
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
 
   useEffect(() => {
     // Fetch products from backend API
@@ -46,19 +59,28 @@ const Home = ({ searchQuery }) => {
   };
 
   const handleAddToCartClick = (event, productId) => {
-    event.stopPropagation(); // Prevent the modal from opening when "Lägg till i Varukorg" button is clicked (Behövs ej när carten är klar(?))
+    event.stopPropagation();
     addToCart(productId);
   };
+
+  const toggleDescription = () => {
+    setShowFullDescription(!showFullDescription);
+  };
+
+  // Select the first 8 products
+  useEffect(() => {
+    setFilteredProducts(products.slice(0, 8));
+  }, [products]);
 
   return (
     <div className="home">
       <div className="category-section">
-        <Categories setProducts={setProducts} />
+        <Categories fetchProductsByCategory={fetchProductsByCategory} />
       </div>
       <div className="product-section">
         <div className="row justify-content-center">
           <div className="col-12 text-center">
-            <h3 className='gradient_text'>POPULÄRT JUST NU</h3>
+            <h3 className='gradient_text'>{categoryTitle}</h3>
           </div>
         </div>
         <div className="row row-cols-1 row-cols-md-4 g-4">
@@ -85,7 +107,18 @@ const Home = ({ searchQuery }) => {
           <Modal.Body>
             <img src={selectedProduct.imageUrl} alt={selectedProduct.title} className="img-fluid mx-auto d-block" style={{ maxHeight: '350px' }} />
             <div className="scrollable-details text-center">
-              <p>{selectedProduct.description.length > 100 ? `${selectedProduct.description.substring(0, 100)}...` : selectedProduct.description}</p>
+              <p>
+                {showFullDescription
+                  ? selectedProduct.description
+                  : selectedProduct.description.length > 100
+                    ? `${selectedProduct.description.substring(0, 100)}...`
+                    : selectedProduct.description}
+                {selectedProduct.description.length > 100 && (
+                  <button className="btn btn-link" onClick={toggleDescription}>
+                    {showFullDescription ? 'Läs mindre' : 'Läs mer'}
+                  </button>
+                )}
+              </p>
               <p>Pris: {selectedProduct.price} SEK</p>
               <Button variant="primary" onClick={() => addToCart(selectedProduct.id)}>Lägg till i varukorg</Button>
             </div>

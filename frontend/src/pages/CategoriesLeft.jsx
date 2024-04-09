@@ -6,11 +6,14 @@ import axios from 'axios';
 import 'iconify-icon';
 
 
-const Categories = ({ setProducts }) => {
+const Categories = ({ fetchProductsByCategory }) => {
     const getCategory = async (category) => {
         try {
             const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
-            setProducts(response.data);
+            // Assuming response.data is an array of products
+            const products = response.data;
+            // Invoke the function with the category and products data
+            fetchProductsByCategory(category, products);
         } catch (error) {
             console.error('Error fetching products:', error);
         }
