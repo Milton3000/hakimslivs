@@ -8,7 +8,7 @@ const Home = ({ searchQuery }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const [categoryTitle, setCategoryTitle] = useState('POPULÄRT JUST NU'); // Initial title
+  const [categoryTitle, setCategoryTitle] = useState('POPULÄRT JUST NU'); // Initialize with 'POPULÄRT JUST NU'
   const [initialLoad, setInitialLoad] = useState(true); // Track if it's the initial load
 
   const fetchProductsByCategory = async (category) => {
@@ -18,16 +18,6 @@ const Home = ({ searchQuery }) => {
       setProducts(data);
       setCategoryTitle(category);
       setInitialLoad(false); // Set initial load to false when selecting a category
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-
-  const fetchAllProducts = async () => {
-    try {
-      const response = await fetch('https://hakimslivs-backend.onrender.com/api/products/all');
-      const data = await response.json();
-      setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -54,6 +44,13 @@ const Home = ({ searchQuery }) => {
         product.title.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
+
+    // Update category title based on search query
+    if (searchQuery.trim() !== '') {
+      setCategoryTitle('Sökresultat');
+    } else {
+      setCategoryTitle('POPULÄRT JUST NU');
+    }
   }, [searchQuery, products]);
 
   const addToCart = (productId) => {
@@ -99,7 +96,7 @@ const Home = ({ searchQuery }) => {
                   <h5 className="card-title fs-5 product-title text-center">{product.title}</h5>
                   <h6 className="card-text fs-6 text-muted mb-3 text-center">{product.supplier}</h6>
                   <p className="card-text fs-6 mb-3 product-price text-center">Pris: {product.price} SEK</p>
-                  <button onClick={(e) => handleAddToCartClick(e, product.id)} className="btn btn-primary w-100 text-center" style={{ minWidth: '180px', maxWidth: '180px' }}>Lägg till i varukorg</button>
+                  <button onClick={(e) => handleAddToCartClick(e, product.id)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
               </div>
                 </div>
               </div>
@@ -107,7 +104,7 @@ const Home = ({ searchQuery }) => {
           ))}
           {/* Add placeholders if there are less than 4 products */}
           {filteredProducts.length < 4 && Array(4 - filteredProducts.length).fill().map((_, index) => (
-            <div key={`placeholder-${index}`} className="col mb-4" style={{ width: '240px' }}>
+            <div key={`placeholder-${index}`} className="d-inline-block m-2" style={{ width: '240px' }}>
               <div className="card product-card invisible">
                 {/* Add any additional placeholder content here */}
               </div>
