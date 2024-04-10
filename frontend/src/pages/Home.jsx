@@ -89,7 +89,7 @@ const Home = ({ searchQuery }) => {
             <h3 className='gradient_text'>{categoryTitle}</h3>
           </div>
         </div>
-        <div className="row row-cols-1 row-cols-md-4 g-4">
+        <div className="row row-cols-1 row-cols-md-4 g-4 justify-content-center">
           {filteredProducts.slice(0, initialLoad ? 8 : undefined).map((product, index) => (
             <div key={index} className="col mb-4" onClick={() => handleProductClick(product)} style={{ width: '240px' }}>
               <div className="card h-100">
