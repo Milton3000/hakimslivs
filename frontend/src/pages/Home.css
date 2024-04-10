@@ -1,3 +1,40 @@
+.home {
+  padding-top: 2rem;
+  display: grid;
+  grid-template-columns: auto auto; 
+  justify-content: center; 
+}
+
+.category-section {
+  max-width: 17rem;
+  grid-column: 1;
+  padding-top: 6rem; 
+}
+
+.product-section {
+  max-width: 65rem;
+  padding: 1rem;
+  grid-column: 2; 
+}
+
+
+@media screen and (max-width: 650px) {
+  .home {
+    padding-top: 1rem;
+    grid-template-columns: auto; /* Changes to a single column */
+  }
+
+  .category-section {
+    padding-top: 0;
+    grid-column: 1; /* Places the section in the first column */
+  }
+
+  .product-section {
+    grid-column: 1; /* Places the section in the first column */
+  }
+}
+
+
 
 /* .product-card {
     height: 100%;

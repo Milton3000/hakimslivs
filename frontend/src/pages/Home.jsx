@@ -23,6 +23,16 @@ const Home = ({ searchQuery }) => {
     }
   };
 
+  const fetchAllProducts = async () => {
+    try {
+      const response = await fetch('https://hakimslivs-backend.onrender.com/api/products/all');
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -71,25 +81,35 @@ const Home = ({ searchQuery }) => {
   return (
     <div className="home">
       <div className="category-section">
-        <Categories fetchProductsByCategory={fetchProductsByCategory} />
+        <Categories fetchProductsByCategory={fetchProductsByCategory} setProducts={setProducts} />
       </div>
       <div className="product-section">
-        <div className="row justify-content-center">
+        <div className="d-flex flex-wrap justify-content-center p-4">
           <div className="col-12 text-center">
             <h3 className='gradient_text'>{categoryTitle}</h3>
           </div>
         </div>
         <div className="row row-cols-1 row-cols-md-4 g-4">
           {filteredProducts.slice(0, initialLoad ? 8 : undefined).map((product, index) => (
-            <div key={index} className="col" onClick={() => handleProductClick(product)}>
-              <div className="card product-card">
+            <div key={index} className="col mb-4" onClick={() => handleProductClick(product)} style={{ width: '240px' }}>
+              <div className="card h-100">
                 <img src={product.imageUrl} className="card-img-top img-fluid mt-3" alt={product.title} style={{ objectFit: 'contain', maxHeight: '200px', maxWidth: '100%' }} />
-                <div className="card-body d-flex flex-column align-items-center" style={{ minHeight: '250px' }}>
+                <div className="card-body d-flex flex-column align-items-center" style={{ minHeight: '200px' }}>
+                <div className="mt-auto">
                   <h5 className="card-title fs-5 product-title text-center">{product.title}</h5>
                   <h6 className="card-text fs-6 text-muted mb-3 text-center">{product.supplier}</h6>
                   <p className="card-text fs-6 mb-3 product-price text-center">Pris: {product.price} SEK</p>
-                  <button onClick={(e) => handleAddToCartClick(e, product.id)} className="btn btn-primary">Lägg till i varukorg</button>
+                  <button onClick={(e) => handleAddToCartClick(e, product.id)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
+              </div>
                 </div>
+              </div>
+            </div>
+          ))}
+          {/* Add placeholders if there are less than 4 products */}
+          {filteredProducts.length < 4 && Array(4 - filteredProducts.length).fill().map((_, index) => (
+            <div key={`placeholder-${index}`} className="d-inline-block m-2" style={{ width: '240px' }}>
+              <div className="card product-card invisible">
+                {/* Add any additional placeholder content here */}
               </div>
             </div>
           ))}

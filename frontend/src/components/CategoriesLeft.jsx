@@ -5,7 +5,7 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import axios from 'axios';
 import 'iconify-icon';
 
-const Categories = ({ fetchProductsByCategory }) => {
+const Categories = ({ fetchProductsByCategory, setProducts }) => {
     const getCategory = async (category) => {
         try {
             const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
@@ -21,6 +21,17 @@ const Categories = ({ fetchProductsByCategory }) => {
     const handleExpandedItemsChange = (event, itemIds) => {
         setExpandedItems(itemIds);
     };
+
+    const getAllProducts = async () => {
+        try {
+            const response = await axios.get('https://hakimslivs-backend.onrender.com/api/products/all');
+            const products = response.data;
+            setProducts(products);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
+    
 
     return (
         <Box sx={{ flexGrow: 1, minWidth: 270, maxWidth: 270 }}>
@@ -49,7 +60,7 @@ const Categories = ({ fetchProductsByCategory }) => {
                                 <span style={{ marginTop: '5px', marginLeft: '5px', fontSize: '20px' }}>Alla Produkter</span>
                             </div>
                         }
-                        onClick={() => getCategory('all')}
+                        onClick={() => getAllProducts()}
                     >
                     </TreeItem>
 
