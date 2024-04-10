@@ -23,7 +23,7 @@ const Categories = ({ fetchProductsByCategory }) => {
     };
 
     return (
-        <Box sx={{ flexGrow: 1, minWidth: 200, maxWidth: 200 }}>
+        <Box sx={{ flexGrow: 1, minWidth: 270, maxWidth: 270 }}>
             <Box sx={{ mb: 1 }}>
             </Box>
             <Box sx={{ minHeight: 200, flexGrow: 1 }}>
@@ -42,11 +42,11 @@ const Categories = ({ fetchProductsByCategory }) => {
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <iconify-icon
                                     icon="icon-park-outline:shopping-cart"
-                                    width="18"
-                                    height="18"
+                                    width="32"
+                                    height="32"
                                     style={{ color: '#3184dd' }}
                                 />
-                                <span style={{ marginTop: '3px', marginLeft: '2px' }}>Alla Produkter</span>
+                                <span style={{ marginTop: '5px', marginLeft: '5px', fontSize: '20px' }}>Alla Produkter</span>
                             </div>
                         }
                         onClick={() => getCategory('all')}
@@ -55,48 +55,48 @@ const Categories = ({ fetchProductsByCategory }) => {
 
                     <TreeItem itemId="row1" label={
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <iconify-icon icon="icon-park-outline:watermelon-one" width="18" height="18" style={{ color: '#3184dd' }} />
-                            <span style={{ marginTop: '3px', marginLeft: '2px' }}>Chark</span>
+                            <iconify-icon icon="icon-park-outline:watermelon-one" width="32" height="32" style={{ color: '#3184dd' }} />
+                            <span style={{ marginTop: '5px', marginLeft: '5px', fontSize: '20px' }}>Chark</span>
                         </div>
                     } onClick={() => getCategory('Chark')}>
                     </TreeItem>
 
                     <TreeItem itemId="row2" label={
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <iconify-icon icon="icon-park-outline:milk" width="18" height="18" style={{ color: '#3184dd' }} />
-                            <span style={{ marginTop: '0px', marginLeft: '2px' }}>Mejeri</span>
+                            <iconify-icon icon="icon-park-outline:milk" width="32" height="32" style={{ color: '#3184dd' }} />
+                            <span style={{ marginTop: '5px', marginLeft: '5px', fontSize: '20px' }}>Mejeri</span>
                         </div>
                     } onClick={() => getCategory('Mejeri')}>
                     </TreeItem>
 
                     <TreeItem itemId="row3" label={
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <iconify-icon icon="icon-park-outline:apple-one" width="18" height="18" style={{ color: '#3184dd' }} />
-                            <span style={{ marginTop: '3px', marginLeft: '2px' }}>Frukt och Grönt</span>
+                            <iconify-icon icon="icon-park-outline:apple-one" width="32" height="32" style={{ color: '#3184dd' }} />
+                            <span style={{ marginTop: '5px', marginLeft: '5px', fontSize: '20px' }}>Frukt och Grönt</span>
                         </div>
                     } onClick={() => getCategory('Frukt & Grönt')}>
                     </TreeItem>
 
                     <TreeItem itemId="row4" label={
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <iconify-icon icon="icon-park-outline:canned-fruit" width="18" height="18" style={{ color: '#3184dd' }} />
-                            <span style={{ marginTop: '3px', marginLeft: '2px' }}>Torrvaror</span>
+                            <iconify-icon icon="icon-park-outline:canned-fruit" width="32" height="32" style={{ color: '#3184dd' }} />
+                            <span style={{ marginTop: '5px', marginLeft: '5px', fontSize: '20px' }}>Torrvaror</span>
                         </div>
                     } onClick={() => getCategory('Torrvaror')}>
                     </TreeItem>
 
                     <TreeItem itemId="row5" label={
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <iconify-icon icon="line-md:beer-alt-twotone-loop" width="18" height="18" style={{ color: '#3184dd' }} />
-                            <span style={{ marginTop: '3px', marginLeft: '2px' }}>Dryck</span>
+                            <iconify-icon icon="line-md:beer-alt-twotone-loop" width="32" height="32" style={{ color: '#3184dd' }} />
+                            <span style={{ marginTop: '5px', marginLeft: '5px', fontSize: '20px' }}>Dryck</span>
                         </div>
                     } onClick={() => getCategory('Dryck')}>
                     </TreeItem>
 
                     <TreeItem itemId="row16" label={
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <iconify-icon icon="icon-park-outline:candy" width="18" height="18" style={{ color: '#3184dd' }} />
-                            <span style={{ marginTop: '3px', marginLeft: '2px' }}>Snacks & Godis</span>
+                            <iconify-icon icon="icon-park-outline:candy" width="32" height="32" style={{ color: '#3184dd' }} />
+                            <span style={{ marginTop: '5px', marginLeft: '5px', fontSize: '20px' }}>Snacks & Godis</span>
                         </div>
                     } onClick={() => getCategory('Snacks & Godis')}>
                     </TreeItem>
