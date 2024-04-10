@@ -99,7 +99,7 @@ const Home = ({ searchQuery }) => {
                   <h5 className="card-title fs-5 product-title text-center">{product.title}</h5>
                   <h6 className="card-text fs-6 text-muted mb-3 text-center">{product.supplier}</h6>
                   <p className="card-text fs-6 mb-3 product-price text-center">Pris: {product.price} SEK</p>
-                  <button onClick={(e) => handleAddToCartClick(e, product.id)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
+                  <button onClick={(e) => handleAddToCartClick(e, product.id)} className="btn btn-primary w-100 text-center" style={{ minWidth: '180px', maxWidth: '180px' }}>Lägg till i varukorg</button>
               </div>
                 </div>
               </div>
@@ -107,7 +107,7 @@ const Home = ({ searchQuery }) => {
           ))}
           {/* Add placeholders if there are less than 4 products */}
           {filteredProducts.length < 4 && Array(4 - filteredProducts.length).fill().map((_, index) => (
-            <div key={`placeholder-${index}`} className="d-inline-block m-2" style={{ width: '240px' }}>
+            <div key={`placeholder-${index}`} className="col mb-4" style={{ width: '240px' }}>
               <div className="card product-card invisible">
                 {/* Add any additional placeholder content here */}
               </div>
