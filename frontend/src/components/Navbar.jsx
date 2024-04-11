@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 
 const Navbar = ({ onSearchInputChange }) => {
@@ -20,14 +20,14 @@ const Navbar = ({ onSearchInputChange }) => {
         <ul className="navbar-nav mr-auto">
         </ul>
         <SearchBar onSearchInputChange={onSearchInputChange} />
-        <ul className="navbar-nav">
+        {/* <ul className="navbar-nav">
           <li className="nav-item">
             <Link className="nav-link" to="/login">Logga in</Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/register">Registrera</Link>
           </li>
-        </ul>
+        </ul> */}
       </div>
     </nav>
   );
