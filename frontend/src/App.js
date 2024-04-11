@@ -6,6 +6,7 @@ import Categories from "./pages/Categories";
 import Navbar from "./components/Navbar";
 import AdminPage from "./pages/AdminPage";
 import Footer from "./components/Footer";
+import Login from "./pages/Login";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
         <Footer /> 
       </Router>
