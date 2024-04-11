@@ -5,6 +5,7 @@ import Auth from "./pages/Auth";
 import Categories from "./pages/Categories";
 import Navbar from "./components/Navbar";
 import AdminPage from "./pages/AdminPage";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
+        <Footer /> 
       </Router>
   </div>
   );
