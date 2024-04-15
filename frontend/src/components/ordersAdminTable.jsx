@@ -88,11 +88,13 @@ function Row(props) {
               sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
             >
               <Typography level="body-lg" component="div">
-                Products
-                {/* Action button to open AddProductModal */}
-                <IconButton aria-label="add product" onClick={() => setShowAddProductModal(true)}>
-                  <AddIcon />
-                </IconButton>
+                <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
+                  <span>Products</span> {/* Subheader */}
+                  {/* Action button to open AddProductModal */}
+                  <IconButton aria-label="add product" onClick={() => setShowAddProductModal(true)}>
+                    <AddIcon />
+                  </IconButton>
+                </div>
               </Typography>
               <Table
                 borderAxis="bothBetween"
