@@ -56,6 +56,11 @@ function Row(props) {
     onUpdate({ ...row, products: updatedProducts });
   };
 
+  // Function to calculate the total order value
+  const calculateTotalValue = () => {
+    return row.products.reduce((total, product) => total + product.price, 0);
+  };
+
   return (
     <React.Fragment>
       <tr>
@@ -81,72 +86,78 @@ function Row(props) {
         </td>
       </tr>
       {open && (
-        <tr>
-          <td colSpan={6}>
-            <Sheet
-              variant="soft"
-              sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
-            >
-              <Typography level="body-lg" component="div">
-                <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
-                  <span>Products</span> {/* Subheader */}
-                  {/* Action button to open AddProductModal */}
-                  <IconButton aria-label="add product" onClick={() => setShowAddProductModal(true)}>
-                    <AddIcon />
-                  </IconButton>
-                </div>
-              </Typography>
-              <Table
-                borderAxis="bothBetween"
-                size="sm"
-                aria-label="products"
-                sx={{
-                  '& > thead > tr > th': { textAlign: 'left' },
-                }}
+        <React.Fragment>
+          <tr>
+            <td colSpan={6}>
+              <Sheet
+                variant="soft"
+                sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
               >
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {row.products.map((product, index) => (
-                    <React.Fragment key={index}>
-                      <tr>
-                        <td>{editingProductIndex === index ? <input type="text" value={product.name} onChange={(e) => handleUpdateProduct(index, { ...product, name: e.target.value })} /> : product.name}</td>
-                        <td>{editingProductIndex === index ? <input type="number" value={product.price} onChange={(e) => handleUpdateProduct(index, { ...product, price: parseFloat(e.target.value) })} /> : product.price}</td>
-                        <td>
-                          {editingProductIndex === index ? (
-                            <IconButton aria-label="done" onClick={() => handleUpdateProduct(index, product)}>
-                              <DoneIcon />
-                            </IconButton>
-                          ) : (
-                            <React.Fragment>
-                              <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
-                                <EditIcon />
+                <Typography level="body-lg" component="div">
+                  <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
+                    <span>Products</span> {/* Subheader */}
+                    {/* Action button to open AddProductModal */}
+                    <IconButton aria-label="add product" onClick={() => setShowAddProductModal(true)}>
+                      <AddIcon />
+                    </IconButton>
+                  </div>
+                </Typography>
+                <Table
+                  borderAxis="bothBetween"
+                  size="sm"
+                  aria-label="products"
+                  sx={{
+                    '& > thead > tr > th': { textAlign: 'left' },
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {row.products.map((product, index) => (
+                      <React.Fragment key={index}>
+                        <tr>
+                          <td>{editingProductIndex === index ? <input type="text" value={product.name} onChange={(e) => handleUpdateProduct(index, { ...product, name: e.target.value })} /> : product.name}</td>
+                          <td>{editingProductIndex === index ? <input type="number" value={product.price} onChange={(e) => handleUpdateProduct(index, { ...product, price: parseFloat(e.target.value) })} /> : product.price}</td>
+                          <td>
+                            {editingProductIndex === index ? (
+                              <IconButton aria-label="done" onClick={() => handleUpdateProduct(index, product)}>
+                                <DoneIcon />
                               </IconButton>
-                              <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
-                                <DeleteIcon />
-                              </IconButton>
-                            </React.Fragment>
-                          )}
-                        </td>
-                      </tr>
-                    </React.Fragment>
-                  ))}
-                </tbody>
-              </Table>
-              {/* AddProductModal component */}
-              <AddProductModal
-                open={showAddProductModal}
-                onClose={() => setShowAddProductModal(false)}
-                onSave={handleAddProduct}
-              />
-            </Sheet>
-          </td>
-        </tr>
+                            ) : (
+                              <React.Fragment>
+                                <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
+                                  <EditIcon />
+                                </IconButton>
+                                <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
+                                  <DeleteIcon />
+                                </IconButton>
+                              </React.Fragment>
+                            )}
+                          </td>
+                        </tr>
+                      </React.Fragment>
+                    ))}
+                    {/* Add the final row for total order value */}
+                    <tr>
+                      <td colSpan={2}>Total order value: {calculateTotalValue()}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                {/* AddProductModal component */}
+                <AddProductModal
+                  open={showAddProductModal}
+                  onClose={() => setShowAddProductModal(false)}
+                  onSave={handleAddProduct}
+                />
+              </Sheet>
+            </td>
+          </tr>
+        </React.Fragment>
       )}
     </React.Fragment>
   );
