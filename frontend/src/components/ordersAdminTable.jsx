@@ -31,7 +31,7 @@ function Row(props) {
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
 
   const handleAddProduct = () => {
-    const newProduct = { name: newProductName, price: parseFloat(newProductPrice) };
+    const newProduct = { name: newProductName, price: parseFloat(newProductPrice), quantity: 1 };
     const updatedProducts = [...row.products, newProduct];
     onUpdate({ ...row, products: updatedProducts });
     setShowAddProductModal(false); // Hide the modal after adding the product
@@ -56,9 +56,20 @@ function Row(props) {
     onUpdate({ ...row, products: updatedProducts });
   };
 
+  const handleConfirmedQuantityChange = (index, confirmedQuantity) => {
+    const updatedProducts = [...row.products];
+    updatedProducts[index].confirmedQuantity = confirmedQuantity;
+    onUpdate({ ...row, products: updatedProducts });
+  };
+
   // Function to calculate the total order value
   const calculateTotalValue = () => {
-    return row.products.reduce((total, product) => total + product.price, 0);
+    return row.products.reduce((total, product) => total + (product.price * product.quantity), 0);
+  };
+
+  // Function to calculate product status
+  const calculateProductStatus = (product) => {
+    return product.confirmedQuantity === product.quantity ? 'Ready' : 'In progress';
   };
 
   return (
@@ -114,6 +125,9 @@ function Row(props) {
                     <tr>
                       <th>Name</th>
                       <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Confirmed Quantity</th>
+                      <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -121,30 +135,31 @@ function Row(props) {
                     {row.products.map((product, index) => (
                       <React.Fragment key={index}>
                         <tr>
-                          <td>{editingProductIndex === index ? <input type="text" value={product.name} onChange={(e) => handleUpdateProduct(index, { ...product, name: e.target.value })} /> : product.name}</td>
-                          <td>{editingProductIndex === index ? <input type="number" value={product.price} onChange={(e) => handleUpdateProduct(index, { ...product, price: parseFloat(e.target.value) })} /> : product.price}</td>
+                          <td>{product.name}</td>
+                          <td>{product.price}</td>
+                          <td>{product.quantity}</td>
                           <td>
-                            {editingProductIndex === index ? (
-                              <IconButton aria-label="done" onClick={() => handleUpdateProduct(index, product)}>
-                                <DoneIcon />
-                              </IconButton>
-                            ) : (
-                              <React.Fragment>
-                                <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
-                                  <EditIcon />
-                                </IconButton>
-                                <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
-                                  <DeleteIcon />
-                                </IconButton>
-                              </React.Fragment>
-                            )}
+                            <input
+                              type="number"
+                              value={product.confirmedQuantity}
+                              onChange={(e) => handleConfirmedQuantityChange(index, parseInt(e.target.value))}
+                            />
+                          </td>
+                          <td>{calculateProductStatus(product)}</td>
+                          <td>
+                            <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
+                              <DeleteIcon />
+                            </IconButton>
                           </td>
                         </tr>
                       </React.Fragment>
                     ))}
                     {/* Add the final row for total order value */}
                     <tr>
-                      <td colSpan={2}>Total order value: {calculateTotalValue()}</td>
+                      <td colSpan={5}>Total order value: {calculateTotalValue()}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -174,6 +189,9 @@ Row.propTypes = {
       PropTypes.shape({
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired,
+        quantity: PropTypes.number.isRequired,
+        confirmedQuantity: PropTypes.number.isRequired,
+        status: PropTypes.oneOf(['In progress', 'Ready']).isRequired,
       })
     ).isRequired,
   }).isRequired,
@@ -183,12 +201,12 @@ Row.propTypes = {
 
 const orders = [
   createData('ORD001', 'John Doe', 'CUST001', 'Pending', [
-    { name: 'Product A', price: 10 },
-    { name: 'Product B', price: 20 },
+    { name: 'Product A', price: 10, quantity: 2, confirmedQuantity: 1, status: 'In progress' },
+    { name: 'Product B', price: 20, quantity: 3, confirmedQuantity: 2, status: 'In progress' },
   ]),
   createData('ORD002', 'Jane Smith', 'CUST002', 'Shipped', [
-    { name: 'Product C', price: 15 },
-    { name: 'Product D', price: 25 },
+    { name: 'Product C', price: 15, quantity: 1, confirmedQuantity: 1, status: 'Ready' },
+    { name: 'Product D', price: 25, quantity: 2, confirmedQuantity: 1, status: 'In progress' },
   ]),
   // Add more orders as needed
 ];
