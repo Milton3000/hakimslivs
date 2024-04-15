@@ -103,7 +103,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
           {filteredProducts.length < 4 && Array(4 - filteredProducts.length).fill().map((_, index) => (
             <div key={`placeholder-${index}`} className="d-inline-block m-2" style={{ width: '240px' }}>
               <div className="card product-card invisible">
-                {/* Add any additional placeholder content here */}
+                {/* Lägg till mer placeholder content här om behövs */}
               </div>
             </div>
           ))}

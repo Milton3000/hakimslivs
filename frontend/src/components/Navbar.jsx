@@ -1,7 +1,7 @@
 // Navbar.jsx
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaShoppingCart } from 'react-icons/fa'; // Import Cart icon
+import { FaShoppingCart } from 'react-icons/fa'; // Cart Icon
 import SearchBar from './SearchBar';
 
 const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems }) => {
@@ -16,16 +16,16 @@ const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems }) => {
         <ul className="navbar-nav mr-auto">
         </ul>
         <SearchBar onSearchInputChange={onSearchInputChange} />
-        {/* Add Cart icon here */}
+        {/* Cart Icon här */}
         <ul className="navbar-nav">
           <li className="nav-item">
             <button className="nav-link cart-icon" onClick={toggleCart} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
               <FaShoppingCart size={20} />
-              <span className="badge bg-secondary">{totalCartItems}</span> {/* Display total cart items */}
+              <span className="badge bg-secondary">{totalCartItems}</span>
             </button>
           </li>
         </ul>
-        {/* End of Cart icon */}
+
       </div>
     </nav>
   );
