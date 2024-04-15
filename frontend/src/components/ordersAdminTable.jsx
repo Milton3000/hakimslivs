@@ -10,6 +10,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import AddProductModal from '../adminhooks/order.hooks/addProductModa'; // Import the AddProductModal component
 
 function createData(orderId, customerName, customerId, status, products) {
   return {
@@ -27,11 +28,13 @@ function Row(props) {
   const [editingProductIndex, setEditingProductIndex] = React.useState(-1);
   const [newProductName, setNewProductName] = React.useState('');
   const [newProductPrice, setNewProductPrice] = React.useState('');
+  const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
 
   const handleAddProduct = () => {
     const newProduct = { name: newProductName, price: parseFloat(newProductPrice) };
     const updatedProducts = [...row.products, newProduct];
     onUpdate({ ...row, products: updatedProducts });
+    setShowAddProductModal(false); // Hide the modal after adding the product
     setNewProductName('');
     setNewProductPrice('');
   };
@@ -86,6 +89,10 @@ function Row(props) {
             >
               <Typography level="body-lg" component="div">
                 Products
+                {/* Action button to open AddProductModal */}
+                <IconButton aria-label="add product" onClick={() => setShowAddProductModal(true)}>
+                  <AddIcon />
+                </IconButton>
               </Typography>
               <Table
                 borderAxis="bothBetween"
@@ -125,19 +132,16 @@ function Row(props) {
                           )}
                         </td>
                       </tr>
-                      {editingProductIndex === index && (
-                        <tr>
-                          <td colSpan={3}>
-                            <IconButton aria-label="add" onClick={handleAddProduct}>
-                              <AddIcon />
-                            </IconButton>
-                          </td>
-                        </tr>
-                      )}
                     </React.Fragment>
                   ))}
                 </tbody>
               </Table>
+              {/* AddProductModal component */}
+              <AddProductModal
+                open={showAddProductModal}
+                onClose={() => setShowAddProductModal(false)}
+                onSave={handleAddProduct}
+              />
             </Sheet>
           </td>
         </tr>
