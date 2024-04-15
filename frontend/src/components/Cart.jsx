@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Badge } from 'react-bootstrap';
+import { BsCart3, BsTrash } from 'react-icons/bs'; // Importing icons
 
 const Cart = ({ cartItems, handleClose, removeFromCart, showCart, updateQuantity }) => {
-    // State to hold the total price
     const [totalPrice, setTotalPrice] = useState(0);
 
-    // Calculate total price whenever cart items change
     useEffect(() => {
         let total = 0;
         cartItems.forEach(item => {
@@ -20,26 +19,36 @@ const Cart = ({ cartItems, handleClose, removeFromCart, showCart, updateQuantity
                 <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
                     <div className="modal-content">
                         <Modal.Header closeButton>
-                            <Modal.Title>Din Varukorg</Modal.Title>
+                            <Modal.Title>
+                                <BsCart3 size={20} className="me-2" /> Din Varukorg
+                            </Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>
+                        <Modal.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
                             {cartItems.map((item, index) => (
                                 <div key={index} className="cart-item">
-                                    <p>{item.title}</p>
-                                    <p>Pris: {item.price} SEK</p>
-                                    <div>
-                                        <Button variant="secondary" onClick={() => updateQuantity(item._id, -1)}>-</Button>
-                                        <span style={{ margin: '0 10px' }}>{item.quantity}</span>
-                                        <Button variant="secondary" onClick={() => updateQuantity(item._id, 1)}>+</Button>
+                                    <div className="d-flex align-items-center">
+                                        <div className="preview-image me-3">
+                                            <img src={item.imageUrl} alt={item.title} style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                                        </div>
+                                        <div>
+                                            <p><strong>{item.title}</strong></p>
+                                            <p>Pris: {item.price} SEK</p>
+                                            <div>
+                                                <Badge pill variant="secondary" className="me-1" onClick={() => updateQuantity(item._id, -1)} style={{ cursor: 'pointer' }}>-</Badge>
+                                                <span style={{ margin: '0 10px' }}>{item.quantity}</span>
+                                                <Badge pill variant="secondary" className="me-1" onClick={() => updateQuantity(item._id, 1)} style={{ cursor: 'pointer' }}>+</Badge>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <Button variant="danger" onClick={() => removeFromCart(item)}>Ta bort</Button>
+                                    <Button variant="danger" size="sm" onClick={() => removeFromCart(item)}>
+                                        <BsTrash />
+                                    </Button>
                                 </div>
                             ))}
                         </Modal.Body>
                         <Modal.Footer>
-                            <p>Total Price: {totalPrice} SEK</p>
+                            <p>Totalt: {totalPrice} SEK</p>
                             <Button variant="secondary" onClick={handleClose}>Stäng</Button>
-                            {/* Add checkout button and functionality if needed */}
                         </Modal.Footer>
                     </div>
                 </div>

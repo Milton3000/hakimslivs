@@ -18,11 +18,19 @@ function App() {
   const handleSearchInputChange = (query) => {
     setSearchQuery(query);
   };
-
   const addToCart = (product) => {
-    setCartItems([...cartItems, { ...product, quantity: 1 }]);
-    console.log("Cart items:", [...cartItems, product]);
-  };
+    // Check if the product already exists in the cart
+    const existingItemIndex = cartItems.findIndex(item => item._id === product._id);
+    if (existingItemIndex !== -1) {
+        // If the product exists, increment its quantity
+        const updatedCartItems = [...cartItems];
+        updatedCartItems[existingItemIndex].quantity += 1;
+        setCartItems(updatedCartItems);
+    } else {
+        // If the product does not exist, add it as a new item to the cart
+        setCartItems([...cartItems, { ...product, quantity: 1 }]);
+    }
+};
 
 
   const removeFromCart = (productToRemove) => {
