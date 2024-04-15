@@ -27,17 +27,17 @@ function Row(props) {
   const [open, setOpen] = React.useState(props.initialOpen || false);
   const [editingProductIndex, setEditingProductIndex] = React.useState(-1);
   const [newProductName, setNewProductName] = React.useState('');
-  const [newProductPrice, setNewProductPrice] = React.useState('');
+  const [newProductQuantity, setNewProductQuantity] = React.useState('');
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
   const [confirmedQuantities, setConfirmedQuantities] = React.useState('');
 
   const handleAddProduct = () => {
-    const newProduct = { name: newProductName, price: parseFloat(newProductPrice), quantity: 1 };
+    const newProduct = { name: newProductName, quantity: parseFloat(newProductQuantity)};
     const updatedProducts = [...row.products, newProduct];
     onUpdate({ ...row, products: updatedProducts });
     setShowAddProductModal(false); // Hide the modal after adding the product
     setNewProductName('');
-    setNewProductPrice('');
+    setNewProductQuantity('');
   };
 
   const handleEditProduct = (index) => {
@@ -138,7 +138,7 @@ function Row(props) {
                       <React.Fragment key={index}>
                         <tr>
                           <td>{product.name}</td>
-                          <td>{product.price}</td>
+                          <td>{product.quantity}</td>
                           <td>
                             {editingProductIndex === index ? (
                               <input

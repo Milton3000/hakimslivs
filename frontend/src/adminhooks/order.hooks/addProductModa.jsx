@@ -8,14 +8,14 @@ import TextField from '@mui/material/TextField';
 
 function AddProductModal({ open, onClose, onSave }) {
   const [productName, setProductName] = React.useState('');
-  const [productPrice, setProductPrice] = React.useState('');
+  const [productQuantity, setProductQuantity] = React.useState('');
 
   const handleSave = () => {
-    const newProduct = { name: productName, price: parseFloat(productPrice) };
+    const newProduct = { name: productName, quantity: parseFloat(productQuantity) };
     onSave(newProduct);
     onClose();
     setProductName('');
-    setProductPrice('');
+    setProductQuantity('');
   };
 
   return (
@@ -34,12 +34,12 @@ function AddProductModal({ open, onClose, onSave }) {
         />
         <TextField
           margin="dense"
-          id="price"
-          label="Price"
+          id="quantity"
+          label="Quantity"
           type="number"
           fullWidth
-          value={productPrice}
-          onChange={(e) => setProductPrice(e.target.value)}
+          value={productQuantity}
+          onChange={(e) => setProductQuantity(e.target.value)}
         />
       </DialogContent>
       <DialogActions>
