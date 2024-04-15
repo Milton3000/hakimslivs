@@ -19,35 +19,42 @@ const Cart = ({ cartItems, handleClose, removeFromCart, showCart, updateQuantity
                 <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
                     <div className="modal-content">
                         <Modal.Header closeButton>
-                            <Modal.Title>
+                            <Modal.Title className="d-flex justify-content-center align-items-center">
                                 <BsCart3 size={20} className="me-2" /> Din Varukorg
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                            {cartItems.map((item, index) => (
-                                <div key={index} className="cart-item">
-                                    <div className="d-flex align-items-center">
-                                        <div className="preview-image me-3">
-                                            <img src={item.imageUrl} alt={item.title} style={{ maxWidth: '100px', maxHeight: '100px' }} />
-                                        </div>
-                                        <div>
-                                            <p><strong>{item.title}</strong></p>
-                                            <p>Pris: {item.price} SEK</p>
+                            {cartItems.length === 0 ? (
+                                <p className="text-center text-muted font-weight-bold">Din varukorg är tom</p>
+                            ) : (
+                                cartItems.map((item, index) => (
+                                    <div key={index} className="cart-item">
+                                        <div className="d-flex align-items-center">
+                                            <div className="preview-image me-3">
+                                                <img src={item.imageUrl} alt={item.title} style={{ maxWidth: '100px', maxHeight: '80px' }} />
+                                            </div>
                                             <div>
-                                                <Badge pill variant="secondary" className="me-1" onClick={() => updateQuantity(item._id, -1)} style={{ cursor: 'pointer' }}>-</Badge>
-                                                <span style={{ margin: '0 10px' }}>{item.quantity}</span>
-                                                <Badge pill variant="secondary" className="me-1" onClick={() => updateQuantity(item._id, 1)} style={{ cursor: 'pointer' }}>+</Badge>
+                                                <p><strong>{item.title}</strong></p>
+                                                <p>{item.brand}</p>
+                                                <p>Pris: {item.price} SEK</p>
+                                                <div>
+                                                    <Badge pill variant="secondary" className="me-1" onClick={() => updateQuantity(item._id, -1)} style={{ cursor: 'pointer' }}>-</Badge>
+                                                    <span style={{ margin: '0 10px' }}>{item.quantity}</span>
+                                                    <Badge pill variant="secondary" className="me-1" onClick={() => updateQuantity(item._id, 1)} style={{ cursor: 'pointer' }}>+</Badge>
+                                                </div>
                                             </div>
                                         </div>
+                                        <Button variant="danger" size="sm" onClick={() => removeFromCart(item)}>
+                                            <BsTrash />
+                                        </Button>
                                     </div>
-                                    <Button variant="danger" size="sm" onClick={() => removeFromCart(item)}>
-                                        <BsTrash />
-                                    </Button>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </Modal.Body>
+
                         <Modal.Footer>
                             <p className="text-center font-weight-bold" style={{ fontSize: '1.2rem', width: '100%' }}>Totalt: {totalPrice} SEK</p>
+                            <p className="text-center font-weight-bold text-muted" style={{ fontSize: '0.8rem', width: '100%' }}> (exklusive leverans 45:-) </p>
                             {/* <Button variant="danger" onClick={handleClose}>Stäng</Button> */}
                         </Modal.Footer>
                     </div>
@@ -55,6 +62,7 @@ const Cart = ({ cartItems, handleClose, removeFromCart, showCart, updateQuantity
             </Modal>
         </div>
     );
+
 };
 
 export default Cart;
