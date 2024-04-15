@@ -20,30 +20,28 @@ function App() {
   };
 
   const addToCart = (product) => {
-    const existingItemIndex = cartItems.findIndex((item) => item.id === product.id);
-    if (existingItemIndex !== -1) {
-      const updatedCartItems = [...cartItems];
-      updatedCartItems[existingItemIndex].quantity++;
-      setCartItems(updatedCartItems);
-    } else {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
-    }
+    setCartItems([...cartItems, { ...product, quantity: 1 }]);
+    console.log("Cart items:", [...cartItems, product]);
   };
+
 
   const removeFromCart = (productToRemove) => {
     const updatedCartItems = cartItems.filter((product) => product !== productToRemove);
     setCartItems(updatedCartItems);
   };
 
-  const updateQuantity = (product, change) => {
+  const updateQuantity = (productId, change) => {
     const updatedCartItems = cartItems.map((item) => {
-      if (item.id === product.id) {
-        return { ...item, quantity: item.quantity + change };
-      }
-      return item;
+        if (item._id === productId) {
+            return { ...item, quantity: item.quantity + change };
+        }
+        return item;
     });
     setCartItems(updatedCartItems);
-  };
+};
+
+  
+  
 
   const toggleCart = () => {
     setShowCart(!showCart);
