@@ -47,8 +47,8 @@ const Cart = ({ cartItems, handleClose, removeFromCart, showCart, updateQuantity
                             ))}
                         </Modal.Body>
                         <Modal.Footer>
-                            <p>Totalt: {totalPrice} SEK</p>
-                            <Button variant="secondary" onClick={handleClose}>Stäng</Button>
+                            <p className="text-center font-weight-bold" style={{ fontSize: '1.2rem', width: '100%' }}>Totalt: {totalPrice} SEK</p>
+                            {/* <Button variant="danger" onClick={handleClose}>Stäng</Button> */}
                         </Modal.Footer>
                     </div>
                 </div>
