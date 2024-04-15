@@ -29,6 +29,7 @@ function Row(props) {
   const [newProductName, setNewProductName] = React.useState('');
   const [newProductPrice, setNewProductPrice] = React.useState('');
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
+  const [confirmedQuantities, setConfirmedQuantities] = React.useState('');
 
   const handleAddProduct = () => {
     const newProduct = { name: newProductName, price: parseFloat(newProductPrice), quantity: 1 };
@@ -40,6 +41,7 @@ function Row(props) {
   };
 
   const handleEditProduct = (index) => {
+    console.log("Editing product at index:", index);
     setEditingProductIndex(index);
   };
 
@@ -137,22 +139,54 @@ function Row(props) {
                         <tr>
                           <td>{product.name}</td>
                           <td>{product.price}</td>
-                          <td>{product.quantity}</td>
+                          <td>
+                            {editingProductIndex === index ? (
+                              <input
+                                type="number"
+                                value={product.quantity}
+                                onChange={(e) =>
+                                  handleUpdateProduct(index, {
+                                    ...product,
+                                    quantity: parseFloat(e.target.value),
+                                  })
+                                }
+                              />
+                            ) : (
+                              product.quantity
+                            )}
+                          </td>
                           <td>
                             <input
                               type="number"
-                              value={product.confirmedQuantity}
-                              onChange={(e) => handleConfirmedQuantityChange(index, parseInt(e.target.value))}
+                              value={confirmedQuantities[index]}
+                              onChange={(e) => {
+                                const newValue = parseInt(e.target.value);
+                                const updatedQuantities = [...confirmedQuantities];
+                                updatedQuantities[index] = newValue;
+                                setConfirmedQuantities(updatedQuantities);
+                                handleConfirmedQuantityChange(index, newValue);
+                              }}
                             />
                           </td>
                           <td>{calculateProductStatus(product)}</td>
                           <td>
-                            <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
-                              <DeleteIcon />
-                            </IconButton>
+                            {editingProductIndex === index ? (
+                              <IconButton
+                                aria-label="done"
+                                onClick={() => handleUpdateProduct(index, product)}
+                              >
+                                <DoneIcon />
+                              </IconButton>
+                            ) : (
+                              <React.Fragment>
+                                <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
+                                  <EditIcon />
+                                </IconButton>
+                                <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
+                                  <DeleteIcon />
+                                </IconButton>
+                              </React.Fragment>
+                            )}
                           </td>
                         </tr>
                       </React.Fragment>
