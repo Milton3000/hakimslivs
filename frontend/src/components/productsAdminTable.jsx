@@ -15,10 +15,10 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useDeleteProduct } from '../adminhooks/deleteProduct'; // Changed from useDeleteUser
-import { useGetProducts } from '../adminhooks/getProducts'; // Changed from useGetUsers
-import { useUpdateProduct } from '../adminhooks/updateProduct'; // Changed from useUpdateUser
-import { useCreateProduct } from '../adminhooks/createProduct'; // Changed from useCreateUser
+import { useDeleteProduct } from '../adminhooks/product.hooks/deleteProduct'; 
+import { useGetProducts } from '../adminhooks/product.hooks/getProducts'; 
+import { useUpdateProduct } from '../adminhooks/product.hooks/updateProduct'; 
+import { useCreateProduct } from '../adminhooks/product.hooks/createProduct'; 
 import { MRT_Localization_SV } from 'material-react-table/locales/sv';
 
 const AdminTable = () => {
