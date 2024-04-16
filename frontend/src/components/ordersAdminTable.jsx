@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import IconButton from '@mui/joy/IconButton';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
@@ -10,17 +11,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import AddProductModal from '../adminhooks/order.hooks/addProductModa'; // Import the AddProductModal component
-
-function createData(orderId, customerName, customerId, status, products) {
-  return {
-    orderId,
-    customerName,
-    customerId,
-    status,
-    products,
-  };
-}
+import AddProductModal from '../adminhooks/order.hooks/addProductModal'; // Import the AddProductModal component
 
 function Row(props) {
   const { row, onDelete, onUpdate } = props;
@@ -29,7 +20,6 @@ function Row(props) {
   const [newProductName, setNewProductName] = React.useState('');
   const [newProductQuantity, setNewProductQuantity] = React.useState('');
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
-  const [confirmedQuantities, setConfirmedQuantities] = React.useState('');
 
   const handleAddProduct = () => {
     const newProduct = { name: newProductName, quantity: parseFloat(newProductQuantity)};
@@ -55,12 +45,6 @@ function Row(props) {
   const handleDeleteProduct = (index) => {
     const updatedProducts = [...row.products];
     updatedProducts.splice(index, 1);
-    onUpdate({ ...row, products: updatedProducts });
-  };
-
-  const handleConfirmedQuantityChange = (index, confirmedQuantity) => {
-    const updatedProducts = [...row.products];
-    updatedProducts[index].confirmedQuantity = confirmedQuantity;
     onUpdate({ ...row, products: updatedProducts });
   };
 
@@ -138,7 +122,7 @@ function Row(props) {
   <React.Fragment key={index}>
     <tr>
       <td>{product.name}</td>
-      <td>{product.quantity}</td>
+      <td>{product.price}</td>
       <td>
         {editingProductIndex === index ? (
           <input
@@ -200,12 +184,6 @@ function Row(props) {
                     </tr>
                   </tbody>
                 </Table>
-                {/* AddProductModal component */}
-                <AddProductModal
-                  open={showAddProductModal}
-                  onClose={() => setShowAddProductModal(false)}
-                  onSave={handleAddProduct}
-                />
               </Sheet>
             </td>
           </tr>
@@ -236,19 +214,20 @@ Row.propTypes = {
   onUpdate: PropTypes.func.isRequired,
 };
 
-const orders = [
-  createData('ORD001', 'John Doe', 'CUST001', 'Pending', [
-    { name: 'Product A', price: 10, quantity: 2, confirmedQuantity: 1, status: 'In progress' },
-    { name: 'Product B', price: 20, quantity: 3, confirmedQuantity: 2, status: 'In progress' },
-  ]),
-  createData('ORD002', 'Jane Smith', 'CUST002', 'Shipped', [
-    { name: 'Product C', price: 15, quantity: 1, confirmedQuantity: 1, status: 'Ready' },
-    { name: 'Product D', price: 25, quantity: 2, confirmedQuantity: 1, status: 'In progress' },
-  ]),
-  // Add more orders as needed
-];
-
 export default function OrderTable() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    // Fetch orders from API using Axios
+    axios.get('http://localhost:3001/api/orders/allorders')
+      .then(response => {
+        setOrders(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching orders:', error);
+      });
+  }, []);
+
   const handleDelete = (orderId) => {
     // Implement delete functionality here
     console.log(`Deleting order with ID ${orderId}`);
@@ -261,28 +240,46 @@ export default function OrderTable() {
 
   return (
     <Sheet>
-      <Table
-        aria-label="order table"
-        sx={{
-          '& > thead > tr > th': { textAlign: 'left' },
-        }}
-      >
-        <thead>
-          <tr>
-            <th style={{ width: 40 }} aria-label="empty" />
-            <th>Order ID</th>
-            <th>Customer Name</th>
-            <th>Customer ID</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order, index) => (
-            <Row key={order.orderId} row={order} onDelete={handleDelete} onUpdate={handleUpdate} initialOpen={index === 0} />
-          ))}
-        </tbody>
-      </Table>
-    </Sheet>
+    <Table
+      aria-label="order table"
+      sx={{
+        '& > thead > tr > th': { textAlign: 'left' },
+      }}
+    >
+      <thead>
+        <tr>
+          <th style={{ width: 40 }} aria-label="empty" />
+          <th>Order ID</th>
+          <th>Customer Name</th>
+          <th>Customer Email</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.map((order, index) => (
+          <Row
+            key={order._id}
+            row={{
+              orderId: order._id,
+              // customerName: `${order.guest.guestFirstName} ${order.guest.guestLastName}`,
+              // customerEmail: order.guest.guestEmail,
+              status: order.orderStatus,
+              products: order.products.map(product => ({
+                name: product.product.title,
+                price: product.product.price,
+                quantity: product.quantity,
+                confirmedQuantity: product.confirmedQuantity,
+                status: product.status,
+              })),
+            }}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
+            initialOpen={index === 0}
+          />
+        ))}
+      </tbody>
+    </Table>
+  </Sheet>
   );
 }
