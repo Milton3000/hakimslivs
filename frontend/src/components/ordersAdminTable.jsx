@@ -73,7 +73,7 @@ function Row(props) {
           </IconButton>
         </td>
         <th scope="row">{row.orderId}</th>
-        <td>{row.customerName}</td>
+        <td>{row.customerNameFull}</td>
         <td>{row.deliveryMethod}</td>
         <td>{row.status}</td>
         <td>
@@ -92,7 +92,27 @@ function Row(props) {
               >
              
                 <Typography level="body-lg" component="div">
-                  
+                <span>Kund</span>
+              <Table> 
+                <thead>
+                  <tr>
+                    <th>Förnamn</th>
+                    <th>Efternamn</th>
+                    <th>Adress</th>
+                    <th>Telefon</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>{row.customerFirstName}</th>
+                    <th>{row.customerLastName}</th>
+                    <th>{row.customerAddress}</th>
+                    <th>{row.customerPhone}</th>
+                    <th>{row.customerEmail}</th>
+                  </tr>
+                </tbody>
+              </Table>
                   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
                     <span>Produkter</span> {/* Subheader */}
                     {/* Action button to open AddProductModal */}
@@ -204,7 +224,7 @@ Row.propTypes = {
   initialOpen: PropTypes.bool,
   row: PropTypes.shape({
     orderId: PropTypes.string.isRequired,
-    customerName: PropTypes.string.isRequired,
+    customerNameFull: PropTypes.string.isRequired,
     deliveryMethod: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     products: PropTypes.arrayOf(
@@ -269,8 +289,12 @@ export default function OrderTable() {
             key={order._id}
             row={{
               orderId: order._id,
-              customerName: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
-              // customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
+              customerNameFull: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
+              customerFirstName: order.guest ? order.guest.guestFirstName : order.customer.firstName,
+              customerLastName: order.guest ? order.guest.guestLastName : order.customer.lastName,
+              customerAddress: order.guest ? order.guest.guestAddress : order.customer.address,
+              customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
+              customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
               deliveryMethod: order.deliveryMethod,
               status: order.orderStatus,
               products: order.products.map(product => ({
