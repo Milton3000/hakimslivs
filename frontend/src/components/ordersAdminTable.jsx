@@ -55,7 +55,7 @@ function Row(props) {
 
   // Function to calculate product status
   const calculateProductStatus = (product) => {
-    return product.confirmedQuantity === product.quantity ? 'Ready' : 'In progress';
+    return product.confirmedQuantity === product.quantity ? 'Plockad' : 'Bearbetas';
   };
 
   return (
@@ -74,7 +74,7 @@ function Row(props) {
         </td>
         <th scope="row">{row.orderId}</th>
         <td>{row.customerName}</td>
-        <td>{row.customerEmail}</td>
+        <td>{row.deliveryMethod}</td>
         <td>{row.status}</td>
         <td>
           <IconButton aria-label="delete" onClick={() => onDelete(row.orderId)}>
@@ -90,7 +90,9 @@ function Row(props) {
                 variant="soft"
                 sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
               >
+             
                 <Typography level="body-lg" component="div">
+                  
                   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
                     <span>Produkter</span> {/* Subheader */}
                     {/* Action button to open AddProductModal */}
@@ -203,7 +205,7 @@ Row.propTypes = {
   row: PropTypes.shape({
     orderId: PropTypes.string.isRequired,
     customerName: PropTypes.string.isRequired,
-    customerId: PropTypes.string.isRequired,
+    deliveryMethod: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     products: PropTypes.arrayOf(
       PropTypes.shape({
@@ -211,7 +213,7 @@ Row.propTypes = {
         price: PropTypes.number.isRequired,
         quantity: PropTypes.number.isRequired,
         confirmedQuantity: PropTypes.number.isRequired,
-        status: PropTypes.oneOf(['In progress', 'Ready']).isRequired,
+        status: PropTypes.oneOf(['Bearbetas', 'Plockad']).isRequired,
       })
     ).isRequired,
   }).isRequired,
@@ -268,7 +270,8 @@ export default function OrderTable() {
             row={{
               orderId: order._id,
               customerName: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
-              customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
+              // customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
+              deliveryMethod: order.deliveryMethod,
               status: order.orderStatus,
               products: order.products.map(product => ({
                 name: product.product.title,
