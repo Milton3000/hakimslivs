@@ -1,0 +1,27 @@
+.admin-ul {
+  display: flex;
+  flex-direction: column;
+    list-style: none;
+    padding: 0;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin: 0;
+    gap: 10px;
+  }
+  
+  /* Style list items */
+.admin-list-item {
+    font-family: 'Arial', sans-serif; /* Use your desired font */
+    padding: 10px; /* Add padding */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border-radius: 5px;
+  }
+  
+  /* Blue hover effect */
+  .admin-list-item:hover {
+    background-color: #3498db; /* Change background color on hover */
+    color: #ffffff;
+    border-radius: 5px; /* Change text color on hover to white */
+  }

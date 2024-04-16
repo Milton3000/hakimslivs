@@ -270,7 +270,7 @@ export default function OrderTable() {
     <Table
       aria-label="order table"
       sx={{
-        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
         '& > thead > tr > th': { textAlign: 'left' },
       }}
     >
