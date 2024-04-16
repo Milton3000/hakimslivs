@@ -1,5 +1,4 @@
-// App.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
@@ -9,13 +8,22 @@ import AdminPage from './pages/AdminPage';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Cart from './components/Cart';
-import Payment from './components/Payment'; // Import the Payment component
+import Payment from './components/Payment';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [totalCartItems, setTotalCartItems] = useState(0);
+
+  useEffect(() => {
+    // Load cart items from localStorage
+    const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    setCartItems(storedCartItems);
+    // Calculate total cart items
+    const totalQuantity = storedCartItems.reduce((total, item) => total + item.quantity, 0);
+    setTotalCartItems(totalQuantity);
+  }, []);
 
   const handleSearchInputChange = (query) => {
     setSearchQuery(query);
@@ -31,6 +39,8 @@ function App() {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
     }
     setTotalCartItems(totalCartItems + 1); // Increment total cart items
+    // Update localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
   };
 
   const removeFromCart = (productToRemove) => {
@@ -38,34 +48,36 @@ function App() {
     const removedQuantity = productToRemove.quantity; // Get the quantity of the removed item
     setCartItems(updatedCartItems);
     setTotalCartItems(totalCartItems - removedQuantity); // Decrement total cart items by the removed quantity
+    // Update localStorage
+    localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   };
-
 
   const updateQuantity = (productId, change) => {
     const updatedCartItems = cartItems.map((item) => {
-        if (item._id === productId) {
-            const newQuantity = item.quantity + change;
-            // Ensure quantity does not go below 1
-            const updatedQuantity = Math.max(newQuantity, 1);
-            return { ...item, quantity: updatedQuantity };
-        }
-        return item;
+      if (item._id === productId) {
+        const newQuantity = item.quantity + change;
+        // Ensure quantity does not go below 1
+        const updatedQuantity = Math.max(newQuantity, 1);
+        return { ...item, quantity: updatedQuantity };
+      }
+      return item;
     });
 
     // Calculate the total quantity in the cart
     const totalQuantity = updatedCartItems.reduce((total, item) => total + item.quantity, 0);
-    
+
     setCartItems(updatedCartItems);
     setTotalCartItems(totalQuantity); // Update total cart items
+    // Update localStorage
+    localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   };
-
 
   const toggleCart = () => {
     setShowCart(!showCart);
   };
 
   const handleCloseCart = () => {
-    setShowCart()
+    setShowCart();
   };
 
   return (
@@ -82,7 +94,6 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/betalning" element={<Payment cartItems={cartItems} />} />
-
         </Routes>
         <Footer />
       </Router>
