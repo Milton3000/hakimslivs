@@ -75,6 +75,17 @@ const Home = ({ searchQuery }) => {
     setShowFullDescription(!showFullDescription);
   };
 
+  // Convert weight to appropriate unit
+  const formatWeight = (weight) => {
+    if (weight >= 1000) {
+      return (weight / 1000).toFixed(1) + " kg"; // Convert to kilograms
+    } else if (weight >= 1) {
+      return weight + " g"; // Keep weight in grams
+    } else {
+      return (weight * 1000).toFixed(1) + " g"; // Convert to grams if less than 1 kg
+    }
+  };
+
   return (
     <div className="home">
       <div className="category-section">
@@ -89,15 +100,18 @@ const Home = ({ searchQuery }) => {
         <div className="row row-cols-1 row-cols-md-4 g-4 justify-content-center">
           {filteredProducts.slice(0, initialLoad ? 8 : undefined).map((product, index) => (
             <div key={index} className="col mb-4" onClick={() => handleProductClick(product)} style={{ width: '240px' }}>
-              <div className="card h-100">
+              <div className="card h-100 shadow">
                 <img src={product.imageUrl} className="card-img-top img-fluid mt-3" alt={product.title} style={{ objectFit: 'contain', maxHeight: '200px', maxWidth: '100%' }} />
                 <div className="card-body d-flex flex-column align-items-center" style={{ minHeight: '200px' }}>
-                <div className="mt-auto">
-                  <h5 className="card-title fs-5 product-title text-center">{product.title}</h5>
-                  <h6 className="card-text fs-6 text-muted mb-3 text-center">{product.supplier}</h6>
-                  <p className="card-text fs-6 mb-3 product-price text-center">Pris: {product.price} SEK</p>
-                  <button onClick={(e) => handleAddToCartClick(e, product.id)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
-              </div>
+                  <div className="mt-auto">
+                    <h5 className="card-title fs-5 product-title text-center">{product.title}</h5>
+                    <h6 className="card-text fs-6 text-muted mb-2 text-center">{product.brand}</h6>
+                    <p className="card-text fs-6 mb-2 text-center">Pris: {product.price} SEK</p>
+                    <p className="card-text fs-6 mb-2 text-center">Jämförpris: {product.unit_price} SEK per {product.unit}</p>
+
+                    <p className="card-text fs-6 mb-2 text-center">Vikt: {formatWeight(product.weight)}</p>
+                    <button onClick={(e) => handleAddToCartClick(e, product.id)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -113,30 +127,30 @@ const Home = ({ searchQuery }) => {
         </div>
       </div>
       {selectedProduct && (
-        <Modal show={true} onHide={handleCloseModal} size="md">
-          <Modal.Header closeButton>
-            <Modal.Title className="text-center">{selectedProduct.title}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <img src={selectedProduct.imageUrl} alt={selectedProduct.title} className="img-fluid mx-auto d-block" style={{ maxHeight: '350px' }} />
-            <div className="scrollable-details text-center">
-              <p>
-                {showFullDescription
-                  ? selectedProduct.description
-                  : selectedProduct.description.length > 100
-                    ? `${selectedProduct.description.substring(0, 100)}...`
-                    : selectedProduct.description}
-                {selectedProduct.description.length > 100 && (
-                  <button className="btn btn-link" onClick={toggleDescription}>
-                    {showFullDescription ? 'Läs mindre' : 'Läs mer'}
-                  </button>
-                )}
-              </p>
-              <p>Pris: {selectedProduct.price} SEK</p>
-              <Button variant="primary" onClick={() => addToCart(selectedProduct.id)}>Lägg till i varukorg</Button>
-            </div>
-          </Modal.Body>
-        </Modal>
+        <Modal show={true} onHide={handleCloseModal} size="md" centered>
+  <Modal.Header closeButton className="bg-primary text-white">
+    <Modal.Title className="text-center">{selectedProduct.title}</Modal.Title>
+  </Modal.Header>
+  <Modal.Body className="bg-light">
+    <div className="text-center">
+      <img src={selectedProduct.imageUrl} alt={selectedProduct.title} className="img-fluid shadow" style={{ maxHeight: '350px', borderRadius: '10px' }} />
+    </div>
+    <div className="mt-4">
+      <p><strong>Namn:</strong> {selectedProduct.title}</p>
+      <p><strong>Pris:</strong> {selectedProduct.price} SEK</p>
+      <p><strong>Jämförpris:</strong> {selectedProduct.unit_price} SEK per {selectedProduct.unit}</p>
+
+      <p><strong>Vikt:</strong> {formatWeight(selectedProduct.weight)}</p>
+      <p><strong>Beskrivning:</strong> {selectedProduct.description}</p>
+      <p><strong>Varumärke:</strong> {selectedProduct.brand}</p>
+      <p><strong>Land:</strong> {selectedProduct.origin}</p>
+      <p><strong>Innehållsförteckning:</strong> {selectedProduct.TOC.join(', ')}</p>
+    </div>
+    <div className="text-center mt-4">
+      <Button variant="primary" onClick={handleCloseModal}>Stäng</Button>
+    </div>
+  </Modal.Body>
+</Modal>
       )}
     </div>
   );

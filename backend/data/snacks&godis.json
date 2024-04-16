@@ -1,5 +1,5 @@
 [
-    {
+  {
       "category": "Snacks & Godis",
       "title": "Marabou Mjölkchoklad",
       "brand": "Marabou",
@@ -9,9 +9,11 @@
       "quantity": 100,
       "price": 29.95,
       "origin": "Sverige",
-      "TOC": "Grädde, Choklad, Smör"
-    },
-    {
+      "TOC": "Grädde, Choklad, Smör",
+      "unit": "gram",
+      "unit_price": 0.12
+  },
+  {
       "category": "Snacks & Godis",
       "title": "Ahlgrens Bilar",
       "brand": "Ahlgrens",
@@ -21,9 +23,11 @@
       "quantity": 200,
       "price": 18.50,
       "origin": "Sverige",
-      "TOC": "Glukossirap, Socker, Gelatin"
-    },
-    {
+      "TOC": "Glukossirap, Socker, Gelatin",
+      "unit": "gram",
+      "unit_price": 0.148
+  },
+  {
       "category": "Snacks & Godis",
       "title": "Gott & Blandat",
       "brand": "Malaco",
@@ -33,9 +37,11 @@
       "quantity": 500,
       "price": 16.95,
       "origin": "Sverige",
-      "TOC": "Glukossirap, Socker, Gelatin"
-    },
-    {
+      "TOC": "Glukossirap, Socker, Gelatin",
+      "unit": "gram",
+      "unit_price": 0.113
+  },
+  {
       "category": "Snacks & Godis",
       "title": "Tutti Frutti",
       "brand": "Fazer",
@@ -45,9 +51,11 @@
       "quantity": 100,
       "price": 19.95,
       "origin": "Sverige",
-      "TOC": "Glukossirap, Socker, Potatisstärkelse"
-    },
-    {
+      "TOC": "Glukossirap, Socker, Potatisstärkelse",
+      "unit": "gram",
+      "unit_price": 0.399
+  },
+  {
       "category": "Snacks & Godis",
       "title": "Kexchoklad",
       "brand": "Cloetta",
@@ -57,9 +65,11 @@
       "quantity": 150,
       "price": 9.50,
       "origin": "Sverige",
-      "TOC": "Grädde, Vetemjöl, Kakao"
-    },
-    {
+      "TOC": "Grädde, Vetemjöl, Kakao",
+      "unit": "gram",
+      "unit_price": 0.076
+  },
+  {
       "category": "Snacks & Godis",
       "title": "Yoghurt Samoa",
       "brand": "Yoggi",
@@ -69,9 +79,11 @@
       "quantity": 120,
       "price": 23.95,
       "origin": "Sverige",
-      "TOC": "Mjölkprotein, mjölk"
-    },
-    {
+      "TOC": "Mjölkprotein, mjölk",
+      "unit": "gram",
+      "unit_price": 0.024
+  },
+  {
       "category": "Snacks & Godis",
       "title": "Daim",
       "brand": "Marabou",
@@ -81,9 +93,11 @@
       "quantity": 90,
       "price": 9.95,
       "origin": "Sverige",
-      "TOC": "Mjölkchoklad, Palmolja, Mandel"
-    },
-    {
+      "TOC": "Mjölkchoklad, Palmolja, Mandel",
+      "unit": "gram",
+      "unit_price": 0.354
+  },
+  {
       "category": "Snacks & Godis",
       "title": "Takis",
       "brand": "Barcel",
@@ -93,9 +107,11 @@
       "quantity": 80,
       "price": 29.00,
       "origin": "USA",
-      "TOC": "Majsmjöl, Vegetabilisk Olja, Kryddmix"
-    },
-    {
+      "TOC": "Majsmjöl, Vegetabilisk Olja, Kryddmix",
+      "unit": "gram",
+      "unit_price": 1.021
+  },
+  {
       "category": "Snacks & Godis",
       "title": "Kettle Honey BBQ",
       "brand": "Kettle",
@@ -105,9 +121,11 @@
       "quantity": 30,
       "price": 19.95,
       "origin": "England",
-      "TOC": "Potatis, Solrosolja, Torkad Honung"
-    },
-    {
+      "TOC": "Potatis, Solrosolja, Torkad Honung",
+      "unit": "gram",
+      "unit_price": 0.499
+  },
+  {
       "category": "Snacks & Godis",
       "title": "Gotlandschips Havssalt",
       "brand": "Gotlandschips",
@@ -117,7 +135,8 @@
       "quantity": 55,
       "price": 34.95,
       "origin": "Sverige",
-      "TOC": "Potatis, Rapsolja, Havssalt"
-    }
-  ]
-  
+      "TOC": "Potatis, Rapsolja, Havssalt",
+      "unit": "gram",
+      "unit_price": 0.14
+  }
+]

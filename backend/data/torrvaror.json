@@ -1,5 +1,5 @@
 [
-    {
+  {
       "category": "Torrvaror",
       "title": "Pasta Linguini",
       "brand": "Di Martino",
@@ -9,9 +9,11 @@
       "quantity": 137,
       "price": 20,
       "origin": "Italien",
-      "TOC": "Durumvete semolina, vatten"
-    },
-    {
+      "TOC": "Durumvete semolina, vatten",
+      "unit": "g",
+      "unit_price": 0.093
+  },
+  {
       "category": "Torrvaror",
       "title": "Bönpasta Spaghetti",
       "brand": "Kungsörnen",
@@ -21,9 +23,11 @@
       "quantity": 90,
       "price": 22,
       "origin": "Sverige",
-      "TOC": "Mjöl av durumvete, mjöl av vita bönor (30%)"
-    },
-    {
+      "TOC": "Mjöl av durumvete, mjöl av vita bönor (30%)",
+      "unit": "g",
+      "unit_price": 0.048
+  },
+  {
       "category": "Torrvaror",
       "title": "Glasnudlar",
       "brand": "Lucky Katt",
@@ -33,9 +37,11 @@
       "quantity": 39,
       "price": 49,
       "origin": "Thailand",
-      "TOC": "Mungbönor (10%), ärtor (75%), vatten"
-    },
-    {
+      "TOC": "Mungbönor (10%), ärtor (75%), vatten",
+      "unit": "g",
+      "unit_price": 0.098
+  },
+  {
       "category": "Torrvaror",
       "title": "Saffran",
       "brand": "Kockens",
@@ -45,9 +51,11 @@
       "quantity": 10,
       "price": 17,
       "origin": "Iran",
-      "TOC": "Saffran (Crocus sativus L.)"
-    },
-    {
+      "TOC": "Saffran (Crocus sativus L.)",
+      "unit": "g",
+      "unit_price": 34
+  },
+  {
       "category": "Torrvaror",
       "title": "Fruktströssel",
       "brand": "Dr. Oetker",
@@ -57,9 +65,11 @@
       "quantity": 63,
       "price": 12,
       "origin": "Sverige",
-      "TOC": "Socker, modifierad stärkelse (majs), kokosolja, glukossirap, koncentrat från (safflor, citron, sötpotatis, rädisa), arom, klumpförebyggande medel (talk), färgämne (E 133)."
-    },
-    {
+      "TOC": "Socker, modifierad stärkelse (majs), kokosolja, glukossirap, koncentrat från (safflor, citron, sötpotatis, rädisa), arom, klumpförebyggande medel (talk), färgämne (E 133).",
+      "unit": "g",
+      "unit_price": 0.1
+  },
+  {
       "category": "Torrvaror",
       "title": "Svart Te Yellow Label",
       "brand": "Lipton",
@@ -69,9 +79,11 @@
       "quantity": 500,
       "price": 16,
       "origin": "Kenya",
-      "TOC": "Svart té 1. 1 Rainforest Alliance- certifierad"
-    },
-    {
+      "TOC": "Svart té 1. 1 Rainforest Alliance- certifierad",
+      "unit": "g",
+      "unit_price": 0.32
+  },
+  {
       "category": "Torrvaror",
       "title": "Kaffe Brygg Mörkrost Eko",
       "brand": "Rutasoka",
@@ -81,9 +93,11 @@
       "quantity": 284,
       "price": 169,
       "origin": "Democratic Republic of Congo",
-      "TOC": "100% Arabica coffee from organic and fair plantations in the North Kivu region of the Democratic Republic of Congo."
-    },
-    {
+      "TOC": "100% Arabica coffee from organic and fair plantations in the North Kivu region of the Democratic Republic of Congo.",
+      "unit": "g",
+      "unit_price": 0.169
+  },
+  {
       "category": "Torrvaror",
       "title": "Havregryn",
       "brand": "Axa",
@@ -93,9 +107,11 @@
       "quantity": 65,
       "price": 25,
       "origin": "Sverige",
-      "TOC": "Havregryn (ångpreparerade och valsade). 100% fullkorn."
-    },
-    {
+      "TOC": "Havregryn (ångpreparerade och valsade). 100% fullkorn.",
+      "unit": "g",
+      "unit_price": 0.0167
+  },
+  {
       "category": "Torrvaror",
       "title": "Super Granola Glutenfri",
       "brand": "Eat Natural",
@@ -105,9 +121,11 @@
       "quantity": 26,
       "price": 49,
       "origin": "Sverige",
-      "TOC": "Blandade frön 27% (solrosfrön 22%, pumpafrön 3%, linfrön 2%) glutenfri HAVRE 25%, honung 15%, bovete 10%, rapsolja, strimlad kokosnöt 8%, ärtprotein, rostade kikärter."
-    },
-    {
+      "TOC": "Blandade frön 27% (solrosfrön 22%, pumpafrön 3%, linfrön 2%) glutenfri HAVRE 25%, honung 15%, bovete 10%, rapsolja, strimlad kokosnöt 8%, ärtprotein, rostade kikärter.",
+      "unit": "g",
+      "unit_price": 0.1153
+  },
+  {
       "category": "Torrvaror",
       "title": "Mandeldryck Mörk Choklad",
       "brand": "Alpro",
@@ -117,7 +135,8 @@
       "quantity": 17,
       "price": 22,
       "origin": "Sverige",
-      "TOC": "vatten/vann, socker/sukker, MANDEL (2,3%), fettreducerat kakaopulver* (1,5%), maltodextrin, trikalciumfosfat, havssalt, stabiliseringsmedel/midler (fruktkärnmjöl/johannesbrødkernemel, gellangummi), naturlig arom, emulgeringsmedel/middel (lecitiner (solros/solsikke)), vitaminer (B2, E, D2)."
-    }
-  ]
-  
+      "TOC": "vatten/vann, socker/sukker, MANDEL (2,3%), fettreducerat kakaopulver* (1,5%), maltodextrin, trikalciumfosfat, havssalt, stabiliseringsmedel/midler (fruktkärnmjöl/johannesbrødkernemel, gellangummi), naturlig arom, emulgeringsmedel/middel (lecitiner (solros/solsikke)), vitaminer (B2, E, D2).",
+      "unit": "g",
+      "unit_price": 22
+  }
+]

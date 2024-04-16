@@ -14,6 +14,8 @@ const productSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     origin: { type: String },
     TOC: [{ type: String, required: true }],
+    unit_price: { type: Number, required: true }
+    
 });
 
 
