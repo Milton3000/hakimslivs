@@ -17,5 +17,15 @@ async function createOrder(req, res) {
   }
 };
 
-export { createOrder };
+async function getOrders(req, res) {
+  try {
+    const orders = await Order.find().populate("customer products.product");
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export { createOrder, getOrders };
 

@@ -34,12 +34,12 @@ const guestSchema = new mongoose.Schema({
       },
       confirmedQuantity: {
         type: Number,
-        required: true,
+        default: 0,
       },
       status: {
         type: String,
         enum: ['In progress', 'Ready'],
-        required: true,
+        default: 'In progress',
       },
     }],
   }, { timestamps: true });
