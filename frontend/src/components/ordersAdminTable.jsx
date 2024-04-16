@@ -50,7 +50,8 @@ function Row(props) {
 
   // Function to calculate the total order value
   const calculateTotalValue = () => {
-    return row.products.reduce((total, product) => total + (product.price * product.quantity), 0);
+    const totalPrice = row.products.reduce((total, product) => total + (product.price * product.quantity), 0);
+    return totalPrice.toFixed(2); // Limit to two decimal places
   };
 
   // Function to calculate product status
@@ -144,7 +145,7 @@ function Row(props) {
   <React.Fragment key={index}>
     <tr>
       <td>{product.name}</td>
-      <td>{product.price}</td>
+      <td>{product.price} SEK</td>
       <td>
         {editingProductIndex === index ? (
           <input
@@ -202,7 +203,7 @@ function Row(props) {
 ))}
                     {/* Add the final row for total order value */}
                     <tr>
-                      <td colSpan={5}>Totalt ordervärde: {calculateTotalValue()}</td>
+                      <td colSpan={5}>Totalt ordervärde: {calculateTotalValue()} SEK</td>
                     </tr>
                   </tbody>
                 </Table>
