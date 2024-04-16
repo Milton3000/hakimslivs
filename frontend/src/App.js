@@ -9,12 +9,13 @@ import AdminPage from './pages/AdminPage';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Cart from './components/Cart';
+import Payment from './components/Payment'; // Import the Payment component
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [totalCartItems, setTotalCartItems] = useState(0); // New state for total cart items
+  const [totalCartItems, setTotalCartItems] = useState(0);
 
   const handleSearchInputChange = (query) => {
     setSearchQuery(query);
@@ -37,7 +38,7 @@ function App() {
     const removedQuantity = productToRemove.quantity; // Get the quantity of the removed item
     setCartItems(updatedCartItems);
     setTotalCartItems(totalCartItems - removedQuantity); // Decrement total cart items by the removed quantity
-};
+  };
 
 
   const updateQuantity = (productId, change) => {
@@ -56,7 +57,7 @@ function App() {
     
     setCartItems(updatedCartItems);
     setTotalCartItems(totalQuantity); // Update total cart items
-};
+  };
 
 
   const toggleCart = () => {
@@ -64,7 +65,7 @@ function App() {
   };
 
   const handleCloseCart = () => {
-    setShowCart(false);
+    setShowCart()
   };
 
   return (
@@ -80,6 +81,8 @@ function App() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/betalning" element={<Payment cartItems={cartItems} />} />
+
         </Routes>
         <Footer />
       </Router>

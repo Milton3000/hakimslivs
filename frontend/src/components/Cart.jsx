@@ -1,6 +1,7 @@
+// Cart.jsx
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Badge } from "react-bootstrap";
-import { BsCart3, BsTrash } from "react-icons/bs"; // Ikoner
+import { BsCart3, BsTrash } from "react-icons/bs";
 
 const Cart = ({
   cartItems,
@@ -88,21 +89,18 @@ const Cart = ({
               )}
             </Modal.Body>
 
-            <Modal.Footer>
-              <p
-                className="text-center font-weight-bold"
-                style={{ fontSize: "1.2rem", width: "100%" }}
-              >
-                Totalt: {totalPrice} SEK
-              </p>
-              <p
-                className="text-center font-weight-bold text-muted"
-                style={{ fontSize: "0.8rem", width: "100%" }}
-              >
-                {" "}
-                (exklusive leverans 45:-){" "}
-              </p>
-              {/* <Button variant="danger" onClick={handleClose}>Stäng</Button> */}
+            <Modal.Footer style={{ display: "flex", justifyContent: "center" }}>
+              <Button variant="primary" href="/betalning">
+                Gå till betalning
+              </Button>{" "}
+              {/* Add the button for payment */}
+            </Modal.Footer>
+            <Modal.Footer style={{ display: "flex", justifyContent: "center" }}>
+              <p style={{ fontWeight: "bold" }}>Totalt: {totalPrice} SEK</p>{" "}
+              {/* Display total price */}
+            </Modal.Footer>
+            <Modal.Footer style={{ display: "flex", justifyContent: "center" }}>
+              <p> (exklusive 45:- leveransavgift) </p>
             </Modal.Footer>
           </div>
         </div>

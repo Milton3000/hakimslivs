@@ -7,7 +7,7 @@ import SearchBar from './SearchBar';
 const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="/" onClick={(e) => { e.preventDefault(); }} style={{ fontSize: '34px', color: 'blue' }}>Hakim Livs</a>
+<a className="navbar-brand" href="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }} style={{ fontSize: '34px', color: 'blue' }}>Hakim Livs</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
