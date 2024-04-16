@@ -277,7 +277,7 @@ export default function OrderTable() {
         <tr>
           <th style={{ width: 40 }} aria-label="empty" />
           <th>OrderID</th>
-          <th>Kundnamn</th>
+          <th>Kund / Gäst</th>
           <th>Leveranssätt</th>
           <th>Status</th>
           <th>Hantering</th>
@@ -307,7 +307,7 @@ export default function OrderTable() {
             }}
             onDelete={handleDelete}
             onUpdate={handleUpdate}
-            initialOpen={index === 0}
+            // initialOpen={index === 0}
           />
         ))}
       </tbody>
