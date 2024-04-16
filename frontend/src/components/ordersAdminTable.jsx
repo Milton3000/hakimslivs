@@ -184,6 +184,11 @@ function Row(props) {
                     </tr>
                   </tbody>
                 </Table>
+                <AddProductModal
+                  open={showAddProductModal}
+                  onClose={() => setShowAddProductModal(false)}
+                  onSave={handleAddProduct}
+                />
               </Sheet>
             </td>
           </tr>
