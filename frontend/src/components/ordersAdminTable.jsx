@@ -74,7 +74,7 @@ function Row(props) {
         </td>
         <th scope="row">{row.orderId}</th>
         <td>{row.customerName}</td>
-        <td>{row.customerId}</td>
+        <td>{row.customerEmail}</td>
         <td>{row.status}</td>
         <td>
           <IconButton aria-label="delete" onClick={() => onDelete(row.orderId)}>
@@ -92,7 +92,7 @@ function Row(props) {
               >
                 <Typography level="body-lg" component="div">
                   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
-                    <span>Products</span> {/* Subheader */}
+                    <span>Produkter</span> {/* Subheader */}
                     {/* Action button to open AddProductModal */}
                     <IconButton aria-label="add product" onClick={() => setShowAddProductModal(true)}>
                       <AddIcon />
@@ -109,12 +109,12 @@ function Row(props) {
                 >
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
-                      <th>Confirmed Quantity</th>
+                      <th>Namn</th>
+                      <th>Pris</th>
+                      <th>Antal</th>
+                      <th>Plockat antal</th>
                       <th>Status</th>
-                      <th>Action</th>
+                      <th>Hantering</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -180,7 +180,7 @@ function Row(props) {
 ))}
                     {/* Add the final row for total order value */}
                     <tr>
-                      <td colSpan={5}>Total order value: {calculateTotalValue()}</td>
+                      <td colSpan={5}>Totalt ordervärde: {calculateTotalValue()}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -254,11 +254,11 @@ export default function OrderTable() {
       <thead>
         <tr>
           <th style={{ width: 40 }} aria-label="empty" />
-          <th>Order ID</th>
-          <th>Customer Name</th>
-          <th>Customer Email</th>
+          <th>OrderID</th>
+          <th>Kundnamn</th>
+          <th>Leveranssätt</th>
           <th>Status</th>
-          <th>Action</th>
+          <th>Hantering</th>
         </tr>
       </thead>
       <tbody>
@@ -267,8 +267,8 @@ export default function OrderTable() {
             key={order._id}
             row={{
               orderId: order._id,
-              // customerName: `${order.guest.guestFirstName} ${order.guest.guestLastName}`,
-              // customerEmail: order.guest.guestEmail,
+              customerName: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
+              customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
               status: order.orderStatus,
               products: order.products.map(product => ({
                 name: product.product.title,

@@ -17,8 +17,8 @@ const AdminPage = () => {
     <div style={{ display: 'flex' }}>
       <div style={{ height: '51rem', width: '10%', backgroundColor: '#f0f0f0', padding: '20px' }}>
         <ul>
-          <li onClick={() => handlePanelChange('products')}>Products</li>
-          <li onClick={() => handlePanelChange('orders')}>Orders</li>
+          <li onClick={() => handlePanelChange('products')}>Produkthantering</li>
+          <li onClick={() => handlePanelChange('orders')}>Orderhantering</li>
         </ul>
       </div>
       <div style={{ width: '80%', padding: '20px' }}>
