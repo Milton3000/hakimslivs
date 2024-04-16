@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { customerRouter } from './routes/customer.route.js';
 import { productRouter } from './routes/product.route.js';
 import { authRouter } from './routes/auth.route.js';
+import { orderRouter } from './routes/order.route.js'
 
 // Load environment variables from .env file
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter); // Endpoint för authentication (routes > users.js)
 app.use("/api/products", productRouter);
 app.use("/api/customers", customerRouter);
+app.use("/api/orders", orderRouter);
 
 // Använder environment variable för MongoDB Password.
 const mongoDBPassword = process.env.MONGODB_PASSWORD;

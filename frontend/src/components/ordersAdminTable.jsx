@@ -134,63 +134,66 @@ function Row(props) {
                     </tr>
                   </thead>
                   <tbody>
-                    {row.products.map((product, index) => (
-                      <React.Fragment key={index}>
-                        <tr>
-                          <td>{product.name}</td>
-                          <td>{product.quantity}</td>
-                          <td>
-                            {editingProductIndex === index ? (
-                              <input
-                                type="number"
-                                value={product.quantity}
-                                onChange={(e) =>
-                                  handleUpdateProduct(index, {
-                                    ...product,
-                                    quantity: parseFloat(e.target.value),
-                                  })
-                                }
-                              />
-                            ) : (
-                              product.quantity
-                            )}
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={confirmedQuantities[index]}
-                              onChange={(e) => {
-                                const newValue = parseInt(e.target.value);
-                                const updatedQuantities = [...confirmedQuantities];
-                                updatedQuantities[index] = newValue;
-                                setConfirmedQuantities(updatedQuantities);
-                                handleConfirmedQuantityChange(index, newValue);
-                              }}
-                            />
-                          </td>
-                          <td>{calculateProductStatus(product)}</td>
-                          <td>
-                            {editingProductIndex === index ? (
-                              <IconButton
-                                aria-label="done"
-                                onClick={() => handleUpdateProduct(index, product)}
-                              >
-                                <DoneIcon />
-                              </IconButton>
-                            ) : (
-                              <React.Fragment>
-                                <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
-                                  <EditIcon />
-                                </IconButton>
-                                <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
-                                  <DeleteIcon />
-                                </IconButton>
-                              </React.Fragment>
-                            )}
-                          </td>
-                        </tr>
-                      </React.Fragment>
-                    ))}
+                  {row.products.map((product, index) => (
+  <React.Fragment key={index}>
+    <tr>
+      <td>{product.name}</td>
+      <td>{product.quantity}</td>
+      <td>
+        {editingProductIndex === index ? (
+          <input
+            type="number"
+            value={product.quantity}
+            onChange={(e) =>
+              handleUpdateProduct(index, {
+                ...product,
+                quantity: parseFloat(e.target.value),
+              })
+            }
+          />
+        ) : (
+          product.quantity
+        )}
+      </td>
+      <td>
+        {editingProductIndex === index ? (
+          <input
+            type="number"
+            value={product.confirmedQuantity}
+            onChange={(e) =>
+              handleUpdateProduct(index, {
+                ...product,
+                confirmedQuantity: parseFloat(e.target.value),
+              })
+            }
+          />
+        ) : (
+          product.confirmedQuantity
+        )}
+      </td>
+      <td>{calculateProductStatus(product)}</td>
+      <td>
+        {editingProductIndex === index ? (
+          <IconButton
+            aria-label="done"
+            onClick={() => handleUpdateProduct(index, product)}
+          >
+            <DoneIcon />
+          </IconButton>
+        ) : (
+          <React.Fragment>
+            <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
+              <EditIcon />
+            </IconButton>
+            <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
+              <DeleteIcon />
+            </IconButton>
+          </React.Fragment>
+        )}
+      </td>
+    </tr>
+  </React.Fragment>
+))}
                     {/* Add the final row for total order value */}
                     <tr>
                       <td colSpan={5}>Total order value: {calculateTotalValue()}</td>
