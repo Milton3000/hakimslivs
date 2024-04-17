@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Confirmation = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const cartItems = location.state?.cartItems || []; // Access cartItems från location state
+
   const [formData, setFormData] = useState({
     customerFirstName: '',
     customerLastName: '',
@@ -21,7 +24,15 @@ const Confirmation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/orders/create', {
+      const formattedCartItems = cartItems.map(item => ({
+        product: item._id,
+        title: item.title,
+        price: item.price,
+        quantity: item.quantity
+      }));
+      
+  
+      const response = await axios.post('/api/orders/neworder', {
         guest: {
           guestFirstName: formData.customerFirstName,
           guestLastName: formData.customerLastName,
@@ -29,8 +40,9 @@ const Confirmation = () => {
           guestAddress: formData.address,
           guestPhone: formData.phone
         },
-        products: [] // Assume products are fetched from state or localStorage
+        products: formattedCartItems // Skicka formatterade cartItems arrayen till backend
       });
+  
       console.log('Order created:', response.data);
       setConfirmationMessage('Your order has been confirmed!');
       setFormData({
@@ -45,6 +57,7 @@ const Confirmation = () => {
       setErrorMessage('An error occurred while processing your order. Please try again later.');
     }
   };
+  
 
   return (
     <div className="container">

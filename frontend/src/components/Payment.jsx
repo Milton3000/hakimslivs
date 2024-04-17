@@ -28,10 +28,10 @@ const Payment = ({ cartItems }) => {
   };
 
   const handleFinishPurchase = () => {
-    // BARA PROTOTYP - EJ KLAR Handle finish purchase with the selected payment option
-    navigate("/confirmation", { state: { selectedPaymentOption } });
+    // Pass the selectedPaymentOption and cartItems to the /confirmation page
+    navigate("/confirmation", { state: { selectedPaymentOption, cartItems } });
   };
-
+  
   return (
     <div className="container">
       <div className="row justify-content-center">
