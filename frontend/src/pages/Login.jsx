@@ -25,12 +25,11 @@ const Login = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        // Login successful, redirect to admin dashboard or another page
+        // Redirect to /admin on successful login
         window.location.href = "/admin";
       } else {
+        const data = await response.json();
         setError(data.message || "Login failed");
       }
     } catch (error) {
