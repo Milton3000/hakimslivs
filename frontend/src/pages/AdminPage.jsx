@@ -10,7 +10,7 @@ import profilepic from '../styles/profile-circle.svg';
 import 'iconify-icon';
 
 const AdminPage = () => {
-  const [activePanel, setActivePanel] = useState('products');
+  const [activePanel, setActivePanel] = useState('orders');
 
   const handlePanelChange = (panel) => {
     setActivePanel(panel);
@@ -25,21 +25,21 @@ const AdminPage = () => {
             <b>Användare</b>
           </div>
           <ul className='admin-ul'>
-            <li className='admin-list-item' onClick={() => handlePanelChange('products')}>
-            <iconify-icon icon="dashicons:edit" width="24" height="24"  style={{color: '#3184dd'}} />
-              Produkthantering
-              </li>
-            <li className='admin-list-item' onClick={() => handlePanelChange('orders')}>
-            <iconify-icon icon="dashicons:list-view" width="24" height="24"  style={{color: '#3184dd'}} />
+          <li className='admin-list-item' onClick={() => handlePanelChange('orders')}>
+              <iconify-icon icon="dashicons:list-view" width="24" height="24" style={{ color: '#3184dd' }} />
               Orderhantering
-              </li>
+            </li>
+            <li className='admin-list-item' onClick={() => handlePanelChange('products')}>
+              <iconify-icon icon="dashicons:edit" width="24" height="24" style={{ color: '#3184dd' }} />
+              Produkthantering
+            </li>
           </ul>
         </div>
       </div>
       <div style={{ width: '80%', padding: '20px' }}>
         <QueryClientProvider client={new QueryClient()}>
-          {activePanel === 'products' && <AdminProducts />}
           {activePanel === 'orders' && <AdminOrders />}
+          {activePanel === 'products' && <AdminProducts />}
         </QueryClientProvider>
       </div>
     </div>
