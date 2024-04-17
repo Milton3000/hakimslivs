@@ -44,7 +44,7 @@ const Confirmation = () => {
       });
   
       console.log('Order created:', response.data);
-      setConfirmationMessage('Your order has been confirmed!');
+      setConfirmationMessage('Din order har blivit placerad!');
       setFormData({
         customerFirstName: '',
         customerLastName: '',
