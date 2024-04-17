@@ -8,7 +8,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [showFullDescription, setShowFullDescription] = useState(false);
+  // const [showFullDescription, setShowFullDescription] = useState(false);
   const [categoryTitle, setCategoryTitle] = useState('POPULÄRT JUST NU');
   const [initialLoad, setInitialLoad] = useState(true);
   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
@@ -62,9 +62,9 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
     setSelectedProduct(null);
   };
 
-  const toggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
-  };
+  // const toggleDescription = () => {
+  //   setShowFullDescription(!showFullDescription);
+  // };
 
   // Convert weight to appropriate unit
   const formatWeight = (weight) => {
@@ -123,7 +123,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
         </div>
       </div>
       {selectedProduct && (
-        <Modal show={true} onHide={handleCloseModal} size="md" centered>
+        <Modal show={showDescriptionModal} onHide={handleCloseModal} size="md" centered>
   <Modal.Header closeButton className="bg-primary text-white">
     <Modal.Title className="text-center">{selectedProduct.title}</Modal.Title>
   </Modal.Header>
