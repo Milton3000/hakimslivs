@@ -32,7 +32,6 @@ function Row(props) {
   };
 
   const handleEditProduct = (index) => {
-    console.log("Editing product at index:", index);
     setEditingProductIndex(index);
   };
 
@@ -300,7 +299,6 @@ export default function OrderTable() {
       status: product.status
     }));
 
-    console.log(updatedOrder);
 
 
     axios.put(`http://localhost:3001/api/orders/update/${orderId}`, updatedOrder, {
@@ -309,7 +307,6 @@ export default function OrderTable() {
       }
     })
       .then(response => {
-        console.log('Order updated successfully:', response.data);
         setOrders(prevOrders => {
           return prevOrders.map(order => {
             return order._id === orderId ? response.data : order; // Replace the updated order
