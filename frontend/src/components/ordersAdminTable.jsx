@@ -309,7 +309,6 @@ export default function OrderTable() {
             }}
             onDelete={handleDelete}
             onUpdate={handleUpdate}
-            // initialOpen={index === 0}
           />
         ))}
       </tbody>
