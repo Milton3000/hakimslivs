@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Cart from './components/Cart';
 import Payment from './components/Payment';
+import Confirmation from './components/Confirmation'; 
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,10 +18,10 @@ function App() {
   const [totalCartItems, setTotalCartItems] = useState(0);
 
   useEffect(() => {
-    // Load cart items from localStorage
+    // Loada items from localStorage
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     setCartItems(storedCartItems);
-    // Calculate total cart items
+    // Kalkylera total cart items
     const totalQuantity = storedCartItems.reduce((total, item) => total + item.quantity, 0);
     setTotalCartItems(totalQuantity);
   }, []);
@@ -35,40 +36,42 @@ function App() {
       const updatedCartItems = [...cartItems];
       updatedCartItems[existingItemIndex].quantity += 1;
       setCartItems(updatedCartItems);
+      // Update localStorage efter updating state
+      localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
     } else {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
+      // Update localStorage efter updating state
+      localStorage.setItem('cartItems', JSON.stringify([...cartItems, { ...product, quantity: 1 }]));
     }
-    setTotalCartItems(totalCartItems + 1); // Increment total cart items
-    // Update localStorage
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    setTotalCartItems(totalCartItems + 1); // Incrementa totala cart items
   };
-
+  
   const removeFromCart = (productToRemove) => {
     const updatedCartItems = cartItems.filter((product) => product !== productToRemove);
-    const removedQuantity = productToRemove.quantity; // Get the quantity of the removed item
+    const removedQuantity = productToRemove.quantity; // Hämta antalet av removed item
     setCartItems(updatedCartItems);
-    setTotalCartItems(totalCartItems - removedQuantity); // Decrement total cart items by the removed quantity
-    // Update localStorage
+    setTotalCartItems(totalCartItems - removedQuantity); // Decrement totala cart items av removed quantity
+    // Uppdatera localStorage efter updating state
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   };
-
+  
   const updateQuantity = (productId, change) => {
     const updatedCartItems = cartItems.map((item) => {
       if (item._id === productId) {
         const newQuantity = item.quantity + change;
-        // Ensure quantity does not go below 1
+        // Se till att quantity inte går under 1
         const updatedQuantity = Math.max(newQuantity, 1);
         return { ...item, quantity: updatedQuantity };
       }
       return item;
     });
 
-    // Calculate the total quantity in the cart
+    // Kalkylera totala quantity i cart
     const totalQuantity = updatedCartItems.reduce((total, item) => total + item.quantity, 0);
 
     setCartItems(updatedCartItems);
-    setTotalCartItems(totalQuantity); // Update total cart items
-    // Update localStorage
+    setTotalCartItems(totalQuantity); // Uppdatera totala cart items
+    // Uppdatera localStorage
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   };
 
@@ -94,6 +97,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/betalning" element={<Payment cartItems={cartItems} />} />
+          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
         <Footer />
       </Router>
