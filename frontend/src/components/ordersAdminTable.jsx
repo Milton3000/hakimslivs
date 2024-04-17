@@ -14,7 +14,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddProductModal from '../adminhooks/order.hooks/addProductModal'; // Import the AddProductModal component
 
 function Row(props) {
-  const { row, onDelete, onUpdate } = props;
+  const { row, onDelete, onUpdate, onDeleteProduct } = props;
   const [open, setOpen] = React.useState(props.initialOpen || false);
   const [editingProductIndex, setEditingProductIndex] = React.useState(-1);
   const [editedProduct, setEditedProduct] = useState(null);
@@ -50,7 +50,7 @@ function Row(props) {
     if (isNaN(parsedValue)) {
       parsedValue = 0;
     }
-  
+
     // If the field is 'confirmedQuantity', ensure it does not exceed 'quantity'
     if (field === 'confirmedQuantity') {
       const product = row.products[editingProductIndex];
@@ -59,7 +59,7 @@ function Row(props) {
         parsedValue = product.quantity;
       }
     }
-  
+
     setEditedProduct(prevProduct => ({ ...prevProduct, [field]: parsedValue }));
   };
 
@@ -71,11 +71,13 @@ function Row(props) {
     setEditedProduct(null);
   };
 
-  const handleDeleteProduct = (index) => {
-    const updatedProducts = [...row.products];
-    updatedProducts.splice(index, 1);
-    onUpdate({ ...row, products: updatedProducts });
-  };
+  const handleDeleteProduct = (orderId, productIndex) => {
+    const productId = row.products[productIndex].productId;
+    console.log(`Deleting product with ID ${productId} from order with ID ${orderId}`);
+    onDeleteProduct(orderId, productId);
+
+  }
+  
 
   // Function to calculate the total order value
   const calculateTotalValue = () => {
@@ -182,7 +184,7 @@ function Row(props) {
                                 value={editedProduct?.quantity ?? product.quantity}
                                 onChange={(e) => handleChange('quantity', e.target.value)}
                                 style={{
-                                  width: '100%', 
+                                  width: '100%',
                                   boxSizing: 'border-box',
                                 }}
                               />
@@ -197,7 +199,7 @@ function Row(props) {
                                 value={editedProduct?.confirmedQuantity ?? product.confirmedQuantity}
                                 onChange={(e) => handleChange('confirmedQuantity', e.target.value)}
                                 style={{
-                                  width: '100%', 
+                                  width: '100%',
                                   boxSizing: 'border-box',
                                 }}
                               />
@@ -219,7 +221,10 @@ function Row(props) {
                                 <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
                                   <EditIcon />
                                 </IconButton>
-                                <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
+                                <IconButton
+                                  aria-label="delete"
+                                  onClick={() => handleDeleteProduct(row.orderId, index)}
+                                >
                                   <DeleteIcon />
                                 </IconButton>
                               </React.Fragment>
@@ -284,13 +289,41 @@ export default function OrderTable() {
   }, []);
 
   const handleDelete = (orderId) => {
-    // Implement delete functionality here
-    console.log(`Deleting order with ID ${orderId}`);
+    if (window.confirm('Are you sure you want to delete this order?')) {
+      axios.delete(`http://localhost:3001/api/orders/delete/${orderId}`)
+        .then(() => {
+          setOrders(prevOrders => {
+            return prevOrders.filter(order => order._id !== orderId);
+          });
+        })
+        .catch(error => {
+          console.error('Error deleting order:', error);
+        });
+
+      console.log(`Deleting order with ID ${orderId}`);
+    }
   };
+
+  const deleteProduct = (orderId, productId) => {
+    if (window.confirm('Are you sure you want to delete this product from the order?')) {
+      axios.put(`http://localhost:3001/api/orders/deleteproduct/${orderId}/${productId}`)
+        .then(response => {
+          setOrders(prevOrders => {
+            return prevOrders.map(order => {
+              return order._id === orderId ? response.data : order; // Replace the updated order
+            });
+          });
+        })
+        .catch(error => {
+          console.error('Error deleting product from order:', error);
+        });
+    }
+  };
+
+
 
   const handleUpdate = (updatedOrder) => {
     const orderId = updatedOrder.orderId;
-
     // Update the products array in the original order object
     updatedOrder.products = updatedOrder.products.map(product => ({
       product: product.productId,
@@ -298,8 +331,6 @@ export default function OrderTable() {
       confirmedQuantity: product.confirmedQuantity,
       status: product.status
     }));
-
-
 
     axios.put(`http://localhost:3001/api/orders/update/${orderId}`, updatedOrder, {
       headers: {
@@ -362,6 +393,7 @@ export default function OrderTable() {
               }}
               onDelete={handleDelete}
               onUpdate={handleUpdate}
+              onDeleteProduct={deleteProduct}
             />
           ))}
         </tbody>
