@@ -31,7 +31,7 @@ async function updateOrder(req, res) {
   const { id } = req.params;
   const _order = req.body;
   try {
-    const order = await Order.findById(id);
+    let order = await Order.findById(id);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -44,8 +44,9 @@ async function updateOrder(req, res) {
       }
     });
 
-    const updatedOrder = await order.save();
-    res.status(200).json(updatedOrder);
+    await order.save();
+    order = await Order.findById(id).populate('customer products.product'); 
+    res.status(200).json(order);
   } catch (error) {
     console.error('Error updating order:', error);
     res.status(500).json({ message: "Internal server error" });

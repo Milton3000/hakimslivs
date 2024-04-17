@@ -17,12 +17,13 @@ function Row(props) {
   const { row, onDelete, onUpdate } = props;
   const [open, setOpen] = React.useState(props.initialOpen || false);
   const [editingProductIndex, setEditingProductIndex] = React.useState(-1);
+  const [editedProduct, setEditedProduct] = useState(null);
   const [newProductName, setNewProductName] = React.useState('');
   const [newProductQuantity, setNewProductQuantity] = React.useState('');
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
 
   const handleAddProduct = () => {
-    const newProduct = { name: newProductName, quantity: parseFloat(newProductQuantity)};
+    const newProduct = { name: newProductName, quantity: parseFloat(newProductQuantity) };
     const updatedProducts = [...row.products, newProduct];
     onUpdate({ ...row, products: updatedProducts });
     setShowAddProductModal(false); // Hide the modal after adding the product
@@ -35,13 +36,24 @@ function Row(props) {
     setEditingProductIndex(index);
   };
 
-  const handleUpdateProduct = (index, updatedProduct) => {
-    const updatedProducts = [...row.products];
-    updatedProducts[index] = updatedProduct;
-    onUpdate({ ...row, products: updatedProducts });
-    setEditingProductIndex(-1);
+ const handleUpdateProduct = (index) => {
+  const updatedProducts = [...row.products];
+  updatedProducts[index] = { ...updatedProducts[index], ...editedProduct };
+  onUpdate({ ...row, products: updatedProducts });
+  setEditingProductIndex(-1);
+};
+
+  const handleChange = (field, value) => { // You don't need to pass the index as a parameter
+    setEditedProduct(prevProduct => ({ ...prevProduct, [field]: parseFloat(value) }));
   };
 
+  const handleDoneEditing = (index) => {
+    if (editedProduct !== null) {
+      handleUpdateProduct(index);
+      setEditedProduct(null);
+    }
+  };
+  
   const handleDeleteProduct = (index) => {
     const updatedProducts = [...row.products];
     updatedProducts.splice(index, 1);
@@ -91,29 +103,29 @@ function Row(props) {
                 variant="soft"
                 sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
               >
-             
+
                 <Typography level="body-lg" component="div">
-                <span>Kund</span>
-              <Table> 
-                <thead>
-                  <tr>
-                    <th>Förnamn</th>
-                    <th>Efternamn</th>
-                    <th>Adress</th>
-                    <th>Telefon</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>{row.customerFirstName}</th>
-                    <th>{row.customerLastName}</th>
-                    <th>{row.customerAddress}</th>
-                    <th>{row.customerPhone}</th>
-                    <th>{row.customerEmail}</th>
-                  </tr>
-                </tbody>
-              </Table>
+                  <span>Kund</span>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Förnamn</th>
+                        <th>Efternamn</th>
+                        <th>Adress</th>
+                        <th>Telefon</th>
+                        <th>Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>{row.customerFirstName}</th>
+                        <th>{row.customerLastName}</th>
+                        <th>{row.customerAddress}</th>
+                        <th>{row.customerPhone}</th>
+                        <th>{row.customerEmail}</th>
+                      </tr>
+                    </tbody>
+                  </Table>
                   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
                     <span>Produkter</span> {/* Subheader */}
                     {/* Action button to open AddProductModal */}
@@ -141,66 +153,56 @@ function Row(props) {
                     </tr>
                   </thead>
                   <tbody>
-                  {row.products.map((product, index) => (
-  <React.Fragment key={index}>
-    <tr>
-      <td>{product.name}</td>
-      <td>{product.price} SEK</td>
-      <td>
-        {editingProductIndex === index ? (
-          <input
-            type="number"
-            value={product.quantity}
-            onChange={(e) =>
-              handleUpdateProduct(index, {
-                ...product,
-                quantity: parseFloat(e.target.value),
-              })
-            }
-          />
-        ) : (
-          product.quantity
-        )}
-      </td>
-      <td>
-        {editingProductIndex === index ? (
-          <input
-            type="number"
-            value={product.confirmedQuantity}
-            onChange={(e) =>
-              handleUpdateProduct(index, {
-                ...product,
-                confirmedQuantity: parseFloat(e.target.value),
-              })
-            }
-          />
-        ) : (
-          product.confirmedQuantity
-        )}
-      </td>
-      <td>{calculateProductStatus(product)}</td>
-      <td>
-        {editingProductIndex === index ? (
-          <IconButton
-            aria-label="done"
-            onClick={() => handleUpdateProduct(index, product)}
-          >
-            <DoneIcon />
-          </IconButton>
-        ) : (
-          <React.Fragment>
-            <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
-              <EditIcon />
-            </IconButton>
-            <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
-              <DeleteIcon />
-            </IconButton>
-          </React.Fragment>
-        )}
-      </td>
-    </tr>
-  </React.Fragment>
-))}
+                    {row.products.map((product, index) => (
+                      <React.Fragment key={index}>
+                        <tr>
+                          <td>{product.name}</td>
+                          <td>{product.price} SEK</td>
+                          <td>
+                            {editingProductIndex === index ? (
+                              <input
+                                type="number"
+                                value={editedProduct?.quantity ?? product.quantity}
+                                onChange={(e) => handleChange('quantity', e.target.value)}
+                              />
+                            ) : (
+                              product.quantity
+                            )}
+                          </td>
+                          <td>
+                            {editingProductIndex === index ? (
+                              <input
+                                type="number"
+                                value={editedProduct?.confirmedQuantity ?? product.confirmedQuantity}
+                                onChange={(e) => handleChange('confirmedQuantity', e.target.value)}
+                              />
+                            ) : (
+                              product.confirmedQuantity
+                            )}
+                          </td>
+                          <td>{calculateProductStatus(product)}</td>
+                          <td>
+                            {editingProductIndex === index ? (
+                              <IconButton
+                                aria-label="done"
+                                onClick={() => handleDoneEditing(index)}
+                              >
+                                <DoneIcon />
+                              </IconButton>
+                            ) : (
+                              <React.Fragment>
+                                <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
+                                  <EditIcon />
+                                </IconButton>
+                                <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
+                                  <DeleteIcon />
+                                </IconButton>
+                              </React.Fragment>
+                            )}
+                          </td>
+                        </tr>
+                      </React.Fragment>
+                    ))}
                     {/* Add the final row for total order value */}
                     <tr>
                       <td colSpan={5}>Totalt ordervärde: {calculateTotalValue()} SEK</td>
@@ -262,57 +264,87 @@ export default function OrderTable() {
   };
 
   const handleUpdate = (updatedOrder) => {
-    // Implement update functionality here
-    console.log('Updated Order:', updatedOrder);
+    const orderId = updatedOrder.orderId;
+
+    // Update the products array in the original order object
+    updatedOrder.products = updatedOrder.products.map(product => ({
+      product: product.productId,
+      quantity: product.quantity,
+      confirmedQuantity: product.confirmedQuantity,
+      status: product.status
+    }));
+
+    console.log(updatedOrder);
+
+    // Make a PUT request to update the order on the server
+    axios.put(`http://localhost:3001/api/orders/update/${orderId}`, updatedOrder, {
+      headers: {
+        'Content-Type': 'application/json' // Ensure request body is JSON
+      }
+    })
+    .then(response => {
+      console.log('Order updated successfully:', response.data);
+      // Update the local state with the updated order
+      setOrders(prevOrders => {
+        return prevOrders.map(order => {
+          console.log('Comparing IDs:', orderId, order._id); // move this line inside the map function
+          return order._id === orderId ? response.data : order; // replace `order.id` with `order._id`
+        });
+      });
+    })
+    .catch(error => {
+      console.error('Error updating order:', error);
+    });
   };
 
   return (
     <Sheet>
-    <Table
-      aria-label="order table"
-      sx={{
-        boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
-        '& > thead > tr > th': { textAlign: 'left' },
-      }}
-    >
-      <thead>
-        <tr>
-          <th style={{ width: 40 }} aria-label="empty" />
-          <th>OrderID</th>
-          <th>Kund / Gäst</th>
-          <th>Leveranssätt</th>
-          <th>Status</th>
-          <th>Hantering</th>
-        </tr>
-      </thead>
-      <tbody>
-        {orders.map((order, index) => (
-          <Row
-            key={order._id}
-            row={{
-              orderId: order._id,
-              customerNameFull: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
-              customerFirstName: order.guest ? order.guest.guestFirstName : order.customer.firstName,
-              customerLastName: order.guest ? order.guest.guestLastName : order.customer.lastName,
-              customerAddress: order.guest ? order.guest.guestAddress : order.customer.address,
-              customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
-              customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
-              deliveryMethod: order.deliveryMethod,
-              status: order.orderStatus,
-              products: order.products.map(product => ({
-                name: product.product.title,
-                price: product.product.price,
-                quantity: product.quantity,
-                confirmedQuantity: product.confirmedQuantity,
-                status: product.status,
-              })),
-            }}
-            onDelete={handleDelete}
-            onUpdate={handleUpdate}
-          />
-        ))}
-      </tbody>
-    </Table>
-  </Sheet>
+      <Table
+        aria-label="order table"
+        sx={{
+          boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
+          '& > thead > tr > th': { textAlign: 'left' },
+        }}
+      >
+        <thead>
+          <tr>
+            <th style={{ width: 40 }} aria-label="empty" />
+            <th>OrderID</th>
+            <th>Kund / Gäst</th>
+            <th>Leveranssätt</th>
+            <th>Status</th>
+            <th>Hantering</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order, index) => (
+            <Row
+              key={order._id}
+              row={{
+                orderId: order._id,
+                customerNameFull: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
+                customerFirstName: order.guest ? order.guest.guestFirstName : order.customer.firstName,
+                customerLastName: order.guest ? order.guest.guestLastName : order.customer.lastName,
+                customerAddress: order.guest ? order.guest.guestAddress : order.customer.address,
+                customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
+                customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
+                deliveryMethod: order.deliveryMethod,
+                status: order.orderStatus,
+                products: order.products.map(product => ({
+                  name: product.product.title,
+                  price: product.product.price,
+                  productId: product.product._id,
+                  quantity: product.quantity,
+                  confirmedQuantity: product.confirmedQuantity,
+                  status: product.status,
+                })),
+              }}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
+          ))}
+        </tbody>
+      </Table>
+    </Sheet>
   );
 }
