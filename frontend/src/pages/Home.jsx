@@ -77,7 +77,8 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
     }
   };
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (event, product) => {
+    event.stopPropagation(); // Stop event propagation
     addToCart(product);
     setShowDescriptionModal(false); // Close product description modal
     setShowCart(true); // Show cart modal
@@ -107,7 +108,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
                     <p className="card-text fs-6 mb-2 text-center">Jämförpris: {product.unit_price} SEK per {product.unit}</p>
 
                     <p className="card-text fs-6 mb-2 text-center">Vikt: {formatWeight(product.weight)}</p>
-                    <button onClick={() => handleAddToCart(product)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
+                    <button onClick={(event) => handleAddToCart(event, product)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
 
                   </div>
                 </div>
