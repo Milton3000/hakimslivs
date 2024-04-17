@@ -20,6 +20,7 @@ function Row(props) {
   const [editedProduct, setEditedProduct] = useState(null);
   const [newProductName, setNewProductName] = React.useState('');
   const [newProductQuantity, setNewProductQuantity] = React.useState('');
+  const [currentOrderId, setCurrentOrderId] = useState(null);
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
 
   const handleAddProduct = () => {
@@ -148,7 +149,10 @@ function Row(props) {
                   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
                     <span>Produkter</span> {/* Subheader */}
                     {/* Action button to open AddProductModal */}
-                    <IconButton aria-label="add product" onClick={() => setShowAddProductModal(true)}>
+                    <IconButton aria-label="add product" onClick={() => { 
+                      setCurrentOrderId(row.orderId);
+                      setShowAddProductModal(true)
+                      }}>
                       <AddIcon />
                     </IconButton>
                   </div>
@@ -242,6 +246,7 @@ function Row(props) {
                 <AddProductModal
                   open={showAddProductModal}
                   onClose={() => setShowAddProductModal(false)}
+                  orderId={currentOrderId}
                   onSave={handleAddProduct}
                 />
               </Sheet>

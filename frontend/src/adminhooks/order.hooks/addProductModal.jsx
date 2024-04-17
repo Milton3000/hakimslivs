@@ -9,7 +9,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-function AddProductModal({ open, onClose, onSave }) {
+function AddProductModal({ open, onClose, onSave, orderId }) {
   const [productName, setProductName] = React.useState('');
   const [productId, setProductId] = React.useState('');
   const [productQuantity, setProductQuantity] = React.useState('');
@@ -30,9 +30,21 @@ function AddProductModal({ open, onClose, onSave }) {
       console.error(error);
     }
   }
+  async function addProductToOrder(orderId, product) {
+    try {
+      const response = await axios.put(`http://localhost:3001/api/orders/addproduct/${orderId}`, {
+        products: [product],
+      });
+  
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const handleSave = () => {
-    const newProduct = { name: productId, quantity: parseFloat(productQuantity) };
+    const newProduct = { product: productId, quantity: parseFloat(productQuantity) };
+    addProductToOrder(orderId, newProduct);
     onSave(newProduct);
     onClose();
     setProductName('');
