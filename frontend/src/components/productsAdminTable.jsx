@@ -110,10 +110,10 @@ const AdminTable = () => {
 
   //call UPDATE hook
   const { mutateAsync: updateProduct, isPending: isUpdatingProduct } =
-    useUpdateProduct(); // Changed from useUpdateUser
+    useUpdateProduct(); 
   //call DELETE hook
   const { mutateAsync: deleteProduct, isPending: isDeletingProduct } =
-    useDeleteProduct(); // Changed from useDeleteUser
+    useDeleteProduct(); 
 
   //CREATE action
   const handleCreateProduct = async ({ values, table }) => {
@@ -139,6 +139,7 @@ const AdminTable = () => {
     localization: MRT_Localization_SV,
     columns,
     data: fetchedProducts,
+    positionActionsColumn: 'end',
     initialState: {
       columnVisibility: {
         description: false,
@@ -147,7 +148,7 @@ const AdminTable = () => {
         _id: false,
       }
     },
-    createDisplayMode: 'modal', //default ('row', and 'custom' are also available)
+    createDisplayMode: 'modal', 
     editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
     enableEditing: true,
     getRowId: (row) => row.id,
@@ -160,8 +161,31 @@ const AdminTable = () => {
     muiTableContainerProps: {
       sx: {
         minHeight: '39rem',
+        backgroundColor: '#FBFCFE',
       },
     },
+    muiTableHeadCellProps: ({
+      //conditionally style pinned columns
+      sx: {
+        backgroundColor: '#FBFCFE',
+      },
+    }),
+    muiTableBodyCellProps: ({
+      //conditionally style pinned columns
+      sx: {
+        backgroundColor: '#FBFCFE',
+      },
+    }),
+    muiBottomToolbarProps: ({
+      sx: {
+        backgroundColor: '#FBFCFE',
+      },
+    }),
+    muiTopToolbarProps: ({
+      sx: {
+        backgroundColor: '#FBFCFE',
+      },
+    }),
     onCreatingRowCancel: () => {
       setValidationErrors({});
       setIsIdVisible(true);
@@ -224,7 +248,7 @@ const AdminTable = () => {
         </Tooltip>
         <Tooltip title="Delete">
           <IconButton
-            color="error"
+            color="black"
             onClick={() => openDeleteConfirmModal(row)}
           >
             <DeleteIcon />

@@ -5,13 +5,46 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-function AddProductModal({ open, onClose, onSave }) {
+function AddProductModal({ open, onClose, onSave, orderId }) {
   const [productName, setProductName] = React.useState('');
+  const [productId, setProductId] = React.useState('');
   const [productQuantity, setProductQuantity] = React.useState('');
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (productName) {
+      getProduct();
+    }
+  }, [productName]);
+
+  async function getProduct() {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/products?name=${productName}`);
+      console.log(response.data);
+      setProducts(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function addProductToOrder(orderId, product) {
+    try {
+      const response = await axios.put(`http://localhost:3001/api/orders/addproduct/${orderId}`, {
+        products: [product],
+      });
+  
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const handleSave = () => {
-    const newProduct = { name: productName, quantity: parseFloat(productQuantity) };
+    const newProduct = { product: productId, quantity: parseFloat(productQuantity) };
+    addProductToOrder(orderId, newProduct);
     onSave(newProduct);
     onClose();
     setProductName('');
@@ -22,15 +55,31 @@ function AddProductModal({ open, onClose, onSave }) {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Lägg till produkt</DialogTitle>
       <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Sök på produktnamn eller ID"
-          type="text"
-          fullWidth
-          value={productName}
-          onChange={(e) => setProductName(e.target.value)}
+        <Autocomplete
+          options={products}
+          getOptionLabel={(option) => option.title}
+          isOptionEqualToValue={(option, value) => option._id === value._id}
+          onInputChange={(event, newInputValue) => {
+            setProductName(newInputValue);
+          }}
+          onChange={(event, newValue) => {
+            setProductName(newValue ? newValue.title : '');
+            setProductId(newValue ? newValue._id : '');
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Sök på produktnamn"
+              type="text"
+              inputProps={{
+                ...params.inputProps,
+                style: { width: "20rem" }, // Increase fontSize and height
+              }}
+            />
+          )}
         />
         <TextField
           margin="dense"

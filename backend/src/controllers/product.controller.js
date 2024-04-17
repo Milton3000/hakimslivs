@@ -12,6 +12,25 @@ async function getProducts(req, res) {
     }
 }
 
+async function getProductsByName(req, res) {
+    try {
+        const { name } = req.query;
+        let products;
+
+        if (name) {
+            const regex = new RegExp(name, 'i');
+            products = await Product.find({ title: regex });
+        } else {
+            products = await Product.find();
+        }
+
+        res.json(products);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 // Fetcha en specifik produkt
 
 async function getProduct(req, res) {
@@ -84,4 +103,6 @@ async function deleteProduct(req, res) {
     }
 }
 
-export { getProducts, getProduct, getProductByCategory, createProduct, updateProduct, deleteProduct };
+
+
+export { getProducts, getProductsByName, getProduct, getProductByCategory, createProduct, updateProduct, deleteProduct };
