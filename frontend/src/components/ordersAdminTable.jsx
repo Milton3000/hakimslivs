@@ -47,8 +47,12 @@ function Row(props) {
     setEditingProductIndex(-1);
   };
 
-  const handleChange = (field, value) => { // You don't need to pass the index as a parameter
-    setEditedProduct(prevProduct => ({ ...prevProduct, [field]: parseFloat(value) }));
+  const handleChange = (field, value) => {
+    let parsedValue = parseFloat(value);
+    if (isNaN(parsedValue)) {
+      parsedValue = 0;
+    }
+    setEditedProduct(prevProduct => ({ ...prevProduct, [field]: parsedValue }));
   };
 
   const handleDoneEditing = (index) => {
@@ -168,6 +172,10 @@ function Row(props) {
                                 type="number"
                                 value={editedProduct?.quantity ?? product.quantity}
                                 onChange={(e) => handleChange('quantity', e.target.value)}
+                                style={{
+                                  width: '100%', 
+                                  boxSizing: 'border-box',
+                                }}
                               />
                             ) : (
                               product.quantity
@@ -179,6 +187,10 @@ function Row(props) {
                                 type="number"
                                 value={editedProduct?.confirmedQuantity ?? product.confirmedQuantity}
                                 onChange={(e) => handleChange('confirmedQuantity', e.target.value)}
+                                style={{
+                                  width: '100%', 
+                                  boxSizing: 'border-box',
+                                }}
                               />
                             ) : (
                               product.confirmedQuantity
