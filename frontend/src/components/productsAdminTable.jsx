@@ -147,7 +147,7 @@ const AdminTable = () => {
         _id: false,
       }
     },
-    createDisplayMode: 'modal', //default ('row', and 'custom' are also available)
+    createDisplayMode: 'modal', 
     editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
     enableEditing: true,
     getRowId: (row) => row.id,
@@ -160,8 +160,31 @@ const AdminTable = () => {
     muiTableContainerProps: {
       sx: {
         minHeight: '39rem',
+        backgroundColor: '#FBFCFE',
       },
     },
+    muiTableHeadCellProps: ({
+      //conditionally style pinned columns
+      sx: {
+        backgroundColor: '#FBFCFE',
+      },
+    }),
+    muiTableBodyCellProps: ({
+      //conditionally style pinned columns
+      sx: {
+        backgroundColor: '#FBFCFE',
+      },
+    }),
+    muiBottomToolbarProps: ({
+      sx: {
+        backgroundColor: '#FBFCFE',
+      },
+    }),
+    muiTopToolbarProps: ({
+      sx: {
+        backgroundColor: '#FBFCFE',
+      },
+    }),
     onCreatingRowCancel: () => {
       setValidationErrors({});
       setIsIdVisible(true);
@@ -224,7 +247,7 @@ const AdminTable = () => {
         </Tooltip>
         <Tooltip title="Delete">
           <IconButton
-            color="error"
+            color="black"
             onClick={() => openDeleteConfirmModal(row)}
           >
             <DeleteIcon />
@@ -251,7 +274,7 @@ const AdminTable = () => {
     },
   });
 
-  return <MaterialReactTable table={table} />;
+  return <MaterialReactTable table={table}  />;
 };
 
 export default AdminTable;

@@ -166,7 +166,7 @@ function Row(props) {
                       <th>Antal</th>
                       <th>Plockat antal</th>
                       <th>Status</th>
-                      <th>Hantering</th>
+                      <th>Åtgärder</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -334,7 +334,7 @@ export default function OrderTable() {
             <th>Kund / Gäst</th>
             <th>Leveranssätt</th>
             <th>Status</th>
-            <th>Hantering</th>
+            <th>Åtgärder</th>
           </tr>
         </thead>
         <tbody>
