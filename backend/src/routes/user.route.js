@@ -1,8 +1,12 @@
+// user.route.js
+
 import express from 'express';
-import { registerUser, getUser } from '../controllers/user.controller.js';
+import { getUser } from '../controllers/user.controller.js';
+import authenticateUser from '../middlewares/authMiddleware.js';
+
 const userRouter = express.Router();
 
-userRouter.post('/registeruser', registerUser);
-userRouter.get('/users', getUser);
+// Apply the authentication middleware to the /admin route
+userRouter.get('/admin', authenticateUser, getUser);
 
 export { userRouter };
