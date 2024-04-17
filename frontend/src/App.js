@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Cart from './components/Cart';
 import Payment from './components/Payment';
+import Confirmation from './components/Confirmation'; 
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -94,6 +95,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/betalning" element={<Payment cartItems={cartItems} />} />
+          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
         <Footer />
       </Router>
