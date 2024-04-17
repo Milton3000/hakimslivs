@@ -110,10 +110,10 @@ const AdminTable = () => {
 
   //call UPDATE hook
   const { mutateAsync: updateProduct, isPending: isUpdatingProduct } =
-    useUpdateProduct(); // Changed from useUpdateUser
+    useUpdateProduct(); 
   //call DELETE hook
   const { mutateAsync: deleteProduct, isPending: isDeletingProduct } =
-    useDeleteProduct(); // Changed from useDeleteUser
+    useDeleteProduct(); 
 
   //CREATE action
   const handleCreateProduct = async ({ values, table }) => {
@@ -139,6 +139,7 @@ const AdminTable = () => {
     localization: MRT_Localization_SV,
     columns,
     data: fetchedProducts,
+    positionActionsColumn: 'end',
     initialState: {
       columnVisibility: {
         description: false,
@@ -274,7 +275,7 @@ const AdminTable = () => {
     },
   });
 
-  return <MaterialReactTable table={table}  />;
+  return <MaterialReactTable table={table} />;
 };
 
 export default AdminTable;
