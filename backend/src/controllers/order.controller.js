@@ -1,4 +1,5 @@
 import Order from '../models/order.model.js';
+import Product from '../models/product.model.js'
 
 async function createOrder(req, res) {
   try {
@@ -26,6 +27,31 @@ async function getOrders(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
+async function updateOrder(req, res) {
+  const { id } = req.params;
+  const _order = req.body;
+  try {
+    const order = await Order.findById(id);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    _order.products.forEach(updatedProduct => {
+      const existingProductIndex = order.products.findIndex(product => product.product.equals(updatedProduct.product));
+      if (existingProductIndex !== -1) {
+        order.products[existingProductIndex].quantity = updatedProduct.quantity;
+        order.products[existingProductIndex].confirmedQuantity = updatedProduct.confirmedQuantity;
+        order.products[existingProductIndex].status = updatedProduct.status;
+      }
+    });
 
-export { createOrder, getOrders };
+    const updatedOrder = await order.save();
+    res.status(200).json(updatedOrder);
+  } catch (error) {
+    console.error('Error updating order:', error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+
+export { createOrder, getOrders, updateOrder };
 

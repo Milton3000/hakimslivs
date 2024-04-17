@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import IconButton from '@mui/joy/IconButton';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
@@ -10,17 +11,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import AddProductModal from '../adminhooks/order.hooks/addProductModa'; // Import the AddProductModal component
-
-function createData(orderId, customerName, customerId, status, products) {
-  return {
-    orderId,
-    customerName,
-    customerId,
-    status,
-    products,
-  };
-}
+import AddProductModal from '../adminhooks/order.hooks/addProductModal'; // Import the AddProductModal component
 
 function Row(props) {
   const { row, onDelete, onUpdate } = props;
@@ -29,7 +20,6 @@ function Row(props) {
   const [newProductName, setNewProductName] = React.useState('');
   const [newProductQuantity, setNewProductQuantity] = React.useState('');
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
-  const [confirmedQuantities, setConfirmedQuantities] = React.useState('');
 
   const handleAddProduct = () => {
     const newProduct = { name: newProductName, quantity: parseFloat(newProductQuantity)};
@@ -58,20 +48,15 @@ function Row(props) {
     onUpdate({ ...row, products: updatedProducts });
   };
 
-  const handleConfirmedQuantityChange = (index, confirmedQuantity) => {
-    const updatedProducts = [...row.products];
-    updatedProducts[index].confirmedQuantity = confirmedQuantity;
-    onUpdate({ ...row, products: updatedProducts });
-  };
-
   // Function to calculate the total order value
   const calculateTotalValue = () => {
-    return row.products.reduce((total, product) => total + (product.price * product.quantity), 0);
+    const totalPrice = row.products.reduce((total, product) => total + (product.price * product.quantity), 0);
+    return totalPrice.toFixed(2); // Limit to two decimal places
   };
 
   // Function to calculate product status
   const calculateProductStatus = (product) => {
-    return product.confirmedQuantity === product.quantity ? 'Ready' : 'In progress';
+    return product.confirmedQuantity === product.quantity ? 'Plockad' : 'Bearbetas';
   };
 
   return (
@@ -89,8 +74,8 @@ function Row(props) {
           </IconButton>
         </td>
         <th scope="row">{row.orderId}</th>
-        <td>{row.customerName}</td>
-        <td>{row.customerId}</td>
+        <td>{row.customerNameFull}</td>
+        <td>{row.deliveryMethod}</td>
         <td>{row.status}</td>
         <td>
           <IconButton aria-label="delete" onClick={() => onDelete(row.orderId)}>
@@ -106,9 +91,31 @@ function Row(props) {
                 variant="soft"
                 sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
               >
+             
                 <Typography level="body-lg" component="div">
+                <span>Kund</span>
+              <Table> 
+                <thead>
+                  <tr>
+                    <th>Förnamn</th>
+                    <th>Efternamn</th>
+                    <th>Adress</th>
+                    <th>Telefon</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>{row.customerFirstName}</th>
+                    <th>{row.customerLastName}</th>
+                    <th>{row.customerAddress}</th>
+                    <th>{row.customerPhone}</th>
+                    <th>{row.customerEmail}</th>
+                  </tr>
+                </tbody>
+              </Table>
                   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
-                    <span>Products</span> {/* Subheader */}
+                    <span>Produkter</span> {/* Subheader */}
                     {/* Action button to open AddProductModal */}
                     <IconButton aria-label="add product" onClick={() => setShowAddProductModal(true)}>
                       <AddIcon />
@@ -125,12 +132,12 @@ function Row(props) {
                 >
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
-                      <th>Confirmed Quantity</th>
+                      <th>Namn</th>
+                      <th>Pris</th>
+                      <th>Antal</th>
+                      <th>Plockat antal</th>
                       <th>Status</th>
-                      <th>Action</th>
+                      <th>Hantering</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -138,7 +145,7 @@ function Row(props) {
   <React.Fragment key={index}>
     <tr>
       <td>{product.name}</td>
-      <td>{product.quantity}</td>
+      <td>{product.price} SEK</td>
       <td>
         {editingProductIndex === index ? (
           <input
@@ -196,11 +203,10 @@ function Row(props) {
 ))}
                     {/* Add the final row for total order value */}
                     <tr>
-                      <td colSpan={5}>Total order value: {calculateTotalValue()}</td>
+                      <td colSpan={5}>Totalt ordervärde: {calculateTotalValue()} SEK</td>
                     </tr>
                   </tbody>
                 </Table>
-                {/* AddProductModal component */}
                 <AddProductModal
                   open={showAddProductModal}
                   onClose={() => setShowAddProductModal(false)}
@@ -219,8 +225,8 @@ Row.propTypes = {
   initialOpen: PropTypes.bool,
   row: PropTypes.shape({
     orderId: PropTypes.string.isRequired,
-    customerName: PropTypes.string.isRequired,
-    customerId: PropTypes.string.isRequired,
+    customerNameFull: PropTypes.string.isRequired,
+    deliveryMethod: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     products: PropTypes.arrayOf(
       PropTypes.shape({
@@ -228,7 +234,7 @@ Row.propTypes = {
         price: PropTypes.number.isRequired,
         quantity: PropTypes.number.isRequired,
         confirmedQuantity: PropTypes.number.isRequired,
-        status: PropTypes.oneOf(['In progress', 'Ready']).isRequired,
+        status: PropTypes.oneOf(['Bearbetas', 'Plockad']).isRequired,
       })
     ).isRequired,
   }).isRequired,
@@ -236,19 +242,20 @@ Row.propTypes = {
   onUpdate: PropTypes.func.isRequired,
 };
 
-const orders = [
-  createData('ORD001', 'John Doe', 'CUST001', 'Pending', [
-    { name: 'Product A', price: 10, quantity: 2, confirmedQuantity: 1, status: 'In progress' },
-    { name: 'Product B', price: 20, quantity: 3, confirmedQuantity: 2, status: 'In progress' },
-  ]),
-  createData('ORD002', 'Jane Smith', 'CUST002', 'Shipped', [
-    { name: 'Product C', price: 15, quantity: 1, confirmedQuantity: 1, status: 'Ready' },
-    { name: 'Product D', price: 25, quantity: 2, confirmedQuantity: 1, status: 'In progress' },
-  ]),
-  // Add more orders as needed
-];
-
 export default function OrderTable() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    // Fetch orders from API using Axios
+    axios.get('http://localhost:3001/api/orders/allorders')
+      .then(response => {
+        setOrders(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching orders:', error);
+      });
+  }, []);
+
   const handleDelete = (orderId) => {
     // Implement delete functionality here
     console.log(`Deleting order with ID ${orderId}`);
@@ -261,28 +268,51 @@ export default function OrderTable() {
 
   return (
     <Sheet>
-      <Table
-        aria-label="order table"
-        sx={{
-          '& > thead > tr > th': { textAlign: 'left' },
-        }}
-      >
-        <thead>
-          <tr>
-            <th style={{ width: 40 }} aria-label="empty" />
-            <th>Order ID</th>
-            <th>Customer Name</th>
-            <th>Customer ID</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order, index) => (
-            <Row key={order.orderId} row={order} onDelete={handleDelete} onUpdate={handleUpdate} initialOpen={index === 0} />
-          ))}
-        </tbody>
-      </Table>
-    </Sheet>
+    <Table
+      aria-label="order table"
+      sx={{
+        boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
+        '& > thead > tr > th': { textAlign: 'left' },
+      }}
+    >
+      <thead>
+        <tr>
+          <th style={{ width: 40 }} aria-label="empty" />
+          <th>OrderID</th>
+          <th>Kund / Gäst</th>
+          <th>Leveranssätt</th>
+          <th>Status</th>
+          <th>Hantering</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.map((order, index) => (
+          <Row
+            key={order._id}
+            row={{
+              orderId: order._id,
+              customerNameFull: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
+              customerFirstName: order.guest ? order.guest.guestFirstName : order.customer.firstName,
+              customerLastName: order.guest ? order.guest.guestLastName : order.customer.lastName,
+              customerAddress: order.guest ? order.guest.guestAddress : order.customer.address,
+              customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
+              customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
+              deliveryMethod: order.deliveryMethod,
+              status: order.orderStatus,
+              products: order.products.map(product => ({
+                name: product.product.title,
+                price: product.product.price,
+                quantity: product.quantity,
+                confirmedQuantity: product.confirmedQuantity,
+                status: product.status,
+              })),
+            }}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
+          />
+        ))}
+      </tbody>
+    </Table>
+  </Sheet>
   );
 }

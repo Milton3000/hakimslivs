@@ -17,10 +17,15 @@ const guestSchema = new mongoose.Schema({
     guest: {
       type: guestSchema, // Define guest information schema
     },
+    deliveryMethod: {
+      type: String,
+      enum: ['Hämtas', 'Levereras'],
+      default: 'Levereras',
+    },
     orderStatus: {
       type: String,
-      enum: ['Pending', 'Processing', 'Shipped', 'Delivered'],
-      default: 'Pending',
+      enum: ['Bearbetas', 'Hämtad', 'Skickad', 'Levererad'],
+      default: 'Bearbetas',
     },
     products: [{
       product: {
@@ -38,8 +43,8 @@ const guestSchema = new mongoose.Schema({
       },
       status: {
         type: String,
-        enum: ['In progress', 'Ready'],
-        default: 'In progress',
+        enum: ['Bearbetas', 'Plockad', 'Utbokad'],
+        default: 'Bearbetas',
       },
     }],
   }, { timestamps: true });

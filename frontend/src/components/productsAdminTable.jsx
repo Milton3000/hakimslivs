@@ -159,7 +159,7 @@ const AdminTable = () => {
       : undefined,
     muiTableContainerProps: {
       sx: {
-        minHeight: '500px',
+        minHeight: '39rem',
       },
     },
     onCreatingRowCancel: () => {

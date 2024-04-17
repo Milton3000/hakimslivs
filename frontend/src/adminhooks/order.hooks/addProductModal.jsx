@@ -20,13 +20,13 @@ function AddProductModal({ open, onClose, onSave }) {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add New Product</DialogTitle>
+      <DialogTitle>Lägg till produkt</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
           id="name"
-          label="Product Name"
+          label="Sök på produktnamn eller ID"
           type="text"
           fullWidth
           value={productName}
@@ -35,7 +35,7 @@ function AddProductModal({ open, onClose, onSave }) {
         <TextField
           margin="dense"
           id="quantity"
-          label="Quantity"
+          label="Antal"
           type="number"
           fullWidth
           value={productQuantity}
@@ -43,8 +43,8 @@ function AddProductModal({ open, onClose, onSave }) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSave}>Save</Button>
+        <Button onClick={onClose}>Stäng</Button>
+        <Button onClick={handleSave}>Lägg till</Button>
       </DialogActions>
     </Dialog>
   );
