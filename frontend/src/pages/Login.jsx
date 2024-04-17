@@ -1,29 +1,41 @@
 import React, { useState } from "react";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Hardcoded admin credentials
-    const adminEmail = "admin@example.com";
-    const adminPassword = "admin123";
+    try {
+      const response = await fetch("/api/auth/userLogin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (email === adminEmail && password === adminPassword) {
-      window.location.href = "/admin";
-    } else {
-      setError("Invalid email or password");
+      const data = await response.json();
+
+      if (response.ok) {
+        // Login successful, redirect to admin dashboard or another page
+        window.location.href = "/admin";
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (error) {
+      setError("An error occurred while logging in");
+      console.error("Login error:", error);
     }
   };
 
@@ -38,14 +50,14 @@ const Login = () => {
             <div className="card-body">
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label htmlFor="email">Email address:</label>
+                  <label htmlFor="username">Username:</label>
                   <input
-                    type="email"
+                    type="text"
                     className="form-control"
-                    id="email"
-                    placeholder="Enter email"
-                    value={email}
-                    onChange={handleEmailChange}
+                    id="username"
+                    placeholder="Enter username"
+                    value={username}
+                    onChange={handleUsernameChange}
                   />
                 </div>
                 <div className="form-group">
