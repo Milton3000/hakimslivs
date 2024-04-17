@@ -46,20 +46,30 @@ function Row(props) {
     onUpdate({ ...row, products: updatedProducts });
     setEditingProductIndex(-1);
   };
-
   const handleChange = (field, value) => {
     let parsedValue = parseFloat(value);
     if (isNaN(parsedValue)) {
       parsedValue = 0;
     }
+  
+    // If the field is 'confirmedQuantity', ensure it does not exceed 'quantity'
+    if (field === 'confirmedQuantity') {
+      const product = row.products[editingProductIndex];
+      if (product && parsedValue > product.quantity) {
+        alert('Confirmed quantity cannot exceed quantity.');
+        parsedValue = product.quantity;
+      }
+    }
+  
     setEditedProduct(prevProduct => ({ ...prevProduct, [field]: parsedValue }));
   };
 
   const handleDoneEditing = (index) => {
-    if (editedProduct !== null) {
+    if (editedProduct && Object.keys(editedProduct).length > 0) {
       handleUpdateProduct(index);
-      setEditedProduct(null);
     }
+    setEditingProductIndex(-1);
+    setEditedProduct(null);
   };
 
   const handleDeleteProduct = (index) => {
