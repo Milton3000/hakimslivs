@@ -1,17 +1,13 @@
+// Navbar.jsx
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Link } from 'react-router-dom';
+import { FaShoppingCart } from 'react-icons/fa'; // Cart Icon
 import SearchBar from './SearchBar';
 
-const Navbar = ({ onSearchInputChange }) => {
-  // Reloadar sidan när man klickar på Hakim Livs
-  const handleHomeButtonClick = () => {
-    window.location.reload();
-  };
-
+const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="/" onClick={handleHomeButtonClick} style={{ fontSize: '34px', color: 'blue' }}>Hakim Livs</a>
+<a className="navbar-brand" href="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }} style={{ fontSize: '34px', color: 'blue' }}>Hakim Livs</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
@@ -20,14 +16,16 @@ const Navbar = ({ onSearchInputChange }) => {
         <ul className="navbar-nav mr-auto">
         </ul>
         <SearchBar onSearchInputChange={onSearchInputChange} />
-        {/* <ul className="navbar-nav">
+        {/* Cart Icon här */}
+        <ul className="navbar-nav">
           <li className="nav-item">
-            <Link className="nav-link" to="/login">Logga in</Link>
+            <button className="nav-link cart-icon" onClick={toggleCart} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
+              <FaShoppingCart size={20} />
+              <span className="badge bg-secondary">{totalCartItems}</span>
+            </button>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/register">Registrera</Link>
-          </li>
-        </ul> */}
+        </ul>
+
       </div>
     </nav>
   );

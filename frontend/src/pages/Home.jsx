@@ -1,15 +1,17 @@
+// Home.jsx
 import React, { useState, useEffect } from 'react';
 import Categories from '../components/CategoriesLeft';
 import { Modal, Button } from 'react-bootstrap';
 import './Home.css';
 
-const Home = ({ searchQuery }) => {
+const Home = ({ searchQuery, addToCart, setShowCart }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const [categoryTitle, setCategoryTitle] = useState('POPULÄRT JUST NU'); // Initialize with 'POPULÄRT JUST NU'
-  const [initialLoad, setInitialLoad] = useState(true); // Track if it's the initial load
+  const [categoryTitle, setCategoryTitle] = useState('POPULÄRT JUST NU');
+  const [initialLoad, setInitialLoad] = useState(true);
+  const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
   const fetchProductsByCategory = async (category) => {
     try {
@@ -17,7 +19,7 @@ const Home = ({ searchQuery }) => {
       const data = await response.json();
       setProducts(data);
       setCategoryTitle(category);
-      setInitialLoad(false); // Set initial load to false when selecting a category
+      setInitialLoad(false);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -38,14 +40,12 @@ const Home = ({ searchQuery }) => {
   }, []);
 
   useEffect(() => {
-    // Filter products based on search query
     setFilteredProducts(
       products.filter((product) =>
         product.title.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
 
-    // Update category title based on search query
     if (searchQuery.trim() !== '') {
       setCategoryTitle('Sökresultat');
     } else {
@@ -53,22 +53,13 @@ const Home = ({ searchQuery }) => {
     }
   }, [searchQuery, products]);
 
-  const addToCart = (productId) => {
-    // Implement addToCart functionality here (Senare)
-    console.log(`Product added to cart: ${productId}`);
-  };
-
   const handleProductClick = (product) => {
     setSelectedProduct(product);
+    setShowDescriptionModal(true); // Show product description modal
   };
 
   const handleCloseModal = () => {
     setSelectedProduct(null);
-  };
-
-  const handleAddToCartClick = (event, productId) => {
-    event.stopPropagation();
-    addToCart(productId);
   };
 
   const toggleDescription = () => {
@@ -84,6 +75,12 @@ const Home = ({ searchQuery }) => {
     } else {
       return (weight * 1000).toFixed(1) + " g"; // Convert to grams if less than 1 kg
     }
+  };
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    setShowDescriptionModal(false); // Close product description modal
+    setShowCart(true); // Show cart modal
   };
 
   return (
@@ -110,17 +107,16 @@ const Home = ({ searchQuery }) => {
                     <p className="card-text fs-6 mb-2 text-center">Jämförpris: {product.unit_price} SEK per {product.unit}</p>
 
                     <p className="card-text fs-6 mb-2 text-center">Vikt: {formatWeight(product.weight)}</p>
-                    <button onClick={(e) => handleAddToCartClick(e, product.id)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
+                    <button onClick={(e) => handleAddToCart(e, product.id)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
                   </div>
                 </div>
               </div>
             </div>
           ))}
-          {/* Add placeholders if there are less than 4 products */}
           {filteredProducts.length < 4 && Array(4 - filteredProducts.length).fill().map((_, index) => (
             <div key={`placeholder-${index}`} className="d-inline-block m-2" style={{ width: '240px' }}>
               <div className="card product-card invisible">
-                {/* Add any additional placeholder content here */}
+                {/* Lägg till mer placeholder content här om behövs */}
               </div>
             </div>
           ))}
@@ -155,5 +151,6 @@ const Home = ({ searchQuery }) => {
     </div>
   );
 };
+
 
 export default Home;
