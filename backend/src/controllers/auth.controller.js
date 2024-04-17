@@ -18,6 +18,11 @@ async function userLogin(req, res) {
             return res.status(401).json({ message: "Username or Password Is Incorrect" });
         }
 
+        // Check if the user is an admin
+        if (!user.isAdmin) {
+            return res.status(403).json({ message: "Access Forbidden. Only admin users can log in." });
+        }
+
         // Issue a JWT token upon successful login
         const token = jwt.sign({ id: user._id }, "secret", { expiresIn: '1h' });
         res.json({ token });

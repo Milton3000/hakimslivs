@@ -44,7 +44,7 @@ const Login = () => {
         <div className="col-md-6">
           <div className="card mt-5">
             <div className="card-header">
-              <h2 className="text-center">Login</h2>
+              <h2 className="text-center">Admin Login</h2>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
