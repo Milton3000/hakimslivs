@@ -18,7 +18,7 @@ const AdminPage = () => {
 
   return (
     <div style={{ display: 'flex', height: '50rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '15px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '15px', paddingTop: '20px', paddingBottom: '20px' }}>
         <div className='admin-menu'>
           <div className='user-box'>
             <img style={{ height: '75px', width: '75px' }} src={profilepic} alt="Profile" />
