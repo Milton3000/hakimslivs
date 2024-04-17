@@ -13,12 +13,10 @@ const Payment = ({ cartItems }) => {
     cartItems.forEach((item) => {
       total += item.price * item.quantity;
     });
-    // Lägger till leveransavgift
     total += 45;
-    setTotalPrice(total);
+    setTotalPrice(parseFloat(total.toFixed(2))); // Round to two decimal places
   }, [cartItems]);
   
-
   const handlePaymentOptionSelect = (option) => {
     setSelectedPaymentOption(option);
   };

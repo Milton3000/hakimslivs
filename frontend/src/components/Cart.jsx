@@ -17,8 +17,9 @@ const Cart = ({
     cartItems.forEach((item) => {
       total += item.price * item.quantity;
     });
-    setTotalPrice(total);
+    setTotalPrice(parseFloat(total.toFixed(2))); // Round to two decimal places
   }, [cartItems]);
+  
 
   return (
     <div className={`cart-container ${showCart ? "show" : ""}`}>
@@ -93,7 +94,6 @@ const Cart = ({
               <Button variant="primary" href="/betalning">
                 Gå till betalning
               </Button>{" "}
-              {/* Add the button for payment */}
             </Modal.Footer>
             <Modal.Footer style={{ display: "flex", justifyContent: "center" }}>
               <p style={{ fontWeight: "bold" }}>Totalt: {totalPrice} SEK</p>{" "}
