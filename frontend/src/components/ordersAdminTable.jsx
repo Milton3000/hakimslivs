@@ -36,12 +36,16 @@ function Row(props) {
     setEditingProductIndex(index);
   };
 
- const handleUpdateProduct = (index) => {
-  const updatedProducts = [...row.products];
-  updatedProducts[index] = { ...updatedProducts[index], ...editedProduct };
-  onUpdate({ ...row, products: updatedProducts });
-  setEditingProductIndex(-1);
-};
+  const handleUpdateProduct = (index) => {
+    const updatedProducts = [...row.products];
+    updatedProducts[index] = {
+      ...updatedProducts[index],
+      ...editedProduct,
+      status: calculateProductStatus({ ...updatedProducts[index], ...editedProduct }) // calculate the status
+    };
+    onUpdate({ ...row, products: updatedProducts });
+    setEditingProductIndex(-1);
+  };
 
   const handleChange = (field, value) => { // You don't need to pass the index as a parameter
     setEditedProduct(prevProduct => ({ ...prevProduct, [field]: parseFloat(value) }));
@@ -53,7 +57,7 @@ function Row(props) {
       setEditedProduct(null);
     }
   };
-  
+
   const handleDeleteProduct = (index) => {
     const updatedProducts = [...row.products];
     updatedProducts.splice(index, 1);
@@ -276,25 +280,23 @@ export default function OrderTable() {
 
     console.log(updatedOrder);
 
-    // Make a PUT request to update the order on the server
+
     axios.put(`http://localhost:3001/api/orders/update/${orderId}`, updatedOrder, {
       headers: {
-        'Content-Type': 'application/json' // Ensure request body is JSON
+        'Content-Type': 'application/json'
       }
     })
-    .then(response => {
-      console.log('Order updated successfully:', response.data);
-      // Update the local state with the updated order
-      setOrders(prevOrders => {
-        return prevOrders.map(order => {
-          console.log('Comparing IDs:', orderId, order._id); // move this line inside the map function
-          return order._id === orderId ? response.data : order; // replace `order.id` with `order._id`
+      .then(response => {
+        console.log('Order updated successfully:', response.data);
+        setOrders(prevOrders => {
+          return prevOrders.map(order => {
+            return order._id === orderId ? response.data : order; // Replace the updated order
+          });
         });
+      })
+      .catch(error => {
+        console.error('Error updating order:', error);
       });
-    })
-    .catch(error => {
-      console.error('Error updating order:', error);
-    });
   };
 
   return (
