@@ -62,7 +62,7 @@ const Login = ({ onLogin }) => {
                     type="text"
                     className="form-control"
                     id="username"
-                    placeholder="Enter username"
+                    placeholder=""
                     value={username}
                     onChange={handleUsernameChange}
                   />
@@ -73,7 +73,7 @@ const Login = ({ onLogin }) => {
                     type="password"
                     className="form-control"
                     id="password"
-                    placeholder="Enter password"
+                    placeholder=""
                     value={password}
                     onChange={handlePasswordChange}
                   />
