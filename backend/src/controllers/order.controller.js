@@ -35,6 +35,7 @@ async function updateOrder(req, res) {
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
+    if (_order.products) {
     _order.products.forEach(updatedProduct => {
       const existingProductIndex = order.products.findIndex(product => product.product.equals(updatedProduct.product));
       if (existingProductIndex !== -1) {
@@ -43,6 +44,10 @@ async function updateOrder(req, res) {
         order.products[existingProductIndex].status = updatedProduct.status;
       }
     });
+  }
+
+    order.orderStatus = _order.orderStatus; 
+    order.deliveryMethod = _order.deliveryMethod; 
 
     await order.save();
     order = await Order.findById(id).populate('customer products.product');
@@ -58,7 +63,7 @@ async function updateOrder(req, res) {
 
 async function addProductToOrder(req, res) {
   const { id } = req.params;
-  const products = req.body.products; // Get the array of products from the request body
+  const products = req.body.products; 
   try {
     let order = await Order.findById(id);
     if (!order) {

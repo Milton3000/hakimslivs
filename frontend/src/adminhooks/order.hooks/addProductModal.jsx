@@ -23,20 +23,9 @@ function AddProductModal({ open, onClose, onSave, orderId }) {
 
   async function getProduct() {
     try {
-      const response = await axios.get(`http://localhost:3001/api/products?name=${productName}`);
+      const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products?name=${productName}`);
       console.log(response.data);
       setProducts(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  async function addProductToOrder(orderId, product) {
-    try {
-      const response = await axios.put(`http://localhost:3001/api/orders/addproduct/${orderId}`, {
-        products: [product],
-      });
-  
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -44,8 +33,7 @@ function AddProductModal({ open, onClose, onSave, orderId }) {
 
   const handleSave = () => {
     const newProduct = { product: productId, quantity: parseFloat(productQuantity) };
-    addProductToOrder(orderId, newProduct);
-    onSave(newProduct);
+    onSave(orderId, newProduct);
     onClose();
     setProductName('');
     setProductQuantity('');

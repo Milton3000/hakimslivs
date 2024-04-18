@@ -14,26 +14,21 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddProductModal from '../adminhooks/order.hooks/addProductModal'; // Import the AddProductModal component
 
 function Row(props) {
-  const { row, onDelete, onUpdate, onDeleteProduct } = props;
+  const { row, onDeleteOrder, onUpdateOrder, onUpdateProduct, onDeleteProduct, onAddProduct } = props;
   const [open, setOpen] = React.useState(props.initialOpen || false);
   const [editingProductIndex, setEditingProductIndex] = React.useState(-1);
   const [editedProduct, setEditedProduct] = useState(null);
-  const [newProductName, setNewProductName] = React.useState('');
-  const [newProductQuantity, setNewProductQuantity] = React.useState('');
+  const [editingOrderIndex, setEditingOrderIndex] = React.useState(-1);
+  const [editedOrder, setEditedOrder] = useState(null);
   const [currentOrderId, setCurrentOrderId] = useState(null);
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
 
-  const handleAddProduct = () => {
-    const newProduct = { name: newProductName, quantity: parseFloat(newProductQuantity) };
-    const updatedProducts = [...row.products, newProduct];
-    onUpdate({ ...row, products: updatedProducts });
-    setShowAddProductModal(false); // Hide the modal after adding the product
-    setNewProductName('');
-    setNewProductQuantity('');
-  };
-
-  const handleEditProduct = (index) => {
+  const handleEdit = (index) => {
     setEditingProductIndex(index);
+    setEditingOrderIndex(index);
+    if (row) {
+      setEditedOrder(row);
+    }
   };
 
   const handleUpdateProduct = (index) => {
@@ -43,9 +38,10 @@ function Row(props) {
       ...editedProduct,
       status: calculateProductStatus({ ...updatedProducts[index], ...editedProduct }) // calculate the status
     };
-    onUpdate({ ...row, products: updatedProducts });
+    onUpdateProduct({ ...row, products: updatedProducts });
     setEditingProductIndex(-1);
   };
+
   const handleChange = (field, value) => {
     let parsedValue = parseFloat(value);
     if (isNaN(parsedValue)) {
@@ -60,8 +56,8 @@ function Row(props) {
         parsedValue = product.quantity;
       }
     }
-
     setEditedProduct(prevProduct => ({ ...prevProduct, [field]: parsedValue }));
+
   };
 
   const handleDoneEditing = (index) => {
@@ -72,13 +68,41 @@ function Row(props) {
     setEditedProduct(null);
   };
 
+  const handleUpdateOrder = (index) => {
+    if (editedOrder) {
+      onUpdateOrder({
+        orderId: editedOrder.orderId,
+        orderStatus: editedOrder.orderStatus,
+        deliveryMethod: editedOrder.deliveryMethod
+      });
+  
+      setEditedOrder(null); // Reset editedOrder
+    } else {
+      console.error('Cannot update order: editedOrder is null');
+    }
+  };
+
+  const handleChangeOrder = (field, value) => {
+    setEditedOrder(prevOrder => ({
+      ...prevOrder,
+      [field]: value,
+    }));
+  };
+
+  const handleDoneEditingOrder = (index) => {
+    if (editedOrder && Object.keys(editedOrder).length > 0) {
+      handleUpdateOrder(index);
+    }
+    setEditingOrderIndex(-1);
+    setEditedOrder(null);
+  };
+
+
   const handleDeleteProduct = (orderId, productIndex) => {
     const productId = row.products[productIndex].productId;
-    console.log(`Deleting product with ID ${productId} from order with ID ${orderId}`);
     onDeleteProduct(orderId, productId);
 
   }
-  
 
   // Function to calculate the total order value
   const calculateTotalValue = () => {
@@ -107,10 +131,56 @@ function Row(props) {
         </td>
         <th scope="row">{row.orderId}</th>
         <td>{row.customerNameFull}</td>
-        <td>{row.deliveryMethod}</td>
-        <td>{row.status}</td>
         <td>
-          <IconButton aria-label="delete" onClick={() => onDelete(row.orderId)}>
+          {editingOrderIndex === row.orderId ? (
+            <select
+              value={editedOrder ? editedOrder.deliveryMethod : ''}
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+              }}
+              onChange={(e) => handleChangeOrder('deliveryMethod', e.target.value)}
+            >
+              <option value="Hämtas">Hämtas</option>
+              <option value="Levereras">Levereras</option>
+            </select>
+          ) : (
+            row.deliveryMethod
+          )}
+        </td>
+        <td>
+          {editingOrderIndex === row.orderId ? (
+            <select
+              value={editedOrder ? editedOrder.orderStatus : ''}
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+              }}
+              onChange={(e) => handleChangeOrder('orderStatus', e.target.value)}
+            >
+              <option value="Bearbetas">Bearbetas</option>
+              <option value="Hämtad">Hämtad</option>
+              <option value="Skickad">Skickad</option>
+              <option value="Levererad">Levererad</option>
+            </select>
+          ) : (
+            row.orderStatus
+          )}
+        </td>
+        <td>
+          {editingOrderIndex === row.orderId ? (
+            <IconButton
+              aria-label="done"
+              onClick={() => handleDoneEditingOrder(row.orderId)}
+            >
+              <DoneIcon />
+            </IconButton>
+          ) : (
+            <IconButton aria-label="edit" onClick={() => handleEdit(row.orderId)}>
+              <EditIcon />
+            </IconButton>
+          )}
+          <IconButton aria-label="delete" onClick={() => onDeleteOrder(row.orderId)}>
             <DeleteIcon />
           </IconButton>
         </td>
@@ -149,10 +219,10 @@ function Row(props) {
                   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
                     <span>Produkter</span> {/* Subheader */}
                     {/* Action button to open AddProductModal */}
-                    <IconButton aria-label="add product" onClick={() => { 
+                    <IconButton aria-label="add product" onClick={() => {
                       setCurrentOrderId(row.orderId);
                       setShowAddProductModal(true)
-                      }}>
+                    }}>
                       <AddIcon />
                     </IconButton>
                   </div>
@@ -222,7 +292,7 @@ function Row(props) {
                               </IconButton>
                             ) : (
                               <React.Fragment>
-                                <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
+                                <IconButton aria-label="edit" onClick={() => handleEdit(index)}>
                                   <EditIcon />
                                 </IconButton>
                                 <IconButton
@@ -237,7 +307,6 @@ function Row(props) {
                         </tr>
                       </React.Fragment>
                     ))}
-                    {/* Add the final row for total order value */}
                     <tr>
                       <td colSpan={5}>Totalt ordervärde: {calculateTotalValue()} SEK</td>
                     </tr>
@@ -247,7 +316,7 @@ function Row(props) {
                   open={showAddProductModal}
                   onClose={() => setShowAddProductModal(false)}
                   orderId={currentOrderId}
-                  onSave={handleAddProduct}
+                  onSave={onAddProduct}
                 />
               </Sheet>
             </td>
@@ -264,7 +333,7 @@ Row.propTypes = {
     orderId: PropTypes.string.isRequired,
     customerNameFull: PropTypes.string.isRequired,
     deliveryMethod: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
+    orderStatus: PropTypes.string.isRequired,
     products: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
@@ -275,16 +344,15 @@ Row.propTypes = {
       })
     ).isRequired,
   }).isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  onDeleteOrder: PropTypes.func.isRequired,
+  onUpdateProduct: PropTypes.func.isRequired,
 };
 
 export default function OrderTable() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    // Fetch orders from API using Axios
-    axios.get('http://localhost:3001/api/orders/allorders')
+    axios.get('https://hakimslivs-backend.onrender.com/api/orders/allorders')
       .then(response => {
         setOrders(response.data);
       })
@@ -293,9 +361,12 @@ export default function OrderTable() {
       });
   }, []);
 
-  const handleDelete = (orderId) => {
+  useEffect(() => {
+  }, [orders]);
+
+  const handleDeleteOrder = (orderId) => {
     if (window.confirm('Are you sure you want to delete this order?')) {
-      axios.delete(`http://localhost:3001/api/orders/delete/${orderId}`)
+      axios.delete(`https://hakimslivs-backend.onrender.com/api/orders/delete/${orderId}`)
         .then(() => {
           setOrders(prevOrders => {
             return prevOrders.filter(order => order._id !== orderId);
@@ -304,40 +375,16 @@ export default function OrderTable() {
         .catch(error => {
           console.error('Error deleting order:', error);
         });
-
-      console.log(`Deleting order with ID ${orderId}`);
     }
   };
 
-  const deleteProduct = (orderId, productId) => {
-    if (window.confirm('Are you sure you want to delete this product from the order?')) {
-      axios.put(`http://localhost:3001/api/orders/deleteproduct/${orderId}/${productId}`)
-        .then(response => {
-          setOrders(prevOrders => {
-            return prevOrders.map(order => {
-              return order._id === orderId ? response.data : order; // Replace the updated order
-            });
-          });
-        })
-        .catch(error => {
-          console.error('Error deleting product from order:', error);
-        });
-    }
-  };
-
-
-
-  const handleUpdate = (updatedOrder) => {
+  const handleUpdateOrder = (updatedOrder) => {
     const orderId = updatedOrder.orderId;
-    // Update the products array in the original order object
-    updatedOrder.products = updatedOrder.products.map(product => ({
-      product: product.productId,
-      quantity: product.quantity,
-      confirmedQuantity: product.confirmedQuantity,
-      status: product.status
-    }));
 
-    axios.put(`http://localhost:3001/api/orders/update/${orderId}`, updatedOrder, {
+    axios.put(`https://hakimslivs-backend.onrender.com/api/orders/update/${orderId}`, {
+      orderStatus: updatedOrder.orderStatus,
+      deliveryMethod: updatedOrder.deliveryMethod
+    }, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -353,6 +400,73 @@ export default function OrderTable() {
         console.error('Error updating order:', error);
       });
   };
+
+  const handleDeleteProduct = (orderId, productId) => {
+    if (window.confirm('Are you sure you want to delete this product from the order?')) {
+      axios.put(`https://hakimslivs-backend.onrender.com/api/orders/deleteproduct/${orderId}/${productId}`)
+        .then(response => {
+          setOrders(prevOrders => {
+            return prevOrders.map(order => {
+              return order._id === orderId ? response.data : order; // Replace the updated order
+            });
+          });
+        })
+        .catch(error => {
+          console.error('Error deleting product from order:', error);
+        });
+    }
+  };
+
+  const handleUpdateProduct = (updatedOrderProduct) => {
+    const orderId = updatedOrderProduct.orderId;
+
+    updatedOrderProduct.products = updatedOrderProduct.products.map(product => ({
+      product: product.productId,
+      quantity: product.quantity,
+      confirmedQuantity: product.confirmedQuantity,
+      status: product.status
+    }));
+
+    axios.put(`https://hakimslivs-backend.onrender.com/api/orders/update/${orderId}`, updatedOrderProduct, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        setOrders(prevOrders => {
+          return prevOrders.map(order => {
+            return order._id === orderId ? response.data : order; // Replace the updated order
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Error updating order:', error);
+      });
+  };
+
+
+  const handleAddProduct = (orderId, product) => {
+    axios.put(`https://hakimslivs-backend.onrender.com/api/orders/addproduct/${orderId}`, {
+      products: [product],
+    })
+      .then(response => {
+        setOrders(prevOrders => {
+          const orderIndex = prevOrders.findIndex(order => order._id.toString() === orderId.toString());
+          if (orderIndex !== -1) {
+            return [
+              ...prevOrders.slice(0, orderIndex),
+              { ...response.data, products: [...response.data.products] }, // Create a new object with a new reference
+              ...prevOrders.slice(orderIndex + 1)
+            ];
+          }
+          return prevOrders;
+        });
+      })
+      .catch(error => {
+        console.error('Error adding product to order:', error);
+      });
+  };
+
 
   return (
     <Sheet>
@@ -386,7 +500,7 @@ export default function OrderTable() {
                 customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
                 customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
                 deliveryMethod: order.deliveryMethod,
-                status: order.orderStatus,
+                orderStatus: order.orderStatus,
                 products: order.products.map(product => ({
                   name: product.product.title,
                   price: product.product.price,
@@ -396,9 +510,11 @@ export default function OrderTable() {
                   status: product.status,
                 })),
               }}
-              onDelete={handleDelete}
-              onUpdate={handleUpdate}
-              onDeleteProduct={deleteProduct}
+              onDeleteOrder={handleDeleteOrder}
+              onUpdateOrder={handleUpdateOrder}
+              onUpdateProduct={handleUpdateProduct}
+              onDeleteProduct={handleDeleteProduct}
+              onAddProduct={handleAddProduct}
             />
           ))}
         </tbody>
