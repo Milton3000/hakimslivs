@@ -14,23 +14,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddProductModal from '../adminhooks/order.hooks/addProductModal'; // Import the AddProductModal component
 
 function Row(props) {
-  const { row, onDelete, onUpdate, onDeleteProduct } = props;
+  const { row, onDelete, onUpdate, onDeleteProduct, onAddProduct } = props;
   const [open, setOpen] = React.useState(props.initialOpen || false);
   const [editingProductIndex, setEditingProductIndex] = React.useState(-1);
   const [editedProduct, setEditedProduct] = useState(null);
-  const [newProductName, setNewProductName] = React.useState('');
-  const [newProductQuantity, setNewProductQuantity] = React.useState('');
   const [currentOrderId, setCurrentOrderId] = useState(null);
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
-
-  const handleAddProduct = () => {
-    const newProduct = { name: newProductName, quantity: parseFloat(newProductQuantity) };
-    const updatedProducts = [...row.products, newProduct];
-    onUpdate({ ...row, products: updatedProducts });
-    setShowAddProductModal(false); // Hide the modal after adding the product
-    setNewProductName('');
-    setNewProductQuantity('');
-  };
 
   const handleEditProduct = (index) => {
     setEditingProductIndex(index);
@@ -46,6 +35,7 @@ function Row(props) {
     onUpdate({ ...row, products: updatedProducts });
     setEditingProductIndex(-1);
   };
+  
   const handleChange = (field, value) => {
     let parsedValue = parseFloat(value);
     if (isNaN(parsedValue)) {
@@ -78,7 +68,7 @@ function Row(props) {
     onDeleteProduct(orderId, productId);
 
   }
-  
+
 
   // Function to calculate the total order value
   const calculateTotalValue = () => {
@@ -149,10 +139,10 @@ function Row(props) {
                   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
                     <span>Produkter</span> {/* Subheader */}
                     {/* Action button to open AddProductModal */}
-                    <IconButton aria-label="add product" onClick={() => { 
+                    <IconButton aria-label="add product" onClick={() => {
                       setCurrentOrderId(row.orderId);
                       setShowAddProductModal(true)
-                      }}>
+                    }}>
                       <AddIcon />
                     </IconButton>
                   </div>
@@ -237,7 +227,6 @@ function Row(props) {
                         </tr>
                       </React.Fragment>
                     ))}
-                    {/* Add the final row for total order value */}
                     <tr>
                       <td colSpan={5}>Totalt ordervärde: {calculateTotalValue()} SEK</td>
                     </tr>
@@ -247,7 +236,7 @@ function Row(props) {
                   open={showAddProductModal}
                   onClose={() => setShowAddProductModal(false)}
                   orderId={currentOrderId}
-                  onSave={handleAddProduct}
+                  onSave={onAddProduct}
                 />
               </Sheet>
             </td>
@@ -281,17 +270,20 @@ Row.propTypes = {
 
 export default function OrderTable() {
   const [orders, setOrders] = useState([]);
-
+  
   useEffect(() => {
-    // Fetch orders from API using Axios
     axios.get('http://localhost:3001/api/orders/allorders')
-      .then(response => {
-        setOrders(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching orders:', error);
-      });
+    .then(response => {
+      setOrders(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching orders:', error);
+    });
   }, []);
+  
+  useEffect(() => {
+    console.log('Orders state updated:', orders);
+  }, [orders]);
 
   const handleDelete = (orderId) => {
     if (window.confirm('Are you sure you want to delete this order?')) {
@@ -325,8 +317,6 @@ export default function OrderTable() {
     }
   };
 
-
-
   const handleUpdate = (updatedOrder) => {
     const orderId = updatedOrder.orderId;
     // Update the products array in the original order object
@@ -353,6 +343,31 @@ export default function OrderTable() {
         console.error('Error updating order:', error);
       });
   };
+
+  
+  const handleAddProduct = (orderId, product) => {
+    axios.put(`http://localhost:3001/api/orders/addproduct/${orderId}`, {
+      products: [product],
+    })
+      .then(response => {
+        console.log('Response data:', response.data);
+        setOrders(prevOrders => {
+          const orderIndex = prevOrders.findIndex(order => order._id.toString() === orderId.toString());
+          if (orderIndex !== -1) {
+            return [
+              ...prevOrders.slice(0, orderIndex),
+              {...response.data, products: [...response.data.products]}, // Create a new object with a new reference
+              ...prevOrders.slice(orderIndex + 1)
+            ];
+          }
+          return prevOrders;
+        });
+      })
+      .catch(error => {
+        console.error('Error adding product to order:', error);
+      });
+  };
+
 
   return (
     <Sheet>
@@ -399,6 +414,7 @@ export default function OrderTable() {
               onDelete={handleDelete}
               onUpdate={handleUpdate}
               onDeleteProduct={deleteProduct}
+              onAddProduct={handleAddProduct}
             />
           ))}
         </tbody>

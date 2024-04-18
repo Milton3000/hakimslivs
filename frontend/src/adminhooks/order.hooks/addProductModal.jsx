@@ -30,22 +30,10 @@ function AddProductModal({ open, onClose, onSave, orderId }) {
       console.error(error);
     }
   }
-  async function addProductToOrder(orderId, product) {
-    try {
-      const response = await axios.put(`http://localhost:3001/api/orders/addproduct/${orderId}`, {
-        products: [product],
-      });
-  
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   const handleSave = () => {
     const newProduct = { product: productId, quantity: parseFloat(productQuantity) };
-    addProductToOrder(orderId, newProduct);
-    onSave(newProduct);
+    onSave(orderId, newProduct);
     onClose();
     setProductName('');
     setProductQuantity('');
