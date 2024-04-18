@@ -36,7 +36,7 @@ const AdminPage = () => {
           </ul>
         </div>
       </div>
-      <div style={{ width: '80%', padding: '20px', height: '100%', boxSizing: 'border-box' }}>
+      <div style={{ width: '90%', padding: '20px', height: '100%', boxSizing: 'border-box' }}>
         <div style={{ height: '100%', overflow: 'scroll', boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.2)' }}>
           <QueryClientProvider client={new QueryClient()}>
             {activePanel === 'orders' && <AdminOrders />}
