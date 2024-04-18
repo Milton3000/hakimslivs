@@ -18,11 +18,17 @@ function Row(props) {
   const [open, setOpen] = React.useState(props.initialOpen || false);
   const [editingProductIndex, setEditingProductIndex] = React.useState(-1);
   const [editedProduct, setEditedProduct] = useState(null);
+  const [editingOrderIndex, setEditingOrderIndex] = React.useState(-1);
+  const [editedOrder, setEditedOrder] = useState(null);
   const [currentOrderId, setCurrentOrderId] = useState(null);
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
 
-  const handleEditProduct = (index) => {
+  const handleEdit = (index) => {
     setEditingProductIndex(index);
+    setEditingOrderIndex(index);
+    if (row) {
+      setEditedOrder(row);
+    }
   };
 
   const handleUpdateProduct = (index) => {
@@ -50,8 +56,8 @@ function Row(props) {
         parsedValue = product.quantity;
       }
     }
-
     setEditedProduct(prevProduct => ({ ...prevProduct, [field]: parsedValue }));
+
   };
 
   const handleDoneEditing = (index) => {
@@ -61,6 +67,32 @@ function Row(props) {
     setEditingProductIndex(-1);
     setEditedProduct(null);
   };
+  
+  const handleUpdateOrder = (index) => {
+    if (editedOrder) {
+      console.log(index, editedOrder);
+      setEditedOrder(null); // reset the editedOrder state
+    } else {
+ 
+      console.error('Cannot update order: editedOrder is null');
+    }
+  };
+
+  const handleChangeOrder = (field, value) => {
+    setEditedOrder(prevOrder => ({
+      ...prevOrder,
+      [field]: value,
+    }));
+  };
+
+  const handleDoneEditingOrder = (index) => {
+    if (editedOrder && Object.keys(editedOrder).length > 0) {
+      handleUpdateOrder(index);
+    }
+    setEditingOrderIndex(-1);
+    setEditedOrder(null);
+  };
+
 
   const handleDeleteProduct = (orderId, productIndex) => {
     const productId = row.products[productIndex].productId;
@@ -68,7 +100,6 @@ function Row(props) {
     onDeleteProduct(orderId, productId);
 
   }
-
 
   // Function to calculate the total order value
   const calculateTotalValue = () => {
@@ -97,12 +128,55 @@ function Row(props) {
         </td>
         <th scope="row">{row.orderId}</th>
         <td>{row.customerNameFull}</td>
-        <td>{row.deliveryMethod}</td>
-        <td>{row.status}</td>
         <td>
-          <IconButton aria-label="edit">
-            <EditIcon />
-          </IconButton>
+  {editingOrderIndex === row.orderId ? (
+    <select
+    value={editedOrder ? editedOrder.deliveryMethod : ''}
+      style={{
+        width: '100%',
+        boxSizing: 'border-box',
+      }}
+      onChange={(e) => handleChangeOrder('deliveryMethod', e.target.value)}
+    >
+      <option value="Hämtas">Hämtas</option>
+      <option value="Levereras">Levereras</option>
+    </select>
+  ) : (
+    row.deliveryMethod
+  )}
+</td>
+<td>
+  {editingOrderIndex === row.orderId ? (
+    <select
+    value={editedOrder ? editedOrder.status : ''}
+      style={{
+        width: '100%',
+        boxSizing: 'border-box',
+      }}
+      onChange={(e) => handleChangeOrder('status', e.target.value)}
+    >
+      <option value="Bearbetas">Bearbetas</option>
+      <option value="Hämtad">Hämtad</option>
+      <option value="Skickad">Skickad</option>
+      <option value="Levererad">Levererad</option>
+    </select>
+  ) : (
+    row.status
+  )}
+</td>
+<td>
+  {editingOrderIndex === row.orderId ? (
+    <IconButton
+      aria-label="done"
+      onClick={() => handleDoneEditingOrder(row.orderId)}
+    >
+      <DoneIcon />
+    </IconButton>
+  ) : (
+    <IconButton aria-label="edit" onClick={() => handleEdit(row.orderId)}>
+      <EditIcon />
+    </IconButton>
+  )}
           <IconButton aria-label="delete" onClick={() => onDelete(row.orderId)}>
             <DeleteIcon />
           </IconButton>
@@ -215,7 +289,7 @@ function Row(props) {
                               </IconButton>
                             ) : (
                               <React.Fragment>
-                                <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
+                                <IconButton aria-label="edit" onClick={() => handleEdit(index)}>
                                   <EditIcon />
                                 </IconButton>
                                 <IconButton
