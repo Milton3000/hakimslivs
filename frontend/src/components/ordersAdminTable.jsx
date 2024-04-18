@@ -35,7 +35,7 @@ function Row(props) {
     onUpdate({ ...row, products: updatedProducts });
     setEditingProductIndex(-1);
   };
-  
+
   const handleChange = (field, value) => {
     let parsedValue = parseFloat(value);
     if (isNaN(parsedValue)) {
@@ -100,6 +100,9 @@ function Row(props) {
         <td>{row.deliveryMethod}</td>
         <td>{row.status}</td>
         <td>
+          <IconButton aria-label="edit">
+            <EditIcon />
+          </IconButton>
           <IconButton aria-label="delete" onClick={() => onDelete(row.orderId)}>
             <DeleteIcon />
           </IconButton>
@@ -270,17 +273,17 @@ Row.propTypes = {
 
 export default function OrderTable() {
   const [orders, setOrders] = useState([]);
-  
+
   useEffect(() => {
     axios.get('http://localhost:3001/api/orders/allorders')
-    .then(response => {
-      setOrders(response.data);
-    })
-    .catch(error => {
-      console.error('Error fetching orders:', error);
-    });
+      .then(response => {
+        setOrders(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching orders:', error);
+      });
   }, []);
-  
+
   useEffect(() => {
     console.log('Orders state updated:', orders);
   }, [orders]);
@@ -344,7 +347,7 @@ export default function OrderTable() {
       });
   };
 
-  
+
   const handleAddProduct = (orderId, product) => {
     axios.put(`http://localhost:3001/api/orders/addproduct/${orderId}`, {
       products: [product],
@@ -356,7 +359,7 @@ export default function OrderTable() {
           if (orderIndex !== -1) {
             return [
               ...prevOrders.slice(0, orderIndex),
-              {...response.data, products: [...response.data.products]}, // Create a new object with a new reference
+              { ...response.data, products: [...response.data.products] }, // Create a new object with a new reference
               ...prevOrders.slice(orderIndex + 1)
             ];
           }
