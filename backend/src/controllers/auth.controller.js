@@ -18,11 +18,6 @@ async function userLogin(req, res) {
             return res.status(401).json({ message: "Username or Password Is Incorrect" });
         }
 
-        // Check if the user is an admin
-        if (!user.isAdmin) {
-            return res.status(403).json({ message: "Access Forbidden. Only admin users can log in." });
-        }
-
         // Issue a JWT token upon successful login
         const token = jwt.sign({ id: user._id }, "secret", { expiresIn: '1h' });
         res.json({ token });
@@ -32,4 +27,23 @@ async function userLogin(req, res) {
     }
 }
 
-export { userLogin };
+async function registerUser(req, res) {
+    try {
+        const { username, password } = req.body;
+        const existingUser = await User.findOne({ username });
+
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists." });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ username, password: hashedPassword });
+        await newUser.save();
+        res.status(201).json({ message: "User created successfully" });
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+export { userLogin, registerUser };
