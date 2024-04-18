@@ -14,7 +14,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddProductModal from '../adminhooks/order.hooks/addProductModal'; // Import the AddProductModal component
 
 function Row(props) {
-  const { row, onDelete, onUpdate, onDeleteProduct, onAddProduct } = props;
+  const { row, onDeleteOrder, onUpdateOrder, onUpdateProduct, onDeleteProduct, onAddProduct } = props;
   const [open, setOpen] = React.useState(props.initialOpen || false);
   const [editingProductIndex, setEditingProductIndex] = React.useState(-1);
   const [editedProduct, setEditedProduct] = useState(null);
@@ -38,7 +38,7 @@ function Row(props) {
       ...editedProduct,
       status: calculateProductStatus({ ...updatedProducts[index], ...editedProduct }) // calculate the status
     };
-    onUpdate({ ...row, products: updatedProducts });
+    onUpdateProduct({ ...row, products: updatedProducts });
     setEditingProductIndex(-1);
   };
 
@@ -67,13 +67,17 @@ function Row(props) {
     setEditingProductIndex(-1);
     setEditedProduct(null);
   };
-  
+
   const handleUpdateOrder = (index) => {
     if (editedOrder) {
-      console.log(index, editedOrder);
-      setEditedOrder(null); // reset the editedOrder state
+      onUpdateOrder({
+        orderId: editedOrder.orderId,
+        orderStatus: editedOrder.orderStatus,
+        deliveryMethod: editedOrder.deliveryMethod
+      });
+  
+      setEditedOrder(null); // Reset editedOrder
     } else {
- 
       console.error('Cannot update order: editedOrder is null');
     }
   };
@@ -96,7 +100,6 @@ function Row(props) {
 
   const handleDeleteProduct = (orderId, productIndex) => {
     const productId = row.products[productIndex].productId;
-    console.log(`Deleting product with ID ${productId} from order with ID ${orderId}`);
     onDeleteProduct(orderId, productId);
 
   }
@@ -129,55 +132,55 @@ function Row(props) {
         <th scope="row">{row.orderId}</th>
         <td>{row.customerNameFull}</td>
         <td>
-  {editingOrderIndex === row.orderId ? (
-    <select
-    value={editedOrder ? editedOrder.deliveryMethod : ''}
-      style={{
-        width: '100%',
-        boxSizing: 'border-box',
-      }}
-      onChange={(e) => handleChangeOrder('deliveryMethod', e.target.value)}
-    >
-      <option value="Hämtas">Hämtas</option>
-      <option value="Levereras">Levereras</option>
-    </select>
-  ) : (
-    row.deliveryMethod
-  )}
-</td>
-<td>
-  {editingOrderIndex === row.orderId ? (
-    <select
-    value={editedOrder ? editedOrder.status : ''}
-      style={{
-        width: '100%',
-        boxSizing: 'border-box',
-      }}
-      onChange={(e) => handleChangeOrder('status', e.target.value)}
-    >
-      <option value="Bearbetas">Bearbetas</option>
-      <option value="Hämtad">Hämtad</option>
-      <option value="Skickad">Skickad</option>
-      <option value="Levererad">Levererad</option>
-    </select>
-  ) : (
-    row.status
-  )}
-</td>
-<td>
-  {editingOrderIndex === row.orderId ? (
-    <IconButton
-      aria-label="done"
-      onClick={() => handleDoneEditingOrder(row.orderId)}
-    >
-      <DoneIcon />
-    </IconButton>
-  ) : (
-    <IconButton aria-label="edit" onClick={() => handleEdit(row.orderId)}>
-      <EditIcon />
-    </IconButton>
-  )}
-          <IconButton aria-label="delete" onClick={() => onDelete(row.orderId)}>
+          {editingOrderIndex === row.orderId ? (
+            <select
+              value={editedOrder ? editedOrder.deliveryMethod : ''}
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+              }}
+              onChange={(e) => handleChangeOrder('deliveryMethod', e.target.value)}
+            >
+              <option value="Hämtas">Hämtas</option>
+              <option value="Levereras">Levereras</option>
+            </select>
+          ) : (
+            row.deliveryMethod
+          )}
+        </td>
+        <td>
+          {editingOrderIndex === row.orderId ? (
+            <select
+              value={editedOrder ? editedOrder.orderStatus : ''}
+              style={{
+                width: '100%',
+                boxSizing: 'border-box',
+              }}
+              onChange={(e) => handleChangeOrder('orderStatus', e.target.value)}
+            >
+              <option value="Bearbetas">Bearbetas</option>
+              <option value="Hämtad">Hämtad</option>
+              <option value="Skickad">Skickad</option>
+              <option value="Levererad">Levererad</option>
+            </select>
+          ) : (
+            row.orderStatus
+          )}
+        </td>
+        <td>
+          {editingOrderIndex === row.orderId ? (
+            <IconButton
+              aria-label="done"
+              onClick={() => handleDoneEditingOrder(row.orderId)}
+            >
+              <DoneIcon />
+            </IconButton>
+          ) : (
+            <IconButton aria-label="edit" onClick={() => handleEdit(row.orderId)}>
+              <EditIcon />
+            </IconButton>
+          )}
+          <IconButton aria-label="delete" onClick={() => onDeleteOrder(row.orderId)}>
             <DeleteIcon />
           </IconButton>
         </td>
@@ -330,7 +333,7 @@ Row.propTypes = {
     orderId: PropTypes.string.isRequired,
     customerNameFull: PropTypes.string.isRequired,
     deliveryMethod: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
+    orderStatus: PropTypes.string.isRequired,
     products: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
@@ -341,8 +344,8 @@ Row.propTypes = {
       })
     ).isRequired,
   }).isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  onDeleteOrder: PropTypes.func.isRequired,
+  onUpdateProduct: PropTypes.func.isRequired,
 };
 
 export default function OrderTable() {
@@ -359,10 +362,9 @@ export default function OrderTable() {
   }, []);
 
   useEffect(() => {
-    console.log('Orders state updated:', orders);
   }, [orders]);
 
-  const handleDelete = (orderId) => {
+  const handleDeleteOrder = (orderId) => {
     if (window.confirm('Are you sure you want to delete this order?')) {
       axios.delete(`http://localhost:3001/api/orders/delete/${orderId}`)
         .then(() => {
@@ -373,12 +375,33 @@ export default function OrderTable() {
         .catch(error => {
           console.error('Error deleting order:', error);
         });
-
-      console.log(`Deleting order with ID ${orderId}`);
     }
   };
 
-  const deleteProduct = (orderId, productId) => {
+  const handleUpdateOrder = (updatedOrder) => {
+    const orderId = updatedOrder.orderId;
+
+    axios.put(`http://localhost:3001/api/orders/update/${orderId}`, {
+      orderStatus: updatedOrder.orderStatus,
+      deliveryMethod: updatedOrder.deliveryMethod
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        setOrders(prevOrders => {
+          return prevOrders.map(order => {
+            return order._id === orderId ? response.data : order; // Replace the updated order
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Error updating order:', error);
+      });
+  };
+
+  const handleDeleteProduct = (orderId, productId) => {
     if (window.confirm('Are you sure you want to delete this product from the order?')) {
       axios.put(`http://localhost:3001/api/orders/deleteproduct/${orderId}/${productId}`)
         .then(response => {
@@ -394,17 +417,17 @@ export default function OrderTable() {
     }
   };
 
-  const handleUpdate = (updatedOrder) => {
-    const orderId = updatedOrder.orderId;
-    // Update the products array in the original order object
-    updatedOrder.products = updatedOrder.products.map(product => ({
+  const handleUpdateProduct = (updatedOrderProduct) => {
+    const orderId = updatedOrderProduct.orderId;
+
+    updatedOrderProduct.products = updatedOrderProduct.products.map(product => ({
       product: product.productId,
       quantity: product.quantity,
       confirmedQuantity: product.confirmedQuantity,
       status: product.status
     }));
 
-    axios.put(`http://localhost:3001/api/orders/update/${orderId}`, updatedOrder, {
+    axios.put(`http://localhost:3001/api/orders/update/${orderId}`, updatedOrderProduct, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -427,7 +450,6 @@ export default function OrderTable() {
       products: [product],
     })
       .then(response => {
-        console.log('Response data:', response.data);
         setOrders(prevOrders => {
           const orderIndex = prevOrders.findIndex(order => order._id.toString() === orderId.toString());
           if (orderIndex !== -1) {
@@ -478,7 +500,7 @@ export default function OrderTable() {
                 customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
                 customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
                 deliveryMethod: order.deliveryMethod,
-                status: order.orderStatus,
+                orderStatus: order.orderStatus,
                 products: order.products.map(product => ({
                   name: product.product.title,
                   price: product.product.price,
@@ -488,9 +510,10 @@ export default function OrderTable() {
                   status: product.status,
                 })),
               }}
-              onDelete={handleDelete}
-              onUpdate={handleUpdate}
-              onDeleteProduct={deleteProduct}
+              onDeleteOrder={handleDeleteOrder}
+              onUpdateOrder={handleUpdateOrder}
+              onUpdateProduct={handleUpdateProduct}
+              onDeleteProduct={handleDeleteProduct}
               onAddProduct={handleAddProduct}
             />
           ))}
