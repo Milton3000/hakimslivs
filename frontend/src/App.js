@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route , Navigate  } from 'react-router-dom';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Categories from './pages/Categories';
@@ -16,6 +16,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [totalCartItems, setTotalCartItems] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     // Loada items from localStorage
@@ -83,27 +84,29 @@ function App() {
     setShowCart();
   };
 
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
     <div className="App">
       <Router>
         <Navbar onSearchInputChange={handleSearchInputChange} toggleCart={toggleCart} totalCartItems={totalCartItems} />
         <Routes>
-          <Route
-            path="/"
-            element={<Home searchQuery={searchQuery} addToCart={addToCart} setShowCart={setShowCart} />}
-          />
+          <Route path="/" element={<Home searchQuery={searchQuery} />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={isLoggedIn ? <AdminPage /> : <Navigate to="/login" />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/betalning" element={<Payment cartItems={cartItems} />} />
           <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
         <Footer />
       </Router>
-      {showCart && <Cart cartItems={cartItems} handleClose={handleCloseCart} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />}
+      {showCart && <Cart handleClose={handleCloseCart} />}
     </div>
   );
 }
+
 
 export default App;

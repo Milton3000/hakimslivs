@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -26,8 +28,9 @@ const Login = () => {
       });
 
       if (response.ok) {
-        // Redirect to /admin on successful login
-        window.location.href = "/admin";
+        // Perform actions after successful login
+        onLogin();
+        setLoggedIn(true);
       } else {
         const data = await response.json();
         setError(data.message || "Login failed");
@@ -37,6 +40,11 @@ const Login = () => {
       console.error("Login error:", error);
     }
   };
+
+  if (loggedIn) {
+    // Redirect to /admin on successful login
+    return <Navigate to="/admin" />;
+  }
 
   return (
     <div className="container">
