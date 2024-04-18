@@ -57,7 +57,7 @@ const Login = ({ onLogin }) => {
             <div className="card-body">
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label htmlFor="username">Username:</label>
+                  <label htmlFor="username">Användarnamn:</label>
                   <input
                     type="text"
                     className="form-control"
@@ -68,7 +68,7 @@ const Login = ({ onLogin }) => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="password">Password:</label>
+                  <label htmlFor="password">Lösenord:</label>
                   <input
                     type="password"
                     className="form-control"
@@ -79,7 +79,7 @@ const Login = ({ onLogin }) => {
                   />
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
-                <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                <button type="submit" className="btn btn-primary btn-block">Logga in</button>
               </form>
             </div>
           </div>
