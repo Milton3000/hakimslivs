@@ -25,7 +25,7 @@ const AdminPage = () => {
             <b>Användare</b>
           </div>
           <ul className='admin-ul'>
-          <li className='admin-list-item' onClick={() => handlePanelChange('orders')}>
+            <li className='admin-list-item' onClick={() => handlePanelChange('orders')}>
               <iconify-icon icon="dashicons:list-view" width="24" height="24" style={{ color: '#3184dd' }} />
               Orderhantering
             </li>
@@ -36,11 +36,13 @@ const AdminPage = () => {
           </ul>
         </div>
       </div>
-      <div style={{ width: '80%', padding: '20px' }}>
-        <QueryClientProvider client={new QueryClient()}>
-          {activePanel === 'orders' && <AdminOrders />}
-          {activePanel === 'products' && <AdminProducts />}
-        </QueryClientProvider>
+      <div style={{ width: '80%', padding: '20px', height: '100%', boxSizing: 'border-box' }}>
+        <div style={{ height: '100%', overflow: 'scroll', boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.2)' }}>
+          <QueryClientProvider client={new QueryClient()}>
+            {activePanel === 'orders' && <AdminOrders />}
+            {activePanel === 'products' && <AdminProducts />}
+          </QueryClientProvider>
+        </div>
       </div>
     </div>
   );
