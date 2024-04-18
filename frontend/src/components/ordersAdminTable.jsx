@@ -14,15 +14,17 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddProductModal from '../adminhooks/order.hooks/addProductModal'; // Import the AddProductModal component
 
 function Row(props) {
-  const { row, onDelete, onUpdate } = props;
+  const { row, onDelete, onUpdate, onDeleteProduct } = props;
   const [open, setOpen] = React.useState(props.initialOpen || false);
   const [editingProductIndex, setEditingProductIndex] = React.useState(-1);
+  const [editedProduct, setEditedProduct] = useState(null);
   const [newProductName, setNewProductName] = React.useState('');
   const [newProductQuantity, setNewProductQuantity] = React.useState('');
+  const [currentOrderId, setCurrentOrderId] = useState(null);
   const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
 
   const handleAddProduct = () => {
-    const newProduct = { name: newProductName, quantity: parseFloat(newProductQuantity)};
+    const newProduct = { name: newProductName, quantity: parseFloat(newProductQuantity) };
     const updatedProducts = [...row.products, newProduct];
     onUpdate({ ...row, products: updatedProducts });
     setShowAddProductModal(false); // Hide the modal after adding the product
@@ -31,22 +33,52 @@ function Row(props) {
   };
 
   const handleEditProduct = (index) => {
-    console.log("Editing product at index:", index);
     setEditingProductIndex(index);
   };
 
-  const handleUpdateProduct = (index, updatedProduct) => {
+  const handleUpdateProduct = (index) => {
     const updatedProducts = [...row.products];
-    updatedProducts[index] = updatedProduct;
+    updatedProducts[index] = {
+      ...updatedProducts[index],
+      ...editedProduct,
+      status: calculateProductStatus({ ...updatedProducts[index], ...editedProduct }) // calculate the status
+    };
     onUpdate({ ...row, products: updatedProducts });
     setEditingProductIndex(-1);
   };
+  const handleChange = (field, value) => {
+    let parsedValue = parseFloat(value);
+    if (isNaN(parsedValue)) {
+      parsedValue = 0;
+    }
 
-  const handleDeleteProduct = (index) => {
-    const updatedProducts = [...row.products];
-    updatedProducts.splice(index, 1);
-    onUpdate({ ...row, products: updatedProducts });
+    // If the field is 'confirmedQuantity', ensure it does not exceed 'quantity'
+    if (field === 'confirmedQuantity') {
+      const product = row.products[editingProductIndex];
+      if (product && parsedValue > product.quantity) {
+        alert('Confirmed quantity cannot exceed quantity.');
+        parsedValue = product.quantity;
+      }
+    }
+
+    setEditedProduct(prevProduct => ({ ...prevProduct, [field]: parsedValue }));
   };
+
+  const handleDoneEditing = (index) => {
+    if (editedProduct && Object.keys(editedProduct).length > 0) {
+      handleUpdateProduct(index);
+    }
+    setEditingProductIndex(-1);
+    setEditedProduct(null);
+  };
+
+  const handleDeleteProduct = (orderId, productIndex) => {
+    const productId = row.products[productIndex].productId;
+    console.log(`Deleting product with ID ${productId} from order with ID ${orderId}`);
+    onDeleteProduct(orderId, productId);
+
+  }
+  
 
   // Function to calculate the total order value
   const calculateTotalValue = () => {
@@ -91,33 +123,36 @@ function Row(props) {
                 variant="soft"
                 sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
               >
-             
+
                 <Typography level="body-lg" component="div">
-                <span>Kund</span>
-              <Table> 
-                <thead>
-                  <tr>
-                    <th>Förnamn</th>
-                    <th>Efternamn</th>
-                    <th>Adress</th>
-                    <th>Telefon</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>{row.customerFirstName}</th>
-                    <th>{row.customerLastName}</th>
-                    <th>{row.customerAddress}</th>
-                    <th>{row.customerPhone}</th>
-                    <th>{row.customerEmail}</th>
-                  </tr>
-                </tbody>
-              </Table>
+                  <span>Kund</span>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Förnamn</th>
+                        <th>Efternamn</th>
+                        <th>Adress</th>
+                        <th>Telefon</th>
+                        <th>Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>{row.customerFirstName}</th>
+                        <th>{row.customerLastName}</th>
+                        <th>{row.customerAddress}</th>
+                        <th>{row.customerPhone}</th>
+                        <th>{row.customerEmail}</th>
+                      </tr>
+                    </tbody>
+                  </Table>
                   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
                     <span>Produkter</span> {/* Subheader */}
                     {/* Action button to open AddProductModal */}
-                    <IconButton aria-label="add product" onClick={() => setShowAddProductModal(true)}>
+                    <IconButton aria-label="add product" onClick={() => { 
+                      setCurrentOrderId(row.orderId);
+                      setShowAddProductModal(true)
+                      }}>
                       <AddIcon />
                     </IconButton>
                   </div>
@@ -137,70 +172,71 @@ function Row(props) {
                       <th>Antal</th>
                       <th>Plockat antal</th>
                       <th>Status</th>
-                      <th>Hantering</th>
+                      <th>Åtgärder</th>
                     </tr>
                   </thead>
                   <tbody>
-                  {row.products.map((product, index) => (
-  <React.Fragment key={index}>
-    <tr>
-      <td>{product.name}</td>
-      <td>{product.price} SEK</td>
-      <td>
-        {editingProductIndex === index ? (
-          <input
-            type="number"
-            value={product.quantity}
-            onChange={(e) =>
-              handleUpdateProduct(index, {
-                ...product,
-                quantity: parseFloat(e.target.value),
-              })
-            }
-          />
-        ) : (
-          product.quantity
-        )}
-      </td>
-      <td>
-        {editingProductIndex === index ? (
-          <input
-            type="number"
-            value={product.confirmedQuantity}
-            onChange={(e) =>
-              handleUpdateProduct(index, {
-                ...product,
-                confirmedQuantity: parseFloat(e.target.value),
-              })
-            }
-          />
-        ) : (
-          product.confirmedQuantity
-        )}
-      </td>
-      <td>{calculateProductStatus(product)}</td>
-      <td>
-        {editingProductIndex === index ? (
-          <IconButton
-            aria-label="done"
-            onClick={() => handleUpdateProduct(index, product)}
-          >
-            <DoneIcon />
-          </IconButton>
-        ) : (
-          <React.Fragment>
-            <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
-              <EditIcon />
-            </IconButton>
-            <IconButton aria-label="delete" onClick={() => handleDeleteProduct(index)}>
-              <DeleteIcon />
-            </IconButton>
-          </React.Fragment>
-        )}
-      </td>
-    </tr>
-  </React.Fragment>
-))}
+                    {row.products.map((product, index) => (
+                      <React.Fragment key={index}>
+                        <tr>
+                          <td>{product.name}</td>
+                          <td>{product.price} SEK</td>
+                          <td>
+                            {editingProductIndex === index ? (
+                              <input
+                                type="number"
+                                value={editedProduct?.quantity ?? product.quantity}
+                                onChange={(e) => handleChange('quantity', e.target.value)}
+                                style={{
+                                  width: '100%',
+                                  boxSizing: 'border-box',
+                                }}
+                              />
+                            ) : (
+                              product.quantity
+                            )}
+                          </td>
+                          <td>
+                            {editingProductIndex === index ? (
+                              <input
+                                type="number"
+                                value={editedProduct?.confirmedQuantity ?? product.confirmedQuantity}
+                                onChange={(e) => handleChange('confirmedQuantity', e.target.value)}
+                                style={{
+                                  width: '100%',
+                                  boxSizing: 'border-box',
+                                }}
+                              />
+                            ) : (
+                              product.confirmedQuantity
+                            )}
+                          </td>
+                          <td>{calculateProductStatus(product)}</td>
+                          <td>
+                            {editingProductIndex === index ? (
+                              <IconButton
+                                aria-label="done"
+                                onClick={() => handleDoneEditing(index)}
+                              >
+                                <DoneIcon />
+                              </IconButton>
+                            ) : (
+                              <React.Fragment>
+                                <IconButton aria-label="edit" onClick={() => handleEditProduct(index)}>
+                                  <EditIcon />
+                                </IconButton>
+                                <IconButton
+                                  aria-label="delete"
+                                  onClick={() => handleDeleteProduct(row.orderId, index)}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </React.Fragment>
+                            )}
+                          </td>
+                        </tr>
+                      </React.Fragment>
+                    ))}
                     {/* Add the final row for total order value */}
                     <tr>
                       <td colSpan={5}>Totalt ordervärde: {calculateTotalValue()} SEK</td>
@@ -210,6 +246,7 @@ function Row(props) {
                 <AddProductModal
                   open={showAddProductModal}
                   onClose={() => setShowAddProductModal(false)}
+                  orderId={currentOrderId}
                   onSave={handleAddProduct}
                 />
               </Sheet>
@@ -257,62 +294,115 @@ export default function OrderTable() {
   }, []);
 
   const handleDelete = (orderId) => {
-    // Implement delete functionality here
-    console.log(`Deleting order with ID ${orderId}`);
+    if (window.confirm('Are you sure you want to delete this order?')) {
+      axios.delete(`http://localhost:3001/api/orders/delete/${orderId}`)
+        .then(() => {
+          setOrders(prevOrders => {
+            return prevOrders.filter(order => order._id !== orderId);
+          });
+        })
+        .catch(error => {
+          console.error('Error deleting order:', error);
+        });
+
+      console.log(`Deleting order with ID ${orderId}`);
+    }
   };
 
+  const deleteProduct = (orderId, productId) => {
+    if (window.confirm('Are you sure you want to delete this product from the order?')) {
+      axios.put(`http://localhost:3001/api/orders/deleteproduct/${orderId}/${productId}`)
+        .then(response => {
+          setOrders(prevOrders => {
+            return prevOrders.map(order => {
+              return order._id === orderId ? response.data : order; // Replace the updated order
+            });
+          });
+        })
+        .catch(error => {
+          console.error('Error deleting product from order:', error);
+        });
+    }
+  };
+
+
+
   const handleUpdate = (updatedOrder) => {
-    // Implement update functionality here
-    console.log('Updated Order:', updatedOrder);
+    const orderId = updatedOrder.orderId;
+    // Update the products array in the original order object
+    updatedOrder.products = updatedOrder.products.map(product => ({
+      product: product.productId,
+      quantity: product.quantity,
+      confirmedQuantity: product.confirmedQuantity,
+      status: product.status
+    }));
+
+    axios.put(`http://localhost:3001/api/orders/update/${orderId}`, updatedOrder, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        setOrders(prevOrders => {
+          return prevOrders.map(order => {
+            return order._id === orderId ? response.data : order; // Replace the updated order
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Error updating order:', error);
+      });
   };
 
   return (
     <Sheet>
-    <Table
-      aria-label="order table"
-      sx={{
-        boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
-        '& > thead > tr > th': { textAlign: 'left' },
-      }}
-    >
-      <thead>
-        <tr>
-          <th style={{ width: 40 }} aria-label="empty" />
-          <th>OrderID</th>
-          <th>Kund / Gäst</th>
-          <th>Leveranssätt</th>
-          <th>Status</th>
-          <th>Hantering</th>
-        </tr>
-      </thead>
-      <tbody>
-        {orders.map((order, index) => (
-          <Row
-            key={order._id}
-            row={{
-              orderId: order._id,
-              customerNameFull: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
-              customerFirstName: order.guest ? order.guest.guestFirstName : order.customer.firstName,
-              customerLastName: order.guest ? order.guest.guestLastName : order.customer.lastName,
-              customerAddress: order.guest ? order.guest.guestAddress : order.customer.address,
-              customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
-              customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
-              deliveryMethod: order.deliveryMethod,
-              status: order.orderStatus,
-              products: order.products.map(product => ({
-                name: product.product.title,
-                price: product.product.price,
-                quantity: product.quantity,
-                confirmedQuantity: product.confirmedQuantity,
-                status: product.status,
-              })),
-            }}
-            onDelete={handleDelete}
-            onUpdate={handleUpdate}
-          />
-        ))}
-      </tbody>
-    </Table>
-  </Sheet>
+      <Table
+        aria-label="order table"
+        sx={{
+          boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
+          '& > thead > tr > th': { textAlign: 'left' },
+        }}
+      >
+        <thead>
+          <tr>
+            <th style={{ width: 40 }} aria-label="empty" />
+            <th>OrderID</th>
+            <th>Kund / Gäst</th>
+            <th>Leveranssätt</th>
+            <th>Status</th>
+            <th>Åtgärder</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order, index) => (
+            <Row
+              key={order._id}
+              row={{
+                orderId: order._id,
+                customerNameFull: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
+                customerFirstName: order.guest ? order.guest.guestFirstName : order.customer.firstName,
+                customerLastName: order.guest ? order.guest.guestLastName : order.customer.lastName,
+                customerAddress: order.guest ? order.guest.guestAddress : order.customer.address,
+                customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
+                customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
+                deliveryMethod: order.deliveryMethod,
+                status: order.orderStatus,
+                products: order.products.map(product => ({
+                  name: product.product.title,
+                  price: product.product.price,
+                  productId: product.product._id,
+                  quantity: product.quantity,
+                  confirmedQuantity: product.confirmedQuantity,
+                  status: product.status,
+                })),
+              }}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+              onDeleteProduct={deleteProduct}
+            />
+          ))}
+        </tbody>
+      </Table>
+    </Sheet>
   );
 }

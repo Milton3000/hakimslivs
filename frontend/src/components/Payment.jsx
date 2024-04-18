@@ -13,12 +13,10 @@ const Payment = ({ cartItems }) => {
     cartItems.forEach((item) => {
       total += item.price * item.quantity;
     });
-    // Lägger till leveransavgift
     total += 45;
-    setTotalPrice(total);
+    setTotalPrice(parseFloat(total.toFixed(2))); // Round to two decimal places
   }, [cartItems]);
   
-
   const handlePaymentOptionSelect = (option) => {
     setSelectedPaymentOption(option);
   };
@@ -28,10 +26,10 @@ const Payment = ({ cartItems }) => {
   };
 
   const handleFinishPurchase = () => {
-    // BARA PROTOTYP - EJ KLAR Handle finish purchase with the selected payment option
-    navigate("/confirmation", { state: { selectedPaymentOption } });
+    // Pass the selectedPaymentOption and cartItems to the /confirmation page
+    navigate("/confirmation", { state: { selectedPaymentOption, cartItems } });
   };
-
+  
   return (
     <div className="container">
       <div className="row justify-content-center">
