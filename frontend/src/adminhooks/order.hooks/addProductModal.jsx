@@ -23,7 +23,7 @@ function AddProductModal({ open, onClose, onSave, orderId }) {
 
   async function getProduct() {
     try {
-      const response = await axios.get(`http://localhost:3001/api/products?name=${productName}`);
+      const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products?name=${productName}`);
       console.log(response.data);
       setProducts(response.data);
     } catch (error) {

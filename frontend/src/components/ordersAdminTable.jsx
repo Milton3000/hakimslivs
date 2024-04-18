@@ -352,7 +352,7 @@ export default function OrderTable() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/orders/allorders')
+    axios.get('https://hakimslivs-backend.onrender.com/api/orders/allorders')
       .then(response => {
         setOrders(response.data);
       })
@@ -366,7 +366,7 @@ export default function OrderTable() {
 
   const handleDeleteOrder = (orderId) => {
     if (window.confirm('Are you sure you want to delete this order?')) {
-      axios.delete(`http://localhost:3001/api/orders/delete/${orderId}`)
+      axios.delete(`https://hakimslivs-backend.onrender.com/api/orders/delete/${orderId}`)
         .then(() => {
           setOrders(prevOrders => {
             return prevOrders.filter(order => order._id !== orderId);
@@ -381,7 +381,7 @@ export default function OrderTable() {
   const handleUpdateOrder = (updatedOrder) => {
     const orderId = updatedOrder.orderId;
 
-    axios.put(`http://localhost:3001/api/orders/update/${orderId}`, {
+    axios.put(`https://hakimslivs-backend.onrender.com/api/orders/update/${orderId}`, {
       orderStatus: updatedOrder.orderStatus,
       deliveryMethod: updatedOrder.deliveryMethod
     }, {
@@ -403,7 +403,7 @@ export default function OrderTable() {
 
   const handleDeleteProduct = (orderId, productId) => {
     if (window.confirm('Are you sure you want to delete this product from the order?')) {
-      axios.put(`http://localhost:3001/api/orders/deleteproduct/${orderId}/${productId}`)
+      axios.put(`https://hakimslivs-backend.onrender.com/api/orders/deleteproduct/${orderId}/${productId}`)
         .then(response => {
           setOrders(prevOrders => {
             return prevOrders.map(order => {
@@ -427,7 +427,7 @@ export default function OrderTable() {
       status: product.status
     }));
 
-    axios.put(`http://localhost:3001/api/orders/update/${orderId}`, updatedOrderProduct, {
+    axios.put(`https://hakimslivs-backend.onrender.com/api/orders/update/${orderId}`, updatedOrderProduct, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -446,7 +446,7 @@ export default function OrderTable() {
 
 
   const handleAddProduct = (orderId, product) => {
-    axios.put(`http://localhost:3001/api/orders/addproduct/${orderId}`, {
+    axios.put(`https://hakimslivs-backend.onrender.com/api/orders/addproduct/${orderId}`, {
       products: [product],
     })
       .then(response => {
