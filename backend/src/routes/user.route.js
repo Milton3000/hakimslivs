@@ -8,5 +8,6 @@ const userRouter = express.Router();
 
 // Apply the authentication middleware to the /admin route
 userRouter.get('/admin', authenticateUser, getUser);
+userRouter.get('/', getUser);
 
 export { userRouter };
