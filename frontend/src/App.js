@@ -93,6 +93,10 @@ function App() {
       <Router>
         <Navbar onSearchInputChange={handleSearchInputChange} toggleCart={toggleCart} totalCartItems={totalCartItems} />
         <Routes>
+        <Route
+            path="/"
+            element={<Home searchQuery={searchQuery} addToCart={addToCart} setShowCart={setShowCart} />}
+          />
           <Route path="/" element={<Home searchQuery={searchQuery} />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/categories" element={<Categories />} />
@@ -103,7 +107,7 @@ function App() {
         </Routes>
         <Footer />
       </Router>
-      {showCart && <Cart handleClose={handleCloseCart} />}
+      {showCart && <Cart cartItems={cartItems} handleClose={handleCloseCart} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />}
     </div>
   );
 }
