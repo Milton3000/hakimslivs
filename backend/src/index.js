@@ -14,7 +14,8 @@ dotenv.config();
 const app = express();
 
 // Define allowed origins
-const allowedOrigins = ['https://hakimslivs.vercel.app'];
+const allowedOrigins = ['https://hakimslivs.vercel.app', 'http://localhost:3000', 'http://localhost:3001'];
+
 
 // Enable CORS middleware with allowed origins
 app.use(cors({

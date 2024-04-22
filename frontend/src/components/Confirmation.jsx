@@ -32,7 +32,7 @@ const Confirmation = () => {
   
       console.log('Formatted cart items:', formattedCartItems); // Log formatted cart items
   
-      const response = await axios.post('https://hakimslivs-backend.onrender.com/api/orders/neworder', {
+      const response = await axios.post('/api/orders/neworder', {
         guest: {
           guestFirstName: formData.customerFirstName,
           guestLastName: formData.customerLastName,
@@ -42,7 +42,6 @@ const Confirmation = () => {
         },
         products: formattedCartItems
       });
-      
   
       console.log('Order created:', response.data); // Log response data
       setConfirmationMessage('Din order har blivit placerad!');
