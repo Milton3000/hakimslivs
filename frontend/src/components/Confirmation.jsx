@@ -22,7 +22,6 @@ const Confirmation = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
       const formattedCartItems = cartItems.map(item => ({
         product: item._id,
@@ -54,7 +53,7 @@ const Confirmation = () => {
       });
     } catch (error) {
       console.error('Error creating order:', error);
-      setErrorMessage('An error occurred while processing your order. Please try again later.');
+      setErrorMessage('Ett fel har inskett, vänligen försök igen.');
     }
   };
   
@@ -128,7 +127,7 @@ const Confirmation = () => {
         </div>
         <div className="mt-4">
           <button className="btn btn-secondary mb-5 me-4" onClick={() => navigate('/betalning')}>Gå tillbaka</button>
-          <button type="submit" className="btn btn-primary mb-5">Bekräfta Order</button>
+          <button type="button" className="btn btn-primary mb-5" onClick={handleSubmit}>Bekräfta Order</button>
         </div>
       </form>
     </div>
