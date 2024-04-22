@@ -92,7 +92,7 @@ const Cart = ({
 
             <Modal.Footer style={{ display: "flex", justifyContent: "center" }}>
               <Button variant="primary" href="/betalning">
-                Gå till betalning
+                Gå till kassa
               </Button>{" "}
             </Modal.Footer>
             <Modal.Footer style={{ display: "flex", justifyContent: "center" }}>
