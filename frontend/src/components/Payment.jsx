@@ -34,7 +34,7 @@ const Payment = ({ cartItems }) => {
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-lg-8">
-          <h2 className="text-center mb-5 mt-2">Din betalning</h2>
+          <h2 className="text-center mb-5 mt-2">Kassa</h2>
           {cartItems.length === 0 ? (
             <p className="text-center text-muted font-weight-bold">
               Din varukorg är tom
@@ -63,8 +63,8 @@ const Payment = ({ cartItems }) => {
           <p className="text-center fw-bold">Totalt pris: {totalPrice} SEK</p>
           <p className="text-center"> (Inklusive 45:- leveransavgift) </p>
           <div className="text-center">
-            <h2 className="mb-5 mt-5">Betalningsalternativ</h2>
-            <div className="row justify-content-center">
+            <h5 className="mb-5 mt-5">Faktura skickas i efterhand</h5>
+            {/* <div className="row justify-content-center">
               <div className="col-md-3 mb-3 d-flex justify-content-center align-items-center">
                 <div className="d-flex flex-column align-items-center">
                   <img
@@ -113,7 +113,7 @@ const Payment = ({ cartItems }) => {
                   Bankgiro
                 </button>
               </div>
-            </div>
+            </div> */}
             <div className="mt-4 mb-5 d-flex justify-content-center">
               <button className="btn btn-primary me-2" onClick={handleGoBack}>Gå tillbaka</button>
               <button className="btn btn-primary" onClick={handleFinishPurchase}>Slutför Köp</button>

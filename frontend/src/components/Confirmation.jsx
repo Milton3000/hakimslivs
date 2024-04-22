@@ -61,7 +61,7 @@ const Confirmation = () => {
 
   return (
     <div className="container">
-      <h2 className="text-center mt-4">Orderbekräftelse</h2>
+      <h2 className="text-center mt-4">Leveransinformation</h2>
       {confirmationMessage && <div className="alert alert-success">{confirmationMessage}</div>}
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
       <form onSubmit={handleSubmit}>
