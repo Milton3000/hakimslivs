@@ -5,15 +5,18 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import axios from 'axios';
 import 'iconify-icon';
 
-const Categories = ({ fetchProductsByCategory, setProducts }) => {
+const Categories = ({ fetchProductsByCategory, setProducts, setCategoryTitle }) => {
     const getCategory = async (category) => {
-        try {
-            const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
-            const products = response.data;
-            fetchProductsByCategory(category, products);
-        } catch (error) {
-            console.error('Error fetching products:', error);
+      try {
+        const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
+        const products = response.data;
+        fetchProductsByCategory(category, products);
+        if (category !== 'POPULÄRT JUST NU') {
+          setCategoryTitle(category); 
         }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
     };
 
     const [expandedItems, setExpandedItems] = React.useState([]);

@@ -39,18 +39,20 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
   }, []);
 
   useEffect(() => {
-    setFilteredProducts(
-      products.filter((product) =>
-        product.title.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+    const filteredProducts = products.filter((product) =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
+    
+    setFilteredProducts(filteredProducts);
+  
     if (searchQuery.trim() !== '') {
       setCategoryTitle('Sökresultat');
-    } else {
+    } else if (filteredProducts.length === 0) {
       setCategoryTitle('POPULÄRT JUST NU');
+    } else {
+      setCategoryTitle(categoryTitle); // Keep the current category title if not searching or if there are filtered products
     }
-  }, [searchQuery, products]);
+  }, [searchQuery, products, categoryTitle]);
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
@@ -81,7 +83,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
   return (
     <div className="home">
       <div className="category-section">
-        <Categories fetchProductsByCategory={fetchProductsByCategory} setProducts={setProducts} setCategoryTitle={setCategoryTitle} />
+      <Categories fetchProductsByCategory={fetchProductsByCategory} setProducts={setProducts} setCategoryTitle={setCategoryTitle} />
       </div>
       <div className="product-section">
         <div className="d-flex flex-wrap justify-content-center p-4">
