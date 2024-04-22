@@ -32,7 +32,7 @@ const Confirmation = () => {
   
       console.log('Formatted cart items:', formattedCartItems); // Log formatted cart items
   
-      const response = await axios.post('/api/orders/neworder', {
+      const response = await axios.post('https://hakimslivs-backend.onrender.com/api/orders/neworder', {
         guest: {
           guestFirstName: formData.customerFirstName,
           guestLastName: formData.customerLastName,
