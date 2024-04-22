@@ -5,8 +5,12 @@ const CollectPDF = ({ order }) => {
   return (
     <Document>
       <Page style={styles.page}>
-        <View style={styles.section}>
+        <View>
           <Text style={stylesHeaders.page}>Hakim Livs</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text>Plocklista</Text>
         </View>
 
         <View style={styles.section}>

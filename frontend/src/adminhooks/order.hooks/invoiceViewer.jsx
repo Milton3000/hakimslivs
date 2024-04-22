@@ -7,27 +7,52 @@ const InvoicePDF = ({ order }) => {
     <Document>
       <Page style={styles.page}>
         <View style={styles.section}>
+          <Text style={stylesHeaders.page}>Hakim Livs</Text>
+          <Text style={styles.page}>Faktura</Text>
+        </View>
+
+
+        <View style={styles.section}>
+          <Text>Faktura</Text>
+        </View>
+
+        <View style={styles.section}>
           <Text>Order ID: {order.orderId}</Text>
           <Text>Kund: {order.customerNameFull}</Text>
           <Text>Leveranssätt: {order.deliveryMethod}</Text>
-          <Text>Orderstatus: {order.orderStatus}</Text>
-          <Text>Produkter:</Text>
+          <Text>Status: {order.orderStatus}</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text>Products:</Text>
           {order.products.map((product, index) => (
             <View key={index} style={styles.product}>
-              <Text>Titel: {product.name}</Text>
-              <Text>Pris: {product.price} SEK</Text>
-              <Text>Antal: {product.quantity}</Text>
+              <Text>Title: {product.name}</Text>
+              <Text>Price: {product.price} SEK</Text>
+              <Text>Quantity: {product.quantity}</Text>
               <Text>Status: {product.status}</Text>
             </View>
           ))}
-          <Text>Totalt: {calculateTotalValue(order)} SEK</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text>Total: {calculateTotalValue(order)} SEK</Text>
         </View>
       </Page>
     </Document>
   );
 };
 
-// Define styles for the PDF document
+const stylesHeaders = StyleSheet.create({
+  page: {
+    paddingLeft: -20,
+    textAlign: 'left',
+    color: '#0000FF',
+    fontSize: 26,
+    fontWeight: 'normal',
+  },
+});
+
 const styles = StyleSheet.create({
   page: {
     padding: 20,
@@ -35,13 +60,12 @@ const styles = StyleSheet.create({
   section: {
     margin: 10,
     padding: 10,
-    flexGrow: 1,
   },
   product: {
     marginLeft: 10,
     marginTop: 5,
     padding: 5,
-    border: '1px solid #ccc',
+    // border: '1px solid #ccc',
   },
 });
 
