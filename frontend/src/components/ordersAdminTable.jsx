@@ -8,6 +8,7 @@ import Sheet from '@mui/joy/Sheet';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -169,6 +170,18 @@ function Row(props) {
             row.orderStatus
           )}
         </td>
+        <td>            <IconButton
+              aria-label="collect"
+              
+            >
+              <PictureAsPdfIcon />
+            </IconButton></td>
+        <td>            <IconButton
+              aria-label="invoice"
+              
+            >
+              <PictureAsPdfIcon />
+            </IconButton></td>
         <td>
           {editingOrderIndex === row.orderId ? (
             <IconButton
@@ -190,7 +203,7 @@ function Row(props) {
       {open && (
         <React.Fragment>
           <tr>
-            <td colSpan={6}>
+            <td colSpan={8}>
               <Sheet
                 variant="soft"
                 sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
@@ -486,6 +499,8 @@ export default function OrderTable() {
             <th>Kund / Gäst</th>
             <th>Leveranssätt</th>
             <th>Status</th>
+            <th>Plocklista</th>
+            <th>Faktura</th>
             <th>Åtgärder</th>
           </tr>
         </thead>
