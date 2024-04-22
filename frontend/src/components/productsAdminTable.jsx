@@ -247,7 +247,7 @@ const AdminTable = () => {
     }
     setValidationErrors({});
     await createProduct(values);
-    table.setCreatingRow(null); //exit creating mode
+    table.setCreatingRow(null);   //exit creating mode
   };
 
   //UPDATE action
@@ -281,7 +281,12 @@ const AdminTable = () => {
         TOC: false,
         imageUrl: false,
         _id: false,
-      }
+      },
+      pagination: { 
+        pageSize: 20, 
+        pageIndex: 0,
+       },
+       density: 'compact',
     },
     createDisplayMode: 'modal', 
     editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
@@ -300,13 +305,11 @@ const AdminTable = () => {
       },
     },
     muiTableHeadCellProps: ({
-      //conditionally style pinned columns
       sx: {
         backgroundColor: '#FBFCFE',
       },
     }),
     muiTableBodyCellProps: ({
-      //conditionally style pinned columns
       sx: {
         backgroundColor: '#FBFCFE',
       },
@@ -344,7 +347,7 @@ const AdminTable = () => {
 
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
-        <DialogTitle variant="h3">Ny produkt</DialogTitle>
+        <DialogTitle sx={{ fontSize: '32px' }} variant="h3">Ny produkt</DialogTitle>
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
         >
@@ -358,7 +361,7 @@ const AdminTable = () => {
     //optionally customize modal content
     renderEditRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
-        <DialogTitle variant="h3">Ändra produkt</DialogTitle>
+        <DialogTitle sx={{ fontSize: '32px' }} variant="h3">Ändra produkt</DialogTitle>
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
         >
