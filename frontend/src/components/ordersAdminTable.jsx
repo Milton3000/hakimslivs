@@ -26,8 +26,6 @@ function Row(props) {
   const [editedOrder, setEditedOrder] = useState(null);
   const [currentOrderId, setCurrentOrderId] = useState(null);
   const [showAddProductModal, setShowAddProductModal] = React.useState(false);
-  const [showInvoiceViewer, setShowInvoiceViewer] = useState(false);
-  const [invoiceOrder, setInvoiceOrder] = useState(null);
 
 
 
@@ -115,13 +113,29 @@ function Row(props) {
   // Function to calculate the total order value
   const calculateTotalValue = () => {
     const totalPrice = row.products.reduce((total, product) => total + (product.price * product.quantity), 0);
-    return totalPrice.toFixed(2); // Limit to two decimal places
+    return totalPrice.toFixed(2);
   };
 
   // Function to calculate product status
   const calculateProductStatus = (product) => {
     return product.confirmedQuantity === product.quantity ? 'Plockad' : 'Bearbetas';
   };
+
+  function openWindowAndRenderComponent(component) {
+    const pdfWindow = window.open('', '_blank');
+    pdfWindow.document.write(`
+      <html>
+      <head>
+        <title>Order</title>
+      </head>
+      <body>
+        <div id="pdf-container"></div>
+      </body>
+      </html>
+    `);
+    const container = pdfWindow.document.getElementById('pdf-container');
+    ReactDOM.createRoot(container).render(component);
+  }
 
   const MAX_QUANTITY = 1000;
 
@@ -180,14 +194,7 @@ function Row(props) {
         <td>
           <IconButton
             aria-label="collect"
-            onClick={() => {
-              setShowInvoiceViewer(true);
-              setInvoiceOrder(row);
-              const pdfWindow = window.open('', '_blank');
-              pdfWindow.document.write('<html><head><title>Plocklista</title></head><body><div id="pdf-container"></div></body></html>');
-              const container = pdfWindow.document.getElementById('pdf-container');
-              ReactDOM.createRoot(container).render(<CollectionViewer order={row} />);
-            }}
+            onClick={() => openWindowAndRenderComponent(<CollectionViewer order={row} />)}
           >
             <PictureAsPdfIcon />
           </IconButton>
@@ -195,14 +202,7 @@ function Row(props) {
         <td>
           <IconButton
             aria-label="invoice"
-            onClick={() => {
-              setShowInvoiceViewer(true);
-              setInvoiceOrder(row);
-              const pdfWindow = window.open('', '_blank');
-              pdfWindow.document.write('<html><head><title>Faktura</title></head><body><div id="pdf-container"></div></body></html>');
-              const container = pdfWindow.document.getElementById('pdf-container');
-              ReactDOM.createRoot(container).render(<InvoiceViewer order={row} />);
-            }}
+            onClick={() => openWindowAndRenderComponent(<InvoiceViewer order={row} />)}
           >
             <PictureAsPdfIcon />
           </IconButton>
