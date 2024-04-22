@@ -380,7 +380,7 @@ export default function OrderTable() {
   }, [orders]);
 
   const handleDeleteOrder = (orderId) => {
-    if (window.confirm('Are you sure you want to delete this order?')) {
+    if (window.confirm('Vill du verkligen ta bort denna order?')) {
       axios.delete(`https://hakimslivs-backend.onrender.com/api/orders/delete/${orderId}`)
         .then(() => {
           setOrders(prevOrders => {
@@ -417,7 +417,7 @@ export default function OrderTable() {
   };
 
   const handleDeleteProduct = (orderId, productId) => {
-    if (window.confirm('Are you sure you want to delete this product from the order?')) {
+    if (window.confirm('Vill du verkligen ta bort denna produkt från ordern?')) {
       axios.put(`https://hakimslivs-backend.onrender.com/api/orders/deleteproduct/${orderId}/${productId}`)
         .then(response => {
           setOrders(prevOrders => {
