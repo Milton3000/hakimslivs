@@ -2,7 +2,7 @@ import express from 'express';
 import { createOrder, getOrders, updateOrder, addProductToOrder, deleteProductFromOrder, deleteOrder } from '../controllers/order.controller.js'
 const orderRouter = express.Router();
 
-orderRouter.get('/neworder', createOrder);
+orderRouter.post('/neworder', createOrder);
 
 orderRouter.get('/allorders', getOrders);
 
