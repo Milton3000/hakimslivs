@@ -184,7 +184,7 @@ function Row(props) {
               setShowInvoiceViewer(true);
               setInvoiceOrder(row);
               const pdfWindow = window.open('', '_blank');
-              pdfWindow.document.write('<html><head><title>Invoice</title></head><body><div id="pdf-container"></div></body></html>');
+              pdfWindow.document.write('<html><head><title>Plocklista</title></head><body><div id="pdf-container"></div></body></html>');
               const container = pdfWindow.document.getElementById('pdf-container');
               ReactDOM.createRoot(container).render(<CollectionViewer order={row} />);
             }}
@@ -199,7 +199,7 @@ function Row(props) {
               setShowInvoiceViewer(true);
               setInvoiceOrder(row);
               const pdfWindow = window.open('', '_blank');
-              pdfWindow.document.write('<html><head><title>Invoice</title></head><body><div id="pdf-container"></div></body></html>');
+              pdfWindow.document.write('<html><head><title>Faktura</title></head><body><div id="pdf-container"></div></body></html>');
               const container = pdfWindow.document.getElementById('pdf-container');
               ReactDOM.createRoot(container).render(<InvoiceViewer order={row} />);
             }}

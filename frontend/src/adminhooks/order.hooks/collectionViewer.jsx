@@ -6,6 +6,7 @@ const CollectPDF = ({ order }) => {
   return (
     <Document>
       <Page style={styles.page}>
+      <Text style={stylesHeaders.page}>Hakim Livs</Text>
         <View style={styles.section}>
           <Text>Ordererererere ID: {order.orderId}</Text>
           <Text>Kund: {order.customerNameFull}</Text>
@@ -27,6 +28,17 @@ const CollectPDF = ({ order }) => {
   );
 };
 
+const stylesHeaders = StyleSheet.create({
+  page: {
+    paddingLeft: -20,
+    textAlign: 'left',
+    color: '#0000FF',
+    fontSize: 26,
+    fontWeight: 'normal',
+  },
+});
+
+
 // Define styles for the PDF document
 const styles = StyleSheet.create({
   page: {
@@ -41,7 +53,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 5,
     padding: 5,
-    border: '1px solid #ccc',
+    // border: '1px solid #ccc',
   },
 });
 
