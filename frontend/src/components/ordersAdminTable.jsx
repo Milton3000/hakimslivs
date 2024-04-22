@@ -52,7 +52,7 @@ function Row(props) {
     if (field === 'confirmedQuantity') {
       const product = row.products[editingProductIndex];
       if (product && parsedValue > product.quantity) {
-        alert('Confirmed quantity cannot exceed quantity.');
+        alert('Plockat antal överskrider beställt antal.');
         parsedValue = product.quantity;
       }
     }
@@ -114,6 +114,8 @@ function Row(props) {
   const calculateProductStatus = (product) => {
     return product.confirmedQuantity === product.quantity ? 'Plockad' : 'Bearbetas';
   };
+
+  const MAX_QUANTITY = 1000;
 
   return (
     <React.Fragment>
@@ -256,7 +258,7 @@ function Row(props) {
                               <input
                                 type="number"
                                 value={editedProduct?.quantity ?? product.quantity}
-                                onChange={(e) => handleChange('quantity', e.target.value)}
+                                onChange={(e) => handleChange('quantity', Math.min(e.target.value, MAX_QUANTITY))}
                                 style={{
                                   width: '100%',
                                   boxSizing: 'border-box',
