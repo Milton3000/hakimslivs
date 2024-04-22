@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import IconButton from '@mui/joy/IconButton';
@@ -8,10 +9,13 @@ import Sheet from '@mui/joy/Sheet';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import AddProductModal from '../adminhooks/order.hooks/addProductModal'; // Import the AddProductModal component
+import AddProductModal from '../adminhooks/order.hooks/addProductModal';
+import InvoiceViewer from '../adminhooks/order.hooks/invoiceViewer';
+import CollectionViewer from '../adminhooks/order.hooks/collectionViewer';
 
 function Row(props) {
   const { row, onDeleteOrder, onUpdateOrder, onUpdateProduct, onDeleteProduct, onAddProduct } = props;
@@ -21,7 +25,9 @@ function Row(props) {
   const [editingOrderIndex, setEditingOrderIndex] = React.useState(-1);
   const [editedOrder, setEditedOrder] = useState(null);
   const [currentOrderId, setCurrentOrderId] = useState(null);
-  const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
+  const [showAddProductModal, setShowAddProductModal] = React.useState(false);
+
+
 
   const handleEdit = (index) => {
     setEditingProductIndex(index);
@@ -52,7 +58,7 @@ function Row(props) {
     if (field === 'confirmedQuantity') {
       const product = row.products[editingProductIndex];
       if (product && parsedValue > product.quantity) {
-        alert('Confirmed quantity cannot exceed quantity.');
+        alert('Plockat antal överskrider beställt antal.');
         parsedValue = product.quantity;
       }
     }
@@ -75,7 +81,7 @@ function Row(props) {
         orderStatus: editedOrder.orderStatus,
         deliveryMethod: editedOrder.deliveryMethod
       });
-  
+
       setEditedOrder(null); // Reset editedOrder
     } else {
       console.error('Cannot update order: editedOrder is null');
@@ -107,13 +113,31 @@ function Row(props) {
   // Function to calculate the total order value
   const calculateTotalValue = () => {
     const totalPrice = row.products.reduce((total, product) => total + (product.price * product.quantity), 0);
-    return totalPrice.toFixed(2); // Limit to two decimal places
+    return totalPrice.toFixed(2);
   };
 
   // Function to calculate product status
   const calculateProductStatus = (product) => {
     return product.confirmedQuantity === product.quantity ? 'Plockad' : 'Bearbetas';
   };
+
+  function openWindowAndRenderComponent(component) {
+    const pdfWindow = window.open('', '_blank');
+    pdfWindow.document.write(`
+      <html>
+      <head>
+        <title>Order</title>
+      </head>
+      <body>
+        <div id="pdf-container"></div>
+      </body>
+      </html>
+    `);
+    const container = pdfWindow.document.getElementById('pdf-container');
+    ReactDOM.createRoot(container).render(component);
+  }
+
+  const MAX_QUANTITY = 1000;
 
   return (
     <React.Fragment>
@@ -168,6 +192,22 @@ function Row(props) {
           )}
         </td>
         <td>
+          <IconButton
+            aria-label="collect"
+            onClick={() => openWindowAndRenderComponent(<CollectionViewer order={row} />)}
+          >
+            <PictureAsPdfIcon />
+          </IconButton>
+        </td>
+        <td>
+          <IconButton
+            aria-label="invoice"
+            onClick={() => openWindowAndRenderComponent(<InvoiceViewer order={row} />)}
+          >
+            <PictureAsPdfIcon />
+          </IconButton>
+        </td>
+        <td>
           {editingOrderIndex === row.orderId ? (
             <IconButton
               aria-label="done"
@@ -188,7 +228,7 @@ function Row(props) {
       {open && (
         <React.Fragment>
           <tr>
-            <td colSpan={6}>
+            <td colSpan={8}>
               <Sheet
                 variant="soft"
                 sx={{ p: 1, pl: 6, boxShadow: 'inset 0 3px 6px 0 rgba(0 0 0 / 0.08)' }}
@@ -216,9 +256,8 @@ function Row(props) {
                       </tr>
                     </tbody>
                   </Table>
-                  <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <span>Produkter</span> {/* Subheader */}
-                    {/* Action button to open AddProductModal */}
                     <IconButton aria-label="add product" onClick={() => {
                       setCurrentOrderId(row.orderId);
                       setShowAddProductModal(true)
@@ -256,7 +295,7 @@ function Row(props) {
                               <input
                                 type="number"
                                 value={editedProduct?.quantity ?? product.quantity}
-                                onChange={(e) => handleChange('quantity', e.target.value)}
+                                onChange={(e) => handleChange('quantity', Math.min(e.target.value, MAX_QUANTITY))}
                                 style={{
                                   width: '100%',
                                   boxSizing: 'border-box',
@@ -365,7 +404,7 @@ export default function OrderTable() {
   }, [orders]);
 
   const handleDeleteOrder = (orderId) => {
-    if (window.confirm('Are you sure you want to delete this order?')) {
+    if (window.confirm('Vill du verkligen ta bort denna order?')) {
       axios.delete(`https://hakimslivs-backend.onrender.com/api/orders/delete/${orderId}`)
         .then(() => {
           setOrders(prevOrders => {
@@ -402,7 +441,7 @@ export default function OrderTable() {
   };
 
   const handleDeleteProduct = (orderId, productId) => {
-    if (window.confirm('Are you sure you want to delete this product from the order?')) {
+    if (window.confirm('Vill du verkligen ta bort denna produkt från ordern?')) {
       axios.put(`https://hakimslivs-backend.onrender.com/api/orders/deleteproduct/${orderId}/${productId}`)
         .then(response => {
           setOrders(prevOrders => {
@@ -484,6 +523,8 @@ export default function OrderTable() {
             <th>Kund / Gäst</th>
             <th>Leveranssätt</th>
             <th>Status</th>
+            <th>Plocklista</th>
+            <th>Faktura</th>
             <th>Åtgärder</th>
           </tr>
         </thead>
@@ -493,21 +534,21 @@ export default function OrderTable() {
               key={order._id}
               row={{
                 orderId: order._id,
-                customerNameFull: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
-                customerFirstName: order.guest ? order.guest.guestFirstName : order.customer.firstName,
-                customerLastName: order.guest ? order.guest.guestLastName : order.customer.lastName,
-                customerAddress: order.guest ? order.guest.guestAddress : order.customer.address,
-                customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
-                customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
-                deliveryMethod: order.deliveryMethod,
-                orderStatus: order.orderStatus,
+                customerNameFull: (order.guest ? `${order.guest.guestFirstName || ''} ${order.guest.guestLastName || ''}` : `${order.customer.firstName || ''} ${order.customer.lastName || ''}`),
+                customerFirstName: order.guest ? order.guest.guestFirstName || '' : order.customer.firstName || '',
+                customerLastName: order.guest ? order.guest.guestLastName || '' : order.customer.lastName || '',
+                customerAddress: order.guest ? order.guest.guestAddress || '' : order.customer.address || '',
+                customerPhone: order.guest ? order.guest.guestPhone || '' : order.customer.phone || '',
+                customerEmail: order.guest ? order.guest.guestEmail || '' : order.customer.email || '',
+                deliveryMethod: order.deliveryMethod || '',
+                orderStatus: order.orderStatus || '',
                 products: order.products.map(product => ({
-                  name: product.product.title,
-                  price: product.product.price,
-                  productId: product.product._id,
-                  quantity: product.quantity,
-                  confirmedQuantity: product.confirmedQuantity,
-                  status: product.status,
+                  name: (product.product && product.product.title) || '',
+                  price: (product.product && product.product.price) || 0,
+                  productId: (product.product && product.product._id) || '',
+                  quantity: product.quantity || 0,
+                  confirmedQuantity: product.confirmedQuantity || 0,
+                  status: product.status || '',
                 })),
               }}
               onDeleteOrder={handleDeleteOrder}

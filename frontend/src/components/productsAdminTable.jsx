@@ -18,7 +18,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDeleteProduct } from '../adminhooks/product.hooks/deleteProduct'; 
 import { useGetProducts } from '../adminhooks/product.hooks/getProducts'; 
 import { useUpdateProduct } from '../adminhooks/product.hooks/updateProduct'; 
-import { useCreateProduct } from '../adminhooks/product.hooks/createProduct'; 
+import { useCreateProduct } from '../adminhooks/product.hooks/createProduct';
+import { validateProduct } from '../adminhooks/product.hooks/validateProduct'; 
 import { MRT_Localization_SV } from 'material-react-table/locales/sv';
 
 const AdminTable = () => {
@@ -29,28 +30,100 @@ const AdminTable = () => {
       {
         accessorKey: 'title',
         header: 'Titel',
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.title,
+          helperText: validationErrors?.title,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              title: undefined,
+            }),
+        },
       },
       {
         accessorKey: 'category',
         header: 'Kategori',
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.category,
+          helperText: validationErrors?.category,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              category: undefined,
+            }),
+        },
       },
       {
         accessorKey: 'brand',
         header: 'Tillverkare',
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.brand,
+          helperText: validationErrors?.brand,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              brand: undefined,
+            }),
+        },
       },
       {
         accessorKey: 'origin',
         header: 'Ursprung',
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.origin,
+          helperText: validationErrors?.origin,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              origin: undefined,
+            }),
+        },
       },
       {
         accessorKey: 'price',
         header: 'Pris',
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.price,
+          helperText: validationErrors?.price,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              price: undefined,
+            }),
+        },
+      },
+      {
+        accessorKey: 'unit_price',
+        header: 'Jämförpris',
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.unit_price,
+          helperText: validationErrors?.unit_price,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              unit_price: undefined,
+            }),
+        },
       },
       {
         accessorKey: 'description',
         header: 'Beskrivning',
         muiEditTextFieldProps: {
           multiline: true,
+          required: true,
+          error: !!validationErrors?.description,
+          helperText: validationErrors?.description,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              description: undefined,
+            }),
         },
         muiCreateTextFieldProps: {
           multiline: true,
@@ -59,16 +132,58 @@ const AdminTable = () => {
       {
         accessorKey: 'quantity',
         header: 'Kvantitet',
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.quantity,
+          helperText: validationErrors?.quantity,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              quantity: undefined,
+            }),
+        },
+      },
+      {
+        accessorKey: 'unit',
+        header: 'Enhet',
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.unit,
+          helperText: validationErrors?.unit,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              unit: undefined,
+            }),
+        },
       },
       {
         accessorKey: 'weight',
         header: 'Vikt',
+        muiEditTextFieldProps: {
+          required: true,
+          error: !!validationErrors?.weight,
+          helperText: validationErrors?.weight,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              weight: undefined,
+            }),
+        },
       },
       {
         accessorKey: 'TOC',
         header: 'TOC',
         muiEditTextFieldProps: {
           multiline: true,
+          required: true,
+          error: !!validationErrors?.TOC,
+          helperText: validationErrors?.TOC,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              TOC: undefined,
+            }),
         },
         muiCreateTextFieldProps: {
           multiline: true,
@@ -79,6 +194,14 @@ const AdminTable = () => {
         header: 'Bildkälla',
         muiEditTextFieldProps: {
           multiline: true,
+          required: true,
+          error: !!validationErrors?.imageUrl,
+          helperText: validationErrors?.imageUrl,
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              imageUrl: undefined,
+            }),
         },
         muiCreateTextFieldProps: {
           multiline: true,
@@ -95,7 +218,7 @@ const AdminTable = () => {
     }
 
     return baseColumns;
-  }, [isIdVisible]);
+  }, [isIdVisible, validationErrors]);
 
   //call CREATE hook
   const { mutateAsync: createProduct, isPending: isCreatingProduct } =
@@ -117,12 +240,24 @@ const AdminTable = () => {
 
   //CREATE action
   const handleCreateProduct = async ({ values, table }) => {
+    const newValidationErrors = validateProduct(values);
+    if (Object.values(newValidationErrors).some((error) => error)) {
+      setValidationErrors(newValidationErrors);
+      return;
+    }
+    setValidationErrors({});
     await createProduct(values);
-    table.setCreatingRow(null); //exit creating mode
+    table.setCreatingRow(null);   //exit creating mode
   };
 
   //UPDATE action
   const handleSaveProduct = async ({ values, table }) => {
+    const newValidationErrors = validateProduct(values);
+    if (Object.values(newValidationErrors).some((error) => error)) {
+      setValidationErrors(newValidationErrors);
+      return;
+    }
+    setValidationErrors({});
     await updateProduct(values);
     table.setEditingRow(null); //exit editing mode
   };
@@ -146,7 +281,12 @@ const AdminTable = () => {
         TOC: false,
         imageUrl: false,
         _id: false,
-      }
+      },
+      pagination: { 
+        pageSize: 20, 
+        pageIndex: 0,
+       },
+       density: 'compact',
     },
     createDisplayMode: 'modal', 
     editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
@@ -165,13 +305,11 @@ const AdminTable = () => {
       },
     },
     muiTableHeadCellProps: ({
-      //conditionally style pinned columns
       sx: {
         backgroundColor: '#FBFCFE',
       },
     }),
     muiTableBodyCellProps: ({
-      //conditionally style pinned columns
       sx: {
         backgroundColor: '#FBFCFE',
       },
@@ -209,7 +347,7 @@ const AdminTable = () => {
 
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
-        <DialogTitle variant="h3">Ny produkt</DialogTitle>
+        <DialogTitle sx={{ fontSize: '32px' }} variant="h3">Ny produkt</DialogTitle>
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
         >
@@ -223,7 +361,7 @@ const AdminTable = () => {
     //optionally customize modal content
     renderEditRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
-        <DialogTitle variant="h3">Ändra produkt</DialogTitle>
+        <DialogTitle sx={{ fontSize: '32px' }} variant="h3">Ändra produkt</DialogTitle>
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
         >
