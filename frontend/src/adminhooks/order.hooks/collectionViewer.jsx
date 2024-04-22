@@ -1,27 +1,35 @@
 import React from 'react';
 import { PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
-// Create a PDF component to render the invoice
 const CollectPDF = ({ order }) => {
   return (
     <Document>
       <Page style={styles.page}>
-      <Text style={stylesHeaders.page}>Hakim Livs</Text>
         <View style={styles.section}>
-          <Text>Ordererererere ID: {order.orderId}</Text>
+          <Text style={stylesHeaders.page}>Hakim Livs</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text>Order ID: {order.orderId}</Text>
           <Text>Kund: {order.customerNameFull}</Text>
           <Text>Leveranssätt: {order.deliveryMethod}</Text>
-          <Text>Orderstatus: {order.orderStatus}</Text>
-          <Text>Produkter:</Text>
+          <Text>Status: {order.orderStatus}</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text>Products:</Text>
           {order.products.map((product, index) => (
             <View key={index} style={styles.product}>
-              <Text>Titel: {product.name}</Text>
-              <Text>Pris: {product.price} SEK</Text>
-              <Text>Antal: {product.quantity}</Text>
+              <Text>Title: {product.name}</Text>
+              <Text>Price: {product.price} SEK</Text>
+              <Text>Quantity: {product.quantity}</Text>
               <Text>Status: {product.status}</Text>
             </View>
           ))}
-          <Text>Totalt: {calculateTotalValue(order)} SEK</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text>Total: {calculateTotalValue(order)} SEK</Text>
         </View>
       </Page>
     </Document>
@@ -38,8 +46,6 @@ const stylesHeaders = StyleSheet.create({
   },
 });
 
-
-// Define styles for the PDF document
 const styles = StyleSheet.create({
   page: {
     padding: 20,
@@ -47,7 +53,6 @@ const styles = StyleSheet.create({
   section: {
     margin: 10,
     padding: 10,
-    flexGrow: 1,
   },
   product: {
     marginLeft: 10,
@@ -57,12 +62,10 @@ const styles = StyleSheet.create({
   },
 });
 
-
 const calculateTotalValue = (order) => {
   return order.products.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2);
 };
 
-// Render the PDF viewer component
 const CollectionViewer = ({ order }) => {
   return (
     <PDFViewer style={{ width: '100%', height: '100vh' }}>
