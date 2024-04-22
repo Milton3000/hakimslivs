@@ -47,6 +47,10 @@ const AdminTable = () => {
         header: 'Pris',
       },
       {
+        accessorKey: 'unit_price',
+        header: 'Jämförpris',
+      },
+      {
         accessorKey: 'description',
         header: 'Beskrivning',
         muiEditTextFieldProps: {
@@ -59,6 +63,10 @@ const AdminTable = () => {
       {
         accessorKey: 'quantity',
         header: 'Kvantitet',
+      },
+      {
+        accessorKey: 'unit',
+        header: 'Enhet',
       },
       {
         accessorKey: 'weight',

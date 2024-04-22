@@ -64,7 +64,7 @@ function AddProductModal({ open, onClose, onSave, orderId }) {
               type="text"
               inputProps={{
                 ...params.inputProps,
-                style: { width: "20rem" }, // Increase fontSize and height
+                style: { width: "20rem" },
               }}
             />
           )}

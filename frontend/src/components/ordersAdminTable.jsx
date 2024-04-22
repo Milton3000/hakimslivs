@@ -75,7 +75,7 @@ function Row(props) {
         orderStatus: editedOrder.orderStatus,
         deliveryMethod: editedOrder.deliveryMethod
       });
-  
+
       setEditedOrder(null); // Reset editedOrder
     } else {
       console.error('Cannot update order: editedOrder is null');
@@ -493,21 +493,21 @@ export default function OrderTable() {
               key={order._id}
               row={{
                 orderId: order._id,
-                customerNameFull: order.guest ? `${order.guest.guestFirstName} ${order.guest.guestLastName}` : `${order.customer.firstName} ${order.customer.lastName}`,
-                customerFirstName: order.guest ? order.guest.guestFirstName : order.customer.firstName,
-                customerLastName: order.guest ? order.guest.guestLastName : order.customer.lastName,
-                customerAddress: order.guest ? order.guest.guestAddress : order.customer.address,
-                customerPhone: order.guest ? order.guest.guestPhone : order.customer.phone,
-                customerEmail: order.guest ? order.guest.guestEmail : order.customer.email,
-                deliveryMethod: order.deliveryMethod,
-                orderStatus: order.orderStatus,
+                customerNameFull: (order.guest ? `${order.guest.guestFirstName || ''} ${order.guest.guestLastName || ''}` : `${order.customer.firstName || ''} ${order.customer.lastName || ''}`),
+                customerFirstName: order.guest ? order.guest.guestFirstName || '' : order.customer.firstName || '',
+                customerLastName: order.guest ? order.guest.guestLastName || '' : order.customer.lastName || '',
+                customerAddress: order.guest ? order.guest.guestAddress || '' : order.customer.address || '',
+                customerPhone: order.guest ? order.guest.guestPhone || '' : order.customer.phone || '',
+                customerEmail: order.guest ? order.guest.guestEmail || '' : order.customer.email || '',
+                deliveryMethod: order.deliveryMethod || '',
+                orderStatus: order.orderStatus || '',
                 products: order.products.map(product => ({
-                  name: product.product.title,
-                  price: product.product.price,
-                  productId: product.product._id,
-                  quantity: product.quantity,
-                  confirmedQuantity: product.confirmedQuantity,
-                  status: product.status,
+                  name: (product.product && product.product.title) || '',
+                  price: (product.product && product.product.price) || 0,
+                  productId: (product.product && product.product._id) || '',
+                  quantity: product.quantity || 0,
+                  confirmedQuantity: product.confirmedQuantity || 0,
+                  status: product.status || '',
                 })),
               }}
               onDeleteOrder={handleDeleteOrder}
