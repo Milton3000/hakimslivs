@@ -29,7 +29,8 @@ const Confirmation = () => {
         price: item.price,
         quantity: item.quantity
       }));
-      
+  
+      console.log('Formatted cart items:', formattedCartItems); // Log formatted cart items
   
       const response = await axios.post('/api/orders/neworder', {
         guest: {
@@ -39,10 +40,10 @@ const Confirmation = () => {
           guestAddress: formData.address,
           guestPhone: formData.phone
         },
-        products: formattedCartItems // Skicka formatterade cartItems arrayen till backend
+        products: formattedCartItems
       });
   
-      console.log('Order created:', response.data);
+      console.log('Order created:', response.data); // Log response data
       setConfirmationMessage('Din order har blivit placerad!');
       setFormData({
         customerFirstName: '',
@@ -52,7 +53,7 @@ const Confirmation = () => {
         phone: ''
       });
     } catch (error) {
-      console.error('Error creating order:', error);
+      console.error('Error creating order:', error); // Log error message
       setErrorMessage('Ett fel har inskett, vänligen försök igen.');
     }
   };
