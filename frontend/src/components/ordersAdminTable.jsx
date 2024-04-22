@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import IconButton from '@mui/joy/IconButton';
@@ -12,7 +13,9 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import AddProductModal from '../adminhooks/order.hooks/addProductModal'; // Import the AddProductModal component
+import AddProductModal from '../adminhooks/order.hooks/addProductModal';
+import InvoiceViewer from '../adminhooks/order.hooks/invoiceViewer';
+import CollectionViewer from '../adminhooks/order.hooks/collectionViewer';
 
 function Row(props) {
   const { row, onDeleteOrder, onUpdateOrder, onUpdateProduct, onDeleteProduct, onAddProduct } = props;
@@ -22,7 +25,11 @@ function Row(props) {
   const [editingOrderIndex, setEditingOrderIndex] = React.useState(-1);
   const [editedOrder, setEditedOrder] = useState(null);
   const [currentOrderId, setCurrentOrderId] = useState(null);
-  const [showAddProductModal, setShowAddProductModal] = React.useState(false); // State for controlling the visibility of the AddProductModal
+  const [showAddProductModal, setShowAddProductModal] = React.useState(false);
+  const [showInvoiceViewer, setShowInvoiceViewer] = useState(false);
+  const [invoiceOrder, setInvoiceOrder] = useState(null);
+
+
 
   const handleEdit = (index) => {
     setEditingProductIndex(index);
@@ -170,18 +177,36 @@ function Row(props) {
             row.orderStatus
           )}
         </td>
-        <td>            <IconButton
-              aria-label="collect"
-              
-            >
-              <PictureAsPdfIcon />
-            </IconButton></td>
-        <td>            <IconButton
-              aria-label="invoice"
-              
-            >
-              <PictureAsPdfIcon />
-            </IconButton></td>
+        <td>
+          <IconButton
+            aria-label="collect"
+            onClick={() => {
+              setShowInvoiceViewer(true);
+              setInvoiceOrder(row);
+              const pdfWindow = window.open('', '_blank');
+              pdfWindow.document.write('<html><head><title>Invoice</title></head><body><div id="pdf-container"></div></body></html>');
+              const container = pdfWindow.document.getElementById('pdf-container');
+              ReactDOM.createRoot(container).render(<CollectionViewer order={row} />);
+            }}
+          >
+            <PictureAsPdfIcon />
+          </IconButton>
+        </td>
+        <td>
+          <IconButton
+            aria-label="invoice"
+            onClick={() => {
+              setShowInvoiceViewer(true);
+              setInvoiceOrder(row);
+              const pdfWindow = window.open('', '_blank');
+              pdfWindow.document.write('<html><head><title>Invoice</title></head><body><div id="pdf-container"></div></body></html>');
+              const container = pdfWindow.document.getElementById('pdf-container');
+              ReactDOM.createRoot(container).render(<InvoiceViewer order={row} />);
+            }}
+          >
+            <PictureAsPdfIcon />
+          </IconButton>
+        </td>
         <td>
           {editingOrderIndex === row.orderId ? (
             <IconButton
@@ -231,9 +256,8 @@ function Row(props) {
                       </tr>
                     </tbody>
                   </Table>
-                  <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for aligning the subheader and icon */}
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     <span>Produkter</span> {/* Subheader */}
-                    {/* Action button to open AddProductModal */}
                     <IconButton aria-label="add product" onClick={() => {
                       setCurrentOrderId(row.orderId);
                       setShowAddProductModal(true)
