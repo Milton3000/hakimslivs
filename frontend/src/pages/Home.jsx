@@ -75,7 +75,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
     event.stopPropagation(); 
     addToCart(product);
     setShowDescriptionModal(false); 
-    setShowCart(true); 
+    setShowCart(false); 
   };
 
   return (
