@@ -7,32 +7,29 @@ import 'iconify-icon';
 
 const Categories = ({ fetchProductsByCategory, setProducts, setCategoryTitle }) => {
     const getCategory = async (category) => {
-      try {
-        const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
-        const products = response.data;
-        fetchProductsByCategory(category, products);
-        if (category !== 'POPULÄRT JUST NU') {
-          setCategoryTitle(category); 
+        try {
+            if (category === 'all-products') {
+                setCategoryTitle('Alla Produkter');
+                const response = await axios.get('https://hakimslivs-backend.onrender.com/api/products/all');
+                const products = response.data;
+                setProducts(products);
+            } else {
+                const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
+                const products = response.data;
+                fetchProductsByCategory(category, products);
+                if (category !== 'POPULÄRT JUST NU') {
+                    setCategoryTitle(category);
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching products:', error);
         }
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
     };
 
     const [expandedItems, setExpandedItems] = React.useState([]);
 
     const handleExpandedItemsChange = (event, itemIds) => {
         setExpandedItems(itemIds);
-    };
-
-    const getAllProducts = async () => {
-        try {
-            const response = await axios.get('https://hakimslivs-backend.onrender.com/api/products/all');
-            const products = response.data;
-            setProducts(products);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
     };
     
 
@@ -63,7 +60,7 @@ const Categories = ({ fetchProductsByCategory, setProducts, setCategoryTitle }) 
                                 <span style={{ marginTop: '5px', marginLeft: '5px', fontSize: '20px' }}>Alla Produkter</span>
                             </div>
                         }
-                        onClick={() => getAllProducts()}
+                        onClick={() => getCategory('all-products')}
                     >
                     </TreeItem>
 
