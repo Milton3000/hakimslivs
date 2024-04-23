@@ -8,29 +8,31 @@ const InvoicePDF = ({ order }) => {
       <Page style={styles.page}>
         <View style={styles.section}>
           <Text style={stylesHeaders.page}>Hakim Livs</Text>
-          <Text style={styles.page}>Faktura</Text>
-        </View>
-
-
-        <View style={styles.section}>
-          <Text>Faktura</Text>
         </View>
 
         <View style={styles.section}>
-          <Text>Order ID: {order.orderId}</Text>
+          <Text style={styles.contentHeader}>Faktura</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text>Order: {order.orderId}</Text>
           <Text>Kund: {order.customerNameFull}</Text>
           <Text>Leveranssätt: {order.deliveryMethod}</Text>
-          <Text>Status: {order.orderStatus}</Text>
         </View>
 
         <View style={styles.section}>
-          <Text>Products:</Text>
+          <View style={styles.productsHeader}>
+            <Text style={styles.productName}>Artikel:</Text>
+            <Text style={styles.otherFields}>Antal:</Text>
+            <Text style={styles.otherFields}>á-pris:</Text>
+            <Text style={styles.otherFields}>Status:</Text>
+          </View>
           {order.products.map((product, index) => (
             <View key={index} style={styles.product}>
-              <Text>Title: {product.name}</Text>
-              <Text>Price: {product.price} SEK</Text>
-              <Text>Quantity: {product.quantity}</Text>
-              <Text>Status: {product.status}</Text>
+              <Text style={styles.productName}>{product.name}</Text>
+              <Text style={styles.otherFields}>{product.quantity}</Text>
+              <Text style={styles.otherFields}>{product.price} SEK</Text>
+              <Text style={styles.otherFields}>{product.status}</Text>
             </View>
           ))}
         </View>
@@ -61,11 +63,32 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
   },
+  contentHeader: {
+    fontSize: 18,
+    marginTop: -22,
+    marginLeft: 220,
+  },
+  productsHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottom: '1px solid #ccc',
+    width: '100%',
+  },
   product: {
-    marginLeft: 10,
-    marginTop: 5,
-    padding: 5,
-    // border: '1px solid #ccc',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 10,
+    width: '100%',
+  },
+  productName: {
+    flex: 2,
+    paddingRight: 10,
+  },
+  otherFields: {
+    flex: 1,
+    // textAlign: 'center',
   },
 });
 

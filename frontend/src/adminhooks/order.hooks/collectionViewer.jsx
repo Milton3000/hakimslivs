@@ -10,31 +10,32 @@ const CollectPDF = ({ order }) => {
         </View>
 
         <View style={styles.section}>
-          <Text>Plocklista</Text>
+          <Text style={styles.contentHeader}>Plocklista</Text>
         </View>
 
         <View style={styles.section}>
-          <Text>Order ID: {order.orderId}</Text>
+          <Text>Order: {order.orderId}</Text>
           <Text>Kund: {order.customerNameFull}</Text>
           <Text>Leveranssätt: {order.deliveryMethod}</Text>
-          <Text>Status: {order.orderStatus}</Text>
         </View>
 
         <View style={styles.section}>
-          <Text>Products:</Text>
+          <View style={styles.productsHeader}>
+            <Text style={styles.productName}>Artikel:</Text>
+            <Text style={styles.otherFields}>Antal:</Text>
+            <Text style={styles.otherFields}>Plockad:</Text>
+            <Text style={styles.otherFields}>Status:</Text>
+          </View>
           {order.products.map((product, index) => (
             <View key={index} style={styles.product}>
-              <Text>Title: {product.name}</Text>
-              <Text>Price: {product.price} SEK</Text>
-              <Text>Quantity: {product.quantity}</Text>
-              <Text>Status: {product.status}</Text>
+              <Text style={styles.productName}>{product.name}</Text>
+              <Text style={styles.otherFields}>{product.quantity}</Text>
+              <Text style={styles.otherFields}>____</Text>
+              <Text style={styles.otherFields}>{product.status}</Text>
             </View>
           ))}
         </View>
 
-        <View style={styles.section}>
-          <Text>Total: {calculateTotalValue(order)} SEK</Text>
-        </View>
       </Page>
     </Document>
   );
@@ -53,22 +54,40 @@ const stylesHeaders = StyleSheet.create({
 const styles = StyleSheet.create({
   page: {
     padding: 20,
+    fontSize: 14,
   },
   section: {
     margin: 10,
     padding: 10,
   },
+  contentHeader: {
+    fontSize: 18,
+    marginTop: -22,
+    marginLeft: 220,
+  },
+  productsHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottom: '1px solid #ccc',
+    width: '100%',
+  },
   product: {
-    marginLeft: 10,
-    marginTop: 5,
-    padding: 5,
-    // border: '1px solid #ccc',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 10,
+    width: '100%',
+  },
+  productName: {
+    flex: 2,
+    paddingRight: 10,
+  },
+  otherFields: {
+    flex: 1,
+    textAlign: 'center',
   },
 });
-
-const calculateTotalValue = (order) => {
-  return order.products.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2);
-};
 
 const CollectionViewer = ({ order }) => {
   return (
