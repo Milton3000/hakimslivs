@@ -279,6 +279,7 @@ const AdminTable = () => {
       columnVisibility: {
         description: false,
         TOC: false,
+        origin: false,
         imageUrl: false,
         _id: false,
       },
