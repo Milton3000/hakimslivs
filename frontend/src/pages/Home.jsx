@@ -8,7 +8,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [categoryTitle, setCategoryTitle] = useState('POPULÄRT JUST NU');
+  const [categoryTitle, setCategoryTitle] = useState('');
   const [initialLoad, setInitialLoad] = useState(true);
   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
