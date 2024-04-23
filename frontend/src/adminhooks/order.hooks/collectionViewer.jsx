@@ -13,10 +13,19 @@ const CollectPDF = ({ order }) => {
           <Text style={styles.contentHeader}>Plocklista</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text>Order: {order.orderId}</Text>
-          <Text>Kund: {order.customerNameFull}</Text>
-          <Text>Leveranssätt: {order.deliveryMethod}</Text>
+        <View style={styles.box}>
+          <View style={styles.row}>
+            <Text style={styles.rowHeader}>OrderId:</Text>
+            <Text style={styles.rowItem}>{order.orderId}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.rowHeader}>Kund:</Text>
+            <Text style={styles.rowItem}>{order.customerNameFull}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.rowHeader}>Leverans:</Text>
+            <Text style={styles.rowItem}>{order.deliveryMethod}</Text>
+          </View>
         </View>
 
         <View style={styles.section}>
@@ -54,12 +63,32 @@ const stylesHeaders = StyleSheet.create({
 const styles = StyleSheet.create({
   page: {
     padding: 20,
-    fontSize: 14,
+    fontSize: 12,
   },
   section: {
     margin: 10,
     padding: 10,
   },
+  box: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '50%',
+    margin: 10,
+    padding: 10,
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    padding: 3,
+  },
+  rowItem: {
+    flex: 3,
+  },
+  rowHeader: {
+    flex: 1,
+  },
+
   contentHeader: {
     fontSize: 18,
     marginTop: -22,

@@ -92,15 +92,15 @@ const InvoicePDF = ({ order }) => {
 
           <View style={styles.section}>
             <View style={styles.productsHeader}>
-              <Text style={styles.productName}>Artikel:</Text>
-              <Text style={styles.otherFields}>Antal:</Text>
-              <Text style={styles.otherFields}>á-pris:</Text>
-              <Text style={styles.otherFields}>Belopp:</Text>
+              <Text style={styles.productName}>Artikel</Text>
+              <Text style={styles.otherFields}>Antal</Text>
+              <Text style={styles.otherFields}>á-pris</Text>
+              <Text style={styles.otherFields}>Belopp</Text>
             </View>
             {order.products.map((product, index) => (
               <View key={index} style={styles.product}>
                 <Text style={styles.productName}>{product.name}</Text>
-                <Text style={styles.otherFields}>{product.quantity}</Text>
+                <Text style={styles.otherFields}>{product.quantity} st</Text>
                 <Text style={styles.otherFields}>{formatedPrice(product.price)}</Text>
                 <Text style={styles.otherFields}>{calculateProductTotal(product.price, product.quantity)}</Text>
               </View>
@@ -260,13 +260,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: '100%',
-    padding: 10,
+    paddingTop: 5,
     borderTop: '1px solid #ccc',
+    fontSize: 10,
   },
   footerContent: {
     display: 'flex',
     flexDirection: 'column',
     paddingTop: 10,
+    fontSize: 8,
   },
 });
 
