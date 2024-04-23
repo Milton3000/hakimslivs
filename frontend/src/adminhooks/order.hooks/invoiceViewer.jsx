@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     fontSize: 14,
+    paddingLeft: 2,
     paddingBottom: 10,
   },
   section: {
@@ -190,12 +191,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    padding: 10,
+    padding: 8,
   },
   boxTwo: {
     display: 'flex',
     flexDirection: 'column',
-
     width: '40%',
     padding: 10,
   },
@@ -209,6 +209,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     width: '50%',
+    height: '90%',
     padding: 10,
     border: '1px solid #ccc',
   },
