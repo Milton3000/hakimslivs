@@ -34,6 +34,8 @@ const Categories = ({ fetchProductsByCategory, setProducts, setCategoryTitle }) 
     
 
     return (
+        <>
+<img src="/HAKIM2.png" alt="Hakim Livs" style={{ width: '200px', borderRadius: '50%', marginLeft: '10px' }} />
         <Box sx={{ flexGrow: 1, minWidth: 270, maxWidth: 270 }}>
             <Box sx={{ mb: 1 }}>
             </Box>
@@ -115,6 +117,7 @@ const Categories = ({ fetchProductsByCategory, setProducts, setCategoryTitle }) 
                 </SimpleTreeView>
             </Box>
         </Box>
+                </>
     );
 }
 
