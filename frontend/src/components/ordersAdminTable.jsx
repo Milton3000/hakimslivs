@@ -530,26 +530,26 @@ export default function OrderTable() {
         </thead>
         <tbody>
           {orders.map((order, index) => (
-            <Row
-              key={order._id}
-              row={{
-                orderId: order._id,
-                customerNameFull: (order.guest ? `${order.guest.guestFirstName || ''} ${order.guest.guestLastName || ''}` : `${order.customer.firstName || ''} ${order.customer.lastName || ''}`),
-                customerFirstName: order.guest ? order.guest.guestFirstName || '' : order.customer.firstName || '',
-                customerLastName: order.guest ? order.guest.guestLastName || '' : order.customer.lastName || '',
-                customerAddress: order.guest ? order.guest.guestAddress || '' : order.customer.address || '',
-                customerPhone: order.guest ? order.guest.guestPhone || '' : order.customer.phone || '',
-                customerEmail: order.guest ? order.guest.guestEmail || '' : order.customer.email || '',
-                deliveryMethod: order.deliveryMethod || '',
-                orderStatus: order.orderStatus || '',
-                products: order.products.map(product => ({
-                  name: (product.product && product.product.title) || '',
-                  price: (product.product && product.product.price) || 0,
-                  productId: (product.product && product.product._id) || '',
-                  quantity: product.quantity || 0,
-                  confirmedQuantity: product.confirmedQuantity || 0,
-                  status: product.status || '',
-                })),
+           <Row
+           key={order._id}
+           row={{
+             orderId: order._id,
+             customerNameFull: order.guest ? `${order.guest.guestFirstName || ''} ${order.guest.guestLastName || ''}` : '',
+             customerFirstName: order.guest ? order.guest.guestFirstName || '' : '',
+             customerLastName: order.guest ? order.guest.guestLastName || '' : '',
+             customerAddress: order.guest ? order.guest.guestAddress || '' : '',
+             customerPhone: order.guest ? order.guest.guestPhone || '' : '',
+             customerEmail: order.guest ? order.guest.guestEmail || '' : '',
+             deliveryMethod: order.deliveryMethod || '',
+             orderStatus: order.orderStatus || '',
+             products: order.products.map(product => ({
+               name: (product.product && product.product.title) || '',
+               price: (product.product && product.product.price) || 0,
+               productId: (product.product && product.product._id) || '',
+               quantity: product.quantity || 0,
+               confirmedQuantity: product.confirmedQuantity || 0,
+               status: product.status || '',
+             })),
               }}
               onDeleteOrder={handleDeleteOrder}
               onUpdateOrder={handleUpdateOrder}
