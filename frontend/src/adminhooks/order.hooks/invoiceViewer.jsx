@@ -19,31 +19,31 @@ const InvoicePDF = ({ order }) => {
             <View style={styles.box}>
               <Text style={styles.sectionHeader}>Fakturaadress</Text>
               <View style={styles.row}>
-              <Text style={styles.rowFields}>{order.customerNameFull}</Text>
+                <Text style={styles.rowFields}>{order.customerNameFull}</Text>
               </View>
               <View style={styles.row}>
-              <Text style={styles.rowFields}>{order.customerAddress}</Text>
+                <Text style={styles.rowFields}>{order.customerAddress}</Text>
               </View>
               <View style={styles.row}>
-              <Text style={styles.rowFields}>{order.customerEmail}</Text>
+                <Text style={styles.rowFields}>{order.customerEmail}</Text>
               </View>
               <View style={styles.row}>
-              <Text style={styles.rowFields}>{order.customerPhone}</Text>
+                <Text style={styles.rowFields}>{order.customerPhone}</Text>
               </View>
             </View>
             <View style={styles.boxTwo}>
               <Text style={styles.sectionHeader}>Leveransadress</Text>
               <View style={styles.row}>
-              <Text style={styles.rowFields}>{order.customerNameFull}</Text>
+                <Text style={styles.rowFields}>{order.customerNameFull}</Text>
               </View>
               <View style={styles.row}>
-              <Text style={styles.rowFields}>{order.customerAddress}</Text>
+                <Text style={styles.rowFields}>{order.customerAddress}</Text>
               </View>
               <View style={styles.row}>
-              <Text style={styles.rowFields}>{order.customerEmail}</Text>
+                <Text style={styles.rowFields}>{order.customerEmail}</Text>
               </View>
               <View style={styles.row}>
-              <Text style={styles.rowFields}>{order.customerPhone}</Text>
+                <Text style={styles.rowFields}>{order.customerPhone}</Text>
               </View>
             </View>
           </View>
@@ -88,28 +88,28 @@ const InvoicePDF = ({ order }) => {
             </View>
 
           </View>
-        
 
-        <View style={styles.section}>
-          <View style={styles.productsHeader}>
-            <Text style={styles.productName}>Artikel:</Text>
-            <Text style={styles.otherFields}>Antal:</Text>
-            <Text style={styles.otherFields}>á-pris:</Text>
-            <Text style={styles.otherFields}>Belopp:</Text>
-          </View>
-          {order.products.map((product, index) => (
-            <View key={index} style={styles.product}>
-              <Text style={styles.productName}>{product.name}</Text>
-              <Text style={styles.otherFields}>{product.quantity}</Text>
-              <Text style={styles.otherFields}>{formatedPrice(product.price)}</Text>
-              <Text style={styles.otherFields}>{calculateProductTotal(product.price, product.quantity)}</Text>
+
+          <View style={styles.section}>
+            <View style={styles.productsHeader}>
+              <Text style={styles.productName}>Artikel:</Text>
+              <Text style={styles.otherFields}>Antal:</Text>
+              <Text style={styles.otherFields}>á-pris:</Text>
+              <Text style={styles.otherFields}>Belopp:</Text>
             </View>
-          ))}
+            {order.products.map((product, index) => (
+              <View key={index} style={styles.product}>
+                <Text style={styles.productName}>{product.name}</Text>
+                <Text style={styles.otherFields}>{product.quantity}</Text>
+                <Text style={styles.otherFields}>{formatedPrice(product.price)}</Text>
+                <Text style={styles.otherFields}>{calculateProductTotal(product.price, product.quantity)}</Text>
+              </View>
+            ))}
 
-          <View style={styles.productTotal}>
-            <Text>Summa totalt: {calculateTotalValue(order)} SEK</Text>
+            <View style={styles.productTotal}>
+              <Text>Summa totalt: {calculateTotalValue(order)} SEK</Text>
+            </View>
           </View>
-        </View>
         </View>
         <View style={styles.footer}>
           <View>
