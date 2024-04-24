@@ -8,13 +8,18 @@ import {
 import '../styles/adminPage.css';
 import profilepic from '../styles/profile-circle.svg';
 import 'iconify-icon';
+import { useEffect } from 'react';
 
-const AdminPage = () => {
+const AdminPage = ({ setCurrentRoute }) => {
   const [activePanel, setActivePanel] = useState('orders');
 
   const handlePanelChange = (panel) => {
     setActivePanel(panel);
   };
+
+  useEffect(() => {
+    setCurrentRoute('/admin');
+  }, []);
 
   return (
     <div style={{ display: 'flex', height: '50rem' }}>

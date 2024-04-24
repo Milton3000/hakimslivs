@@ -19,12 +19,6 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentRoute, setCurrentRoute] = useState('/');
 
-
-  useEffect(() => {
-    setCurrentRoute('/admin');
-  }, []);
-
-
   useEffect(() => {
     // Loada items from localStorage
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];

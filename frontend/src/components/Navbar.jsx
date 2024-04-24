@@ -42,7 +42,6 @@ const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems, currentRoute 
         </ul>
       </div>
     </nav>
-
   ) : (
     <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: 'rgba(248, 244, 240, 1)' }}>
       <a className="navbar-brand" href="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}>
