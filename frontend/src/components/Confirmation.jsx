@@ -116,7 +116,7 @@ const Confirmation = () => {
             <div className="form-group mt-4">
               <label>Telefonnummer:</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 name="phone"
                 value={formData.phone}
