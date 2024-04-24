@@ -88,6 +88,12 @@ function App() {
     setIsLoggedIn(true);
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    setTotalCartItems(0);
+    localStorage.removeItem('cartItems');
+  };
+
   return (
     <div className="App">
       <Router>
@@ -103,7 +109,7 @@ function App() {
           <Route path="/admin" element={isLoggedIn ? <AdminPage /> : <Navigate to="/login" />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/betalning" element={<Payment cartItems={cartItems} />} />
-          <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/confirmation" element={<Confirmation clearCart={clearCart} />} />
         </Routes>
         <Footer />
       </Router>

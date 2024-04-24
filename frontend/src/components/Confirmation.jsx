@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Confirmation = () => {
+const Confirmation = ({ clearCart }) => { // Pass clearCart function as a prop
   const navigate = useNavigate();
   const location = useLocation();
   const cartItems = location.state?.cartItems || []; // Access cartItems från location state
@@ -52,12 +52,13 @@ const Confirmation = () => {
         email: '',
         phone: ''
       });
+      // Clear the cart after successful order placement
+      clearCart();
     } catch (error) {
       console.error('Error creating order:', error); // Log error message
       setErrorMessage('Ett fel har inskett, vänligen försök igen.');
     }
   };
-  
 
   return (
     <div className="container">
