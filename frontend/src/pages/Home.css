@@ -44,7 +44,10 @@ body {
     grid-column: 1; /* Places the section in the first column */
   }
 }
-
+.with-line {
+  border-bottom: 1px solid #ddd; /* Add a bottom border */
+  padding-bottom: 8px; /* Adjust padding for spacing */
+}
 
 
 /* .product-card {

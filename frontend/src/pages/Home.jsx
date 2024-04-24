@@ -138,9 +138,9 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
                   <div className="mt-auto">
                     <h5 className="card-title fs-5 product-title text-center">{product.title}</h5>
                     <h6 className="card-text fs-6 text-muted mb-2 text-center">{product.brand}</h6>
-                    <p className="card-text fs-6 mb-2 text-center">Pris: {product.price} kr</p>
-                    <p className="card-text fs-6 mb-2 text-center">Jämförpris: {product.unit_price} kr/ {product.unit}</p>
-                    <p className="card-text fs-6 mb-2 text-center">Vikt: {formatWeight(product.weight)}</p>
+                    <p className="card-text fs-6 mb-2 text-center with-line">Pris: {product.price} kr</p>
+                    <p className="card-text fs-6 mb-2 text-center with-line">Jämförpris: {product.unit_price} kr/ {product.unit}</p>
+                    <p className="card-text fs-6 mb-2 text-center with-line">Vikt: {formatWeight(product.weight)}</p>
                     <button onClick={(event) => handleAddToCart(event, product)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
                   </div>
                 </div>
@@ -174,14 +174,14 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
               <img src={selectedProduct.imageUrl} alt={selectedProduct.title} className="img-fluid shadow" style={{ maxHeight: '350px', borderRadius: '10px' }} />
             </div>
             <div className="mt-4">
-              <p><strong>Namn:</strong> {selectedProduct.title}</p>
-              <p><strong>Pris:</strong> {selectedProduct.price} kr</p>
-              <p><strong>Jämförpris:</strong> {selectedProduct.unit_price} kr/ {selectedProduct.unit}</p>
-              <p><strong>Vikt:</strong> {formatWeight(selectedProduct.weight)}</p>
-              <p><strong>Beskrivning:</strong> {selectedProduct.description}</p>
-              <p><strong>Varumärke:</strong> {selectedProduct.brand}</p>
-              <p><strong>Land:</strong> {selectedProduct.origin}</p>
-              <p><strong>Innehållsförteckning:</strong> {selectedProduct.TOC.join(', ')}</p>
+              <p className="with-line"><strong>Namn:</strong> {selectedProduct.title}</p>
+              <p className="with-line"><strong>Pris:</strong> {selectedProduct.price} kr</p>
+              <p className="with-line"><strong>Jämförpris:</strong> {selectedProduct.unit_price} kr/ {selectedProduct.unit}</p>
+              <p className="with-line"><strong>Vikt:</strong> {formatWeight(selectedProduct.weight)}</p>
+              <p className="with-line"><strong>Beskrivning:</strong> {selectedProduct.description}</p>
+              <p className="with-line"><strong>Varumärke:</strong> {selectedProduct.brand}</p>
+              <p className="with-line"><strong>Land:</strong> {selectedProduct.origin}</p>
+              <p className="with-line"><strong>Innehållsförteckning:</strong> {selectedProduct.TOC.join(', ')}</p>
             </div>
             <div className="text-center mt-4">
               <Button variant="primary" onClick={handleCloseModal}>Stäng</Button>
