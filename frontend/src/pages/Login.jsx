@@ -49,7 +49,7 @@ const Login = ({ onLogin }) => {
   return (
     <div className="container">
       <div className="row justify-content-center">
-        <div className="col-md-6">
+        <div style={{paddingBottom: '20rem'}} className="col-md-6">
           <div className="card mt-5">
             <div className="card-header">
               <h2 className="text-center">Admin Login</h2>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchBar from './SearchBar';
 
-const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems }) => {
+const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems, currentRoute }) => {
   const [searchValue, setSearchValue] = useState('');
 
   const handleSearchInputChange = (value) => {
@@ -16,9 +16,10 @@ const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems }) => {
   };
 
   return (
-<nav className="navbar navbar-expand-lg navbar-light sticky-top" style={{ backgroundColor: 'rgba(248, 244, 240, 1)' }}>
+      currentRoute !== '/admin' ? (
+    <nav className="navbar navbar-expand-lg navbar-light sticky-top" style={{ backgroundColor: 'rgba(248, 244, 240, 1)' }}>
       <a className="navbar-brand" href="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}>
-        <img src="/HAKIM4.png" alt="Hakim Livs" style={{ width: '150px', borderRadius: '10%', paddingBottom: "2px"}} />
+        <img src="/HAKIM4.png" alt="Hakim Livs" style={{ width: '150px', borderRadius: '10%', paddingBottom: "2px" }} />
       </a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
@@ -26,8 +27,8 @@ const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems }) => {
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto"></ul>
-        <SearchBar 
-          onSearchInputChange={handleSearchInputChange} 
+        <SearchBar
+          onSearchInputChange={handleSearchInputChange}
           searchValue={searchValue}
           handleClearSearch={handleClearSearch}
         />
@@ -41,6 +42,15 @@ const Navbar = ({ onSearchInputChange, toggleCart, totalCartItems }) => {
         </ul>
       </div>
     </nav>
+
+  ) : (
+    <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: 'rgba(248, 244, 240, 1)' }}>
+      <a className="navbar-brand" href="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}>
+        <img src="/HAKIM4.png" alt="Hakim Livs" style={{ width: '150px', borderRadius: '10%', paddingBottom: "2px" }} />
+      </a>
+    </nav>
+  )
+ 
   );
 }
 
