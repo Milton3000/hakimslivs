@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Confirmation = ({ clearCart }) => { // Pass clearCart function as a prop
+const Confirmation = ({ clearCart }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const cartItems = location.state?.cartItems || []; // Access cartItems från location state
+  const cartItems = location.state?.cartItems || [];
 
   const [formData, setFormData] = useState({
     customerFirstName: '',
@@ -16,12 +16,14 @@ const Confirmation = ({ clearCart }) => { // Pass clearCart function as a prop
   });
   const [confirmationMessage, setConfirmationMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const formattedCartItems = cartItems.map(item => ({
         product: item._id,
@@ -30,9 +32,7 @@ const Confirmation = ({ clearCart }) => { // Pass clearCart function as a prop
         quantity: item.quantity
       }));
   
-      console.log('Formatted cart items:', formattedCartItems); // Log formatted cart items
-  
-      const response = await axios.post('https://hakimslivs-backend.onrender.com/api/orders/neworder', {
+      await axios.post('https://hakimslivs-backend.onrender.com/api/orders/neworder', {
         guest: {
           guestFirstName: formData.customerFirstName,
           guestLastName: formData.customerLastName,
@@ -43,21 +43,25 @@ const Confirmation = ({ clearCart }) => { // Pass clearCart function as a prop
         products: formattedCartItems
       });
   
-      console.log('Order created:', response.data); // Log response data
       setConfirmationMessage('Din order har blivit placerad!');
-      setFormData({
-        customerFirstName: '',
-        customerLastName: '',
-        address: '',
-        email: '',
-        phone: ''
-      });
-      // Clear the cart after successful order placement
+      setShowModal(true);
       clearCart();
+      setFormData({
+        customerFirstName: formData.customerFirstName,
+        customerLastName: formData.customerLastName,
+        address: formData.address,
+        email: formData.email,
+        phone: formData.phone
+      });
     } catch (error) {
-      console.error('Error creating order:', error); // Log error message
+      console.error('Error creating order:', error);
       setErrorMessage('Ett fel har inskett, vänligen försök igen.');
     }
+  };
+  
+  
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -129,9 +133,46 @@ const Confirmation = ({ clearCart }) => { // Pass clearCart function as a prop
         </div>
         <div className="mt-4">
           <button className="btn btn-secondary mb-5 me-4" onClick={() => navigate('/betalning')}>Gå tillbaka</button>
-          <button type="button" className="btn btn-primary mb-5" onClick={handleSubmit}>Bekräfta Order</button>
+          <button type="submit" className="btn btn-primary mb-5">Bekräfta Order</button>
         </div>
       </form>
+      {showModal && <Modal formData={formData} cartItems={cartItems} closeModal={closeModal} />}
+    </div>
+  );
+};
+
+const Modal = ({ formData, cartItems, closeModal }) => {
+  return (
+    <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Tack för din order!</h5>
+            <button type="button" className="btn-close" aria-label="Close" onClick={closeModal}></button>
+          </div>
+          <div className="modal-body">
+            <h4>Orderinformation:</h4>
+            <h6><strong>Kundinformation:</strong></h6>
+            <p>Förnamn: {formData.customerFirstName}</p>
+            <p>Efternamn: {formData.customerLastName}</p>
+            <p>Adress: {formData.address}</p>
+            <p>Email: {formData.email}</p>
+            <p>Telefonnummer: {formData.phone}</p>
+
+            <h6><strong>Produkter:</strong></h6>
+            <ul>
+              {cartItems.map(item => (
+                <li key={item._id}>
+                  <p>{item.title} - Antal: {item.quantity}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
