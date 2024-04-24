@@ -301,7 +301,7 @@ const AdminTable = () => {
       : undefined,
     muiTableContainerProps: {
       sx: {
-        minHeight: '39rem',
+        minHeight: '41rem',
         backgroundColor: '#FBFCFE',
       },
     },

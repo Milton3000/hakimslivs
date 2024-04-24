@@ -16,6 +16,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddProductModal from '../adminhooks/order.hooks/addProductModal';
 import InvoiceViewer from '../adminhooks/order.hooks/invoiceViewer';
 import CollectionViewer from '../adminhooks/order.hooks/collectionViewer';
+import TablePagination from '@mui/material/TablePagination';
 
 function Row(props) {
   const { row, onDeleteOrder, onUpdateOrder, onUpdateProduct, onDeleteProduct, onAddProduct } = props;
@@ -389,6 +390,26 @@ Row.propTypes = {
 
 export default function OrderTable() {
   const [orders, setOrders] = useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+
+  const startIndex = page * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const paginatedOrders = orders.slice(startIndex, endIndex);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const calculatePage = () => {
+    return Math.min(page, Math.floor(orders.length / rowsPerPage));
+  };
+
 
   useEffect(() => {
     axios.get('https://hakimslivs-backend.onrender.com/api/orders/allorders')
@@ -398,7 +419,7 @@ export default function OrderTable() {
       .catch(error => {
         console.error('Error fetching orders:', error);
       });
-  }, []);
+  }, [page, rowsPerPage]);
 
   useEffect(() => {
   }, [orders]);
@@ -506,60 +527,79 @@ export default function OrderTable() {
       });
   };
 
-
   return (
-    <Sheet>
-      <Table
-        aria-label="order table"
-        sx={{
-          boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
-          '& > thead > tr > th': { textAlign: 'left' },
-        }}
-      >
-        <thead>
-          <tr>
-            <th style={{ width: 40 }} aria-label="empty" />
-            <th>OrderID</th>
-            <th>Kund / Gäst</th>
-            <th>Leveranssätt</th>
-            <th>Status</th>
-            <th>Plocklista</th>
-            <th>Faktura</th>
-            <th>Åtgärder</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order, index) => (
-           <Row
-           key={order._id}
-           row={{
-             orderId: order._id,
-             customerNameFull: order.guest ? `${order.guest.guestFirstName || ''} ${order.guest.guestLastName || ''}` : '',
-             customerFirstName: order.guest ? order.guest.guestFirstName || '' : '',
-             customerLastName: order.guest ? order.guest.guestLastName || '' : '',
-             customerAddress: order.guest ? order.guest.guestAddress || '' : '',
-             customerPhone: order.guest ? order.guest.guestPhone || '' : '',
-             customerEmail: order.guest ? order.guest.guestEmail || '' : '',
-             deliveryMethod: order.deliveryMethod || '',
-             orderStatus: order.orderStatus || '',
-             products: order.products.map(product => ({
-               name: (product.product && product.product.title) || '',
-               price: (product.product && product.product.price) || 0,
-               productId: (product.product && product.product._id) || '',
-               quantity: product.quantity || 0,
-               confirmedQuantity: product.confirmedQuantity || 0,
-               status: product.status || '',
-             })),
-              }}
-              onDeleteOrder={handleDeleteOrder}
-              onUpdateOrder={handleUpdateOrder}
-              onUpdateProduct={handleUpdateProduct}
-              onDeleteProduct={handleDeleteProduct}
-              onAddProduct={handleAddProduct}
-            />
-          ))}
-        </tbody>
-      </Table>
-    </Sheet>
+    <>
+      <Sheet>
+        <Table
+          aria-label="order table"
+          sx={{
+            boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
+            '& > thead > tr > th': { textAlign: 'left' },
+          }}
+        >
+          <thead>
+            <tr>
+              <th style={{ width: 40 }} aria-label="empty" />
+              <th>OrderID</th>
+              <th>Kund / Gäst</th>
+              <th>Leveranssätt</th>
+              <th>Status</th>
+              <th>Plocklista</th>
+              <th>Faktura</th>
+              <th>Åtgärder</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedOrders.map((order, index) => (
+              <Row
+                key={order._id}
+                row={{
+                  orderId: order._id,
+                  customerNameFull: order.guest ? `${order.guest.guestFirstName || ''} ${order.guest.guestLastName || ''}` : '',
+                  customerFirstName: order.guest ? order.guest.guestFirstName || '' : '',
+                  customerLastName: order.guest ? order.guest.guestLastName || '' : '',
+                  customerAddress: order.guest ? order.guest.guestAddress || '' : '',
+                  customerPhone: order.guest ? order.guest.guestPhone || '' : '',
+                  customerEmail: order.guest ? order.guest.guestEmail || '' : '',
+                  deliveryMethod: order.deliveryMethod || '',
+                  orderStatus: order.orderStatus || '',
+                  products: order.products.map(product => ({
+                    name: (product.product && product.product.title) || '',
+                    price: (product.product && product.product.price) || 0,
+                    productId: (product.product && product.product._id) || '',
+                    quantity: product.quantity || 0,
+                    confirmedQuantity: product.confirmedQuantity || 0,
+                    status: product.status || '',
+                  })),
+                }}
+
+                onDeleteOrder={handleDeleteOrder}
+                onUpdateOrder={handleUpdateOrder}
+                onUpdateProduct={handleUpdateProduct}
+                onDeleteProduct={handleDeleteProduct}
+                onAddProduct={handleAddProduct}
+              />
+            ))}
+          </tbody>
+        </Table>
+        <TablePagination
+          component="div"
+          count={orders.length}
+          page={calculatePage()}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            "& .MuiTablePagination-selectLabel": {
+              display: "none",
+            },
+            "& .MuiTablePagination-displayedRows": {
+              marginTop: 1.7,
+            },
+            marginBottom: 0,
+          }}
+        />
+      </Sheet>
+    </>
   );
 }
