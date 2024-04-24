@@ -1,8 +1,9 @@
 import React from 'react';
 
-const Footer = () => {
+const Footer = ({ currentRoute, admin }) => {
   return (
     <footer className="text-dark py-4" style={{ backgroundColor: 'rgba(248, 244, 240, 1)' }}>
+      {currentRoute !== '/admin' && (
       <div className="container">
         <div className="row justify-content-center"> 
           <div className="col-md-4">
@@ -30,9 +31,12 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      )}
+      {!admin && (
       <div className="text-center py-2">
         <p className="mb-0">© Hakim Livs 2024</p>
       </div>
+      )}
     </footer>
   );
 }

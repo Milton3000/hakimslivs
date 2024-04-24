@@ -122,7 +122,8 @@ function App() {
           <Route path="/betalning" element={<Payment cartItems={cartItems} />} />
           <Route path="/confirmation" element={<Confirmation clearCart={clearCart} />} />
         </Routes>
-        <Footer />
+        <Footer
+        currentRoute={currentRoute} />
       </Router>
       {showCart && <Cart cartItems={cartItems} handleClose={handleCloseCart} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />}
     </div>
