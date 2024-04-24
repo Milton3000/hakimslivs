@@ -17,7 +17,7 @@ const Categories = ({ fetchProductsByCategory, setProducts, setCategoryTitle }) 
                 const response = await axios.get(`https://hakimslivs-backend.onrender.com/api/products/category/${category}`);
                 const products = response.data;
                 fetchProductsByCategory(category, products);
-                if (category !== 'POPULÄRT JUST NU') {
+                if (category !== '') {
                     setCategoryTitle(category);
                 }
             }

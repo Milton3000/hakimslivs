@@ -8,7 +8,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [categoryTitle, setCategoryTitle] = useState('POPULÄRT JUST NU');
+  const [categoryTitle, setCategoryTitle] = useState('');
   const [initialLoad, setInitialLoad] = useState(true);
   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
@@ -42,15 +42,16 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
     const filteredProducts = products.filter((product) =>
       product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    
+  
     setFilteredProducts(filteredProducts);
   
-    if (searchQuery.trim() !== '') {
-      setCategoryTitle('Sökresultat');
+    // Update category title based on search query and filtered products
+    if (searchQuery.trim() === '') {
+      setCategoryTitle(categoryTitle); 
     } else if (filteredProducts.length === 0) {
-      setCategoryTitle('POPULÄRT JUST NU');
+      setCategoryTitle('Inga sökresultat hittades');
     } else {
-      setCategoryTitle(categoryTitle); // Keep the current category title if not searching or if there are filtered products
+      setCategoryTitle('Sökresultat');
     }
   }, [searchQuery, products, categoryTitle]);
 
