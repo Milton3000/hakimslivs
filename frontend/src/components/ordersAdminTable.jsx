@@ -391,7 +391,7 @@ Row.propTypes = {
 export default function OrderTable() {
   const [orders, setOrders] = useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
