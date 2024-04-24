@@ -138,8 +138,8 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
                   <div className="mt-auto">
                     <h5 className="card-title fs-5 product-title text-center">{product.title}</h5>
                     <h6 className="card-text fs-6 text-muted mb-2 text-center">{product.brand}</h6>
-                    <p className="card-text fs-6 mb-2 text-center">Pris: {product.price} SEK</p>
-                    <p className="card-text fs-6 mb-2 text-center">Jämförpris: {product.unit_price} SEK per {product.unit}</p>
+                    <p className="card-text fs-6 mb-2 text-center">Pris: {product.price} kr</p>
+                    <p className="card-text fs-6 mb-2 text-center">Jämförpris: {product.unit_price} kr per {product.unit}</p>
                     <p className="card-text fs-6 mb-2 text-center">Vikt: {formatWeight(product.weight)}</p>
                     <button onClick={(event) => handleAddToCart(event, product)} className="btn btn-primary w-100 text-center">Lägg till i varukorg</button>
                   </div>
@@ -175,8 +175,8 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
             </div>
             <div className="mt-4">
               <p><strong>Namn:</strong> {selectedProduct.title}</p>
-              <p><strong>Pris:</strong> {selectedProduct.price} SEK</p>
-              <p><strong>Jämförpris:</strong> {selectedProduct.unit_price} SEK per {selectedProduct.unit}</p>
+              <p><strong>Pris:</strong> {selectedProduct.price} kr</p>
+              <p><strong>Jämförpris:</strong> {selectedProduct.unit_price} kr per {selectedProduct.unit}</p>
               <p><strong>Vikt:</strong> {formatWeight(selectedProduct.weight)}</p>
               <p><strong>Beskrivning:</strong> {selectedProduct.description}</p>
               <p><strong>Varumärke:</strong> {selectedProduct.brand}</p>
