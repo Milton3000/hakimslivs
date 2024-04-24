@@ -1,4 +1,3 @@
-// Home.jsx
 import React, { useState, useEffect } from 'react';
 import Categories from '../components/CategoriesLeft';
 import { Modal, Button } from 'react-bootstrap';
@@ -11,6 +10,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
   const [categoryTitle, setCategoryTitle] = useState('');
   const [initialLoad, setInitialLoad] = useState(true);
   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
+  const [clickedCategory, setClickedCategory] = useState(null); // State to hold clicked category
 
   const fetchProductsByCategory = async (category) => {
     try {
@@ -19,6 +19,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
       setProducts(data);
       setCategoryTitle(category); // Update category title
       setInitialLoad(false);
+      setClickedCategory(category); // Update clicked category
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -40,20 +41,20 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
 
   useEffect(() => {
     const filteredProducts = products.filter((product) =>
-      product.title.toLowerCase().includes(searchQuery.toLowerCase())
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  
+
     setFilteredProducts(filteredProducts);
-  
-    // Update category title based on search query and filtered products
+
+    // Update category title based on search query, filtered products, and selected category
     if (searchQuery.trim() === '') {
-      setCategoryTitle(categoryTitle); 
+        setCategoryTitle(clickedCategory ? clickedCategory : 'Alla Produkter'); // If a category is clicked, set the title to the clicked category
     } else if (filteredProducts.length === 0) {
-      setCategoryTitle('Inga sökresultat hittades');
+        setCategoryTitle('Inga sökresultat hittades');
     } else {
-      setCategoryTitle('Sökresultat');
+        setCategoryTitle('Sökresultat');
     }
-  }, [searchQuery, products, categoryTitle]);
+}, [searchQuery, products, clickedCategory]);
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
@@ -66,25 +67,25 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
 
   const formatWeight = (weight) => {
     if (weight >= 1000) {
-      return (weight / 1000).toFixed(1) + " kg"; 
+      return (weight / 1000).toFixed(1) + " kg";
     } else if (weight >= 1) {
-      return weight + " g"; 
+      return weight + " g";
     } else {
-      return (weight * 1000).toFixed(1) + " g"; 
+      return (weight * 1000).toFixed(1) + " g";
     }
   };
 
   const handleAddToCart = (event, product) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
     addToCart(product);
-    setShowDescriptionModal(false); 
-    setShowCart(false); 
+    setShowDescriptionModal(false);
+    setShowCart(false);
   };
 
   return (
     <div className="home">
       <div className="category-section">
-      <Categories fetchProductsByCategory={fetchProductsByCategory} setProducts={setProducts} setCategoryTitle={setCategoryTitle} />
+        <Categories fetchProductsByCategory={fetchProductsByCategory} setProducts={setProducts} setCategoryTitle={setCategoryTitle} setClickedCategory={setClickedCategory} /> {/* Pass setClickedCategory to Categories component */}
       </div>
       <div className="product-section">
         <div className="d-flex flex-wrap justify-content-center p-4">
@@ -149,3 +150,4 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
 };
 
 export default Home;
+

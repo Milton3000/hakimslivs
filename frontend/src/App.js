@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route , Navigate  } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Categories from './pages/Categories';
@@ -9,7 +9,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Cart from './components/Cart';
 import Payment from './components/Payment';
-import Confirmation from './components/Confirmation'; 
+import Confirmation from './components/Confirmation';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,6 +17,7 @@ function App() {
   const [showCart, setShowCart] = useState(false);
   const [totalCartItems, setTotalCartItems] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentRoute, setCurrentRoute] = useState('/');
 
   useEffect(() => {
     // Loada items from localStorage
@@ -46,7 +47,7 @@ function App() {
     }
     setTotalCartItems(totalCartItems + 1); // Incrementa totala cart items
   };
-  
+
   const removeFromCart = (productToRemove) => {
     const updatedCartItems = cartItems.filter((product) => product !== productToRemove);
     const removedQuantity = productToRemove.quantity; // Hämta antalet av removed item
@@ -55,7 +56,7 @@ function App() {
     // Uppdatera localStorage efter updating state
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   };
-  
+
   const updateQuantity = (productId, change) => {
     const updatedCartItems = cartItems.map((item) => {
       if (item._id === productId) {
@@ -97,16 +98,26 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar onSearchInputChange={handleSearchInputChange} toggleCart={toggleCart} totalCartItems={totalCartItems} />
+        <Navbar
+          onSearchInputChange={handleSearchInputChange}
+          toggleCart={toggleCart}
+          totalCartItems={totalCartItems}
+          currentRoute={currentRoute}
+        />
         <Routes>
-        <Route
+          <Route
             path="/"
             element={<Home searchQuery={searchQuery} addToCart={addToCart} setShowCart={setShowCart} />}
           />
           <Route path="/" element={<Home searchQuery={searchQuery} />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/admin" element={isLoggedIn ? <AdminPage /> : <Navigate to="/login" />} />
+          <Route
+            path="/admin"
+            element={
+              isLoggedIn ? <AdminPage setCurrentRoute={setCurrentRoute} /> : <Navigate to="/login" />
+            }
+          />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/betalning" element={<Payment cartItems={cartItems} />} />
           <Route path="/confirmation" element={<Confirmation clearCart={clearCart} />} />
