@@ -8,9 +8,12 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [categoryTitle, setCategoryTitle] = useState('');
-  const [initialLoad, setInitialLoad] = useState(true);
+  // const [initialLoad, setInitialLoad] = useState(true);
   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
   const [clickedCategory, setClickedCategory] = useState(null); // State to hold clicked category
+  const [currentPage, setCurrentPage] = useState(1);
+  // const [query, setQuery] = useState('');
+  const productsPerPage = 8;
 
   const fetchProductsByCategory = async (category) => {
     try {
@@ -18,7 +21,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
       const data = await response.json();
       setProducts(data);
       setCategoryTitle(category); // Update category title
-      setInitialLoad(false);
+      // setInitialLoad(false);
       setClickedCategory(category); // Update clicked category
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -40,21 +43,35 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
   }, []);
 
   useEffect(() => {
+    // Filter products based on search query
     const filteredProducts = products.filter((product) =>
-        product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
     setFilteredProducts(filteredProducts);
-
+  
     // Update category title based on search query, filtered products, and selected category
     if (searchQuery.trim() === '') {
-        setCategoryTitle(clickedCategory ? clickedCategory : 'Alla Produkter'); // If a category is clicked, set the title to the clicked category
+      setCategoryTitle(clickedCategory ? clickedCategory : 'Alla Produkter'); // If a category is clicked, set the title to the clicked category
     } else if (filteredProducts.length === 0) {
-        setCategoryTitle('Inga sökresultat hittades');
+      setCategoryTitle('Inga sökresultat hittades');
     } else {
-        setCategoryTitle('Sökresultat');
+      setCategoryTitle('Sökresultat');
     }
-}, [searchQuery, products, clickedCategory]);
+
+    // Check if the searched product is in the filtered products array
+    const searchedProductIndex = filteredProducts.findIndex((product) =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // If the searched product is found, calculate its page and set the current page accordingly
+    if (searchedProductIndex !== -1) {
+      const page = Math.ceil((searchedProductIndex + 1) / productsPerPage);
+      setCurrentPage(page);
+    } else {
+      // If the searched product is not found, reset to the first page
+      setCurrentPage(1);
+    }
+  }, [searchQuery, products, clickedCategory]);
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
@@ -82,6 +99,25 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
     setShowCart(false);
   };
 
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  // const handleSearch = (newQuery) => {
+  //   // setQuery(newQuery);
+  //   setCurrentPage(1); 
+  // };
+
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
   return (
     <div className="home">
       <div className="category-section">
@@ -94,7 +130,7 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
           </div>
         </div>
         <div className="row row-cols-1 row-cols-md-4 g-4 justify-content-center">
-          {filteredProducts.slice(0, initialLoad ? 8 : undefined).map((product, index) => (
+          {currentProducts.map((product, index) => (
             <div key={index} className="col mb-4" onClick={() => handleProductClick(product)} style={{ width: '240px' }}>
               <div className="card h-100 shadow">
                 <img src={product.imageUrl} className="card-img-top img-fluid mt-3" alt={product.title} style={{ objectFit: 'contain', maxHeight: '200px', maxWidth: '100%' }} />
@@ -111,13 +147,21 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
               </div>
             </div>
           ))}
-          {filteredProducts.length < 4 && Array(4 - filteredProducts.length).fill().map((_, index) => (
+          {currentProducts.length < productsPerPage && Array(productsPerPage - currentProducts.length).fill().map((_, index) => (
             <div key={`placeholder-${index}`} className="d-inline-block m-2" style={{ width: '240px' }}>
               <div className="card product-card invisible">
-                {/* Lägg till mer placeholder content här om behövs */}
+                {/* Placeholder content */}
               </div>
             </div>
           ))}
+        </div>
+        <div className="text-center">
+          {totalPages > 1 && (
+            <div>
+              <Button variant="primary" onClick={handlePrevPage} disabled={currentPage === 1}>Föregående</Button>{' '}
+              <Button variant="primary" onClick={handleNextPage} disabled={currentPage === totalPages}>Nästa</Button>
+            </div>
+          )}
         </div>
       </div>
       {selectedProduct && (
@@ -150,4 +194,3 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
 };
 
 export default Home;
-
