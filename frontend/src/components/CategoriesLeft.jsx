@@ -5,11 +5,12 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import axios from 'axios';
 import 'iconify-icon';
 
-const Categories = ({ fetchProductsByCategory, setProducts, setCategoryTitle }) => {
+const Categories = ({ fetchProductsByCategory, setProducts, setCategoryTitle, setClickedCategory }) => {
     const getCategory = async (category) => {
         try {
             if (category === 'all-products') {
                 setCategoryTitle('Alla Produkter');
+                setClickedCategory(null);
                 const response = await axios.get('https://hakimslivs-backend.onrender.com/api/products/all');
                 const products = response.data;
                 setProducts(products);
@@ -19,6 +20,7 @@ const Categories = ({ fetchProductsByCategory, setProducts, setCategoryTitle }) 
                 fetchProductsByCategory(category, products);
                 if (category !== '') {
                     setCategoryTitle(category);
+                    setClickedCategory(category);
                 }
             }
         } catch (error) {

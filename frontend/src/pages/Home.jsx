@@ -41,20 +41,20 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
 
   useEffect(() => {
     const filteredProducts = products.filter((product) =>
-      product.title.toLowerCase().includes(searchQuery.toLowerCase())
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     setFilteredProducts(filteredProducts);
 
     // Update category title based on search query, filtered products, and selected category
     if (searchQuery.trim() === '') {
-      setCategoryTitle(clickedCategory ? clickedCategory : ''); // If a category is clicked, set the title to the clicked category
+        setCategoryTitle(clickedCategory ? clickedCategory : 'Alla Produkter'); // If a category is clicked, set the title to the clicked category
     } else if (filteredProducts.length === 0) {
-      setCategoryTitle('Inga sökresultat hittades');
+        setCategoryTitle('Inga sökresultat hittades');
     } else {
-      setCategoryTitle('Sökresultat');
+        setCategoryTitle('Sökresultat');
     }
-  }, [searchQuery, products, clickedCategory]);
+}, [searchQuery, products, clickedCategory]);
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
@@ -150,3 +150,4 @@ const Home = ({ searchQuery, addToCart, setShowCart }) => {
 };
 
 export default Home;
+
