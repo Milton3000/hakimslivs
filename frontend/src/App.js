@@ -50,7 +50,7 @@ function App() {
 
   const removeFromCart = (productToRemove) => {
     const updatedCartItems = cartItems.filter((product) => product !== productToRemove);
-    const removedQuantity = productToRemove.quantity; // Hämta antalet av removed item
+    const removedQuantity = productToRemove.quantity; // Hämta antalet av removed items
     setCartItems(updatedCartItems);
     setTotalCartItems(totalCartItems - removedQuantity); // Decrement totala cart items av removed quantity
     // Uppdatera localStorage efter updating state
