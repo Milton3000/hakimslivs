@@ -278,6 +278,7 @@ const AdminTable = () => {
     initialState: {
       columnVisibility: {
         description: false,
+        unit_price: false,
         TOC: false,
         origin: false,
         imageUrl: false,
