@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Product from './src/models/product.model.js'; // Ensure the path to your model is correct
+import Product from './src/models/product.model.js';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
