@@ -34,9 +34,12 @@ app.use("/api/users", userRouter);
 // Use environment variable for MongoDB Password
 const mongoDBPassword = process.env.MONGODB_PASSWORD;
 
-const mongoDBURI = `mongodb+srv://Milton:${mongoDBPassword}@hakimcluster.jkjs7d2.mongodb.net/hakimslivs`;
+const mongoDBURI = process.env.MONGODB_URI || `mongodb+srv://Milton:${mongoDBPassword}@bustercluster.nso9m.mongodb.net/hakimslivs?retryWrites=true&w=majority&appName=Bustercluster`;
 
-mongoose.connect(mongoDBURI);
+mongoose.connect(mongoDBURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
